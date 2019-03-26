@@ -271,6 +271,26 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
+    public function setHrefLang(string $lang, string $url)
+    {
+        return $this->addLink('alternate_'.$lang, [
+            'rel' => 'alternate',
+            'hreflang' => $this->cleanString($lang),
+            'href' => $this->cleanString($url)
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getHrefLang(string $lang): ?Tag
+    {
+        return $this->getMeta('alternate_'.$lang);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addLink(string $name, array $attributes)
     {
         if (!isset($attributes['rel'])) {

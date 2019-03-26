@@ -18,6 +18,8 @@ class MetaTest extends TestCase
             ->setNextHref('http://site.com')
             ->setPrevHref('http://site.com')
             ->setContentType('<h5>text/html</h5>')
+            ->setHrefLang('en', 'http://site.com/en')
+            ->setHrefLang('ru', 'http://site.com/ru')
             ->setViewport('width=device-width, initial-scale=1')
             ->addMeta('og::title', [
                 'content' => 'test og title'
@@ -33,6 +35,8 @@ class MetaTest extends TestCase
         $this->assertNull($meta->getCanonical());
         $this->assertNull($meta->getContentType());
         $this->assertNull($meta->getViewport());
+        $this->assertNull($meta->getHrefLang('en'));
+        $this->assertNull($meta->getHrefLang('ru'));
         $this->assertNull($meta->getMeta('og::title'));
     }
 
@@ -62,6 +66,8 @@ class MetaTest extends TestCase
             ->setNextHref('http://site.com')
             ->setPrevHref('http://site.com')
             ->setCanonical('http://site.com')
+            ->setHrefLang('en', 'http://site.com/en')
+            ->setHrefLang('ru', 'http://site.com/ru')
             ->setContentType('<h5>text/html</h5>')
             ->setViewport('width=device-width, initial-scale=1')
             ->addMeta('og::title', [
@@ -80,6 +86,8 @@ class MetaTest extends TestCase
         $this->assertStringContainsString('<link rel="next" href="http://site.com" />', $html);
         $this->assertStringContainsString('<link rel="prev" href="http://site.com" />', $html);
         $this->assertStringContainsString('<link rel="canonical" href="http://site.com" />', $html);
+        $this->assertStringContainsString('<link rel="alternate" hreflang="en" href="http://site.com/en" />', $html);
+        $this->assertStringContainsString('<link rel="alternate" hreflang="ru" href="http://site.com/ru" />', $html);
     }
 
 }

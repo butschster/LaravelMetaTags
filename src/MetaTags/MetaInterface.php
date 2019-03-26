@@ -185,6 +185,29 @@ interface MetaInterface extends Htmlable
     public function setPaginationLinks(Paginator $paginator);
 
     /**
+     * Set a hreflang link
+     *
+     * If you've got a website that's available in multiple languages, you want search engines to show your content
+     * to the right audiences. In order to help search engines do so, you should use the hreflang attribute to indicate
+     * the language that content is in, and optionally also what region it's meant for.
+     *
+     * @param string $lang
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function setHrefLang(string $lang, string $url);
+
+    /**
+     * Get the hreflang link tag
+     *
+     * @param string $lang
+     *
+     * @return Tag|null
+     */
+    public function getHrefLang(string $lang): ?Tag;
+
+    /**
      * @param GeoMetaInformationInterface $geo
      *
      * @return $this
