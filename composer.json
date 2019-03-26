@@ -1,0 +1,50 @@
+{
+  "name": "butschster/meta-tags",
+  "description": "Meta tags for Laravel and Lumen",
+  "keywords": [
+    "laravel5",
+    "lumen",
+    "seo",
+    "seotools",
+    "webmaster",
+    "metatags",
+    "opengraph"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pavel Buchnev",
+      "email": "butschster@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "illuminate/config": "^5.6",
+    "illuminate/support": "^5.6"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.0",
+    "phpspec/phpspec": "^5.1",
+    "phpunit/phpunit": "^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Butschster\\Head\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Butschster\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+      ],
+      "aliases": {
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
