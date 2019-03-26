@@ -2,6 +2,7 @@
 
 namespace Butschster\Head\MetaTags;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
@@ -73,11 +74,9 @@ class Meta implements MetaInterface
      */
     public function setDescription(string $description)
     {
-        $this->addMeta('description', [
+        return $this->addMeta('description', [
             'content' => $this->cleanString($description),
         ]);
-
-        return $this;
     }
 
     /**
@@ -101,11 +100,9 @@ class Meta implements MetaInterface
             return $this->cleanString($keyword);
         }, $keywords);
 
-        $this->addMeta('keywords', [
+        return $this->addMeta('keywords', [
             'content' => implode(', ', $keywords),
         ]);
-
-        return $this;
     }
 
     /**
@@ -121,11 +118,9 @@ class Meta implements MetaInterface
      */
     public function setRobots(string $behavior)
     {
-        $this->addMeta('robots', [
+        return $this->addMeta('robots', [
             'content' => $this->cleanString($behavior),
         ]);
-
-        return $this;
     }
 
     /**
@@ -141,12 +136,10 @@ class Meta implements MetaInterface
      */
     public function setContentType(string $type, string $charset = 'utf-8')
     {
-        $this->addMeta('content_type', [
+        return $this->addMeta('content_type', [
             'http-equiv' => 'Content-Type',
             'content' => $this->cleanString($type . '; charset=' . $charset),
         ], false);
-
-        return $this;
     }
 
     /**
@@ -163,11 +156,9 @@ class Meta implements MetaInterface
      */
     public function setViewport(string $viewport)
     {
-        $this->addMeta('viewport', [
+        return $this->addMeta('viewport', [
             'content' => $this->cleanString($viewport),
         ]);
-
-        return $this;
     }
 
     /**
@@ -183,15 +174,10 @@ class Meta implements MetaInterface
      */
     public function setPrevHref(string $url)
     {
-        $this->metaTags->put(
-            'prev_href',
-            new Tag('link', [
-                'rel' => 'prev',
-                'href' => $this->cleanString($url)
-            ], true)
-        );
-
-        return $this;
+        return $this->addLink('prev_href', [
+            'rel' => 'prev',
+            'href' => $this->cleanString($url)
+        ]);
     }
 
     /**
@@ -215,13 +201,45 @@ class Meta implements MetaInterface
      */
     public function setNextHref(string $url)
     {
-        $this->metaTags->put(
-            'next_href',
-            new Tag('link', [
-                'rel' => 'next',
-                'href' => $this->cleanString($url)
-            ], true)
+        return $this->addLink('next_href', [
+            'rel' => 'next',
+            'href' => $this->cleanString($url)
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCanonical(string $url)
+    {
+        return $this->addLink('canonical', [
+            'href' => $this->cleanString($url)
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCanonical(): ?Tag
+    {
+        return $this->getMeta('canonical');
+    }
+
+    /**
+     * Set canonical link, prev and next from paginator object
+     *
+     * @param Paginator $paginator
+     *
+     * @return $this
+     */
+    public function setPaginationLinks(Paginator $paginator)
+    {
+        $this->setCanonical(
+            $paginator->url($paginator->currentPage())
         );
+
+        $this->setNextHref($paginator->nextPageUrl());
+        $this->setPrevHref($paginator->previousPageUrl());
 
         return $this;
     }
@@ -246,6 +264,20 @@ class Meta implements MetaInterface
                 'content' => $pregion,
             ]);
         }
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addLink(string $name, array $attributes)
+    {
+        if (!isset($attributes['rel'])) {
+            $attributes = array_merge(['rel' => $name], $attributes);
+        }
+
+        $this->metaTags->put($name, new Tag('link', $attributes, true));
 
         return $this;
     }
@@ -278,6 +310,14 @@ class Meta implements MetaInterface
     public function removeMeta(string $name): void
     {
         $this->metaTags->forget($name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function reset(): void
+    {
+        $this->metaTags = new Collection();
     }
 
     /**

@@ -5,36 +5,19 @@ namespace Butschster\Tests\MetaTags;
 use Butschster\Head\MetaTags\Meta;
 use PHPUnit\Framework\TestCase;
 
-class CustomMetaTagsTest extends TestCase
+class CustomLinkMetaTagsTest extends TestCase
 {
     function test_custom_meta_tag_can_be_set()
     {
         $meta = new Meta();
 
-        $meta->addMeta('custom', [
-            'name' => 'custom',
-            'content' => 'test data'
+        $meta->addLink('canonical', [
+            'href' => 'http://site.com',
         ]);
 
         $this->assertEquals(
-            '<meta name="custom" content="test data">',
-            $meta->getMeta('custom')->toHtml()
-        );
-    }
-
-    function test_meta_tag_can_be_deleted_by_name()
-    {
-        $meta = new Meta();
-
-        $meta->addMeta('test1', [
-            'name' => 'custom',
-            'content' => 'test data'
-        ]);
-
-        $meta->removeMeta('test1');
-
-        $this->assertNull(
-            $meta->getMeta('test1')
+            '<link rel="canonical" href="http://site.com" />',
+            $meta->getMeta('canonical')->toHtml()
         );
     }
 }

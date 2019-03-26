@@ -7,6 +7,34 @@ use PHPUnit\Framework\TestCase;
 
 class MetaTest extends TestCase
 {
+    function test_it_can_be_reset()
+    {
+        $meta = (new Meta())
+            ->setTitle('test title')
+            ->prependTitle('additional title')
+            ->setDescription('meta description')
+            ->setKeywords(['keyword 1', 'keyword 2'])
+            ->setRobots('no follow')
+            ->setNextHref('http://site.com')
+            ->setPrevHref('http://site.com')
+            ->setContentType('<h5>text/html</h5>')
+            ->setViewport('width=device-width, initial-scale=1')
+            ->addMeta('og::title', [
+                'content' => 'test og title'
+            ]);
+
+        $meta->reset();
+
+        $this->assertNull($meta->getPrevHref());
+        $this->assertNull($meta->getNextHref());
+        $this->assertNull($meta->getDescription());
+        $this->assertNull($meta->getKeywords());
+        $this->assertNull($meta->getRobots());
+        $this->assertNull($meta->getCanonical());
+        $this->assertNull($meta->getContentType());
+        $this->assertNull($meta->getViewport());
+        $this->assertNull($meta->getMeta('og::title'));
+    }
 
 //    function test_seo_meta_tags_can_be_read_from_seo_meta_tags_interface()
 //    {
@@ -33,6 +61,7 @@ class MetaTest extends TestCase
             ->setRobots('no follow')
             ->setNextHref('http://site.com')
             ->setPrevHref('http://site.com')
+            ->setCanonical('http://site.com')
             ->setContentType('<h5>text/html</h5>')
             ->setViewport('width=device-width, initial-scale=1')
             ->addMeta('og::title', [
@@ -48,10 +77,9 @@ class MetaTest extends TestCase
         $this->assertStringContainsString('<meta name="keywords" content="keyword 1, keyword 2">', $html);
         $this->assertStringContainsString('<meta name="robots" content="no follow">', $html);
         $this->assertStringContainsString('<meta name="og::title" content="test og title">', $html);
-
-
         $this->assertStringContainsString('<link rel="next" href="http://site.com" />', $html);
         $this->assertStringContainsString('<link rel="prev" href="http://site.com" />', $html);
+        $this->assertStringContainsString('<link rel="canonical" href="http://site.com" />', $html);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Butschster\Head\MetaTags;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Htmlable;
 
 interface MetaInterface extends Htmlable
@@ -17,6 +18,7 @@ interface MetaInterface extends Htmlable
      * properly.
      *
      * @param string $title
+     *
      * @return $this
      */
     public function setTitle(string $title);
@@ -25,6 +27,7 @@ interface MetaInterface extends Htmlable
      * Set the title separator
      *
      * @param string $separator
+     *
      * @return $this
      */
     public function setTitleSeparator(string $separator);
@@ -47,6 +50,7 @@ interface MetaInterface extends Htmlable
      * Set the meta keywords
      *
      * @param string|array $keywords
+     *
      * @return $this
      */
     public function setKeywords($keywords);
@@ -68,6 +72,7 @@ interface MetaInterface extends Htmlable
      * implied. Only change what you want to be different from the norm.
      *
      * @param string $behavior
+     *
      * @return $this
      */
     public function setRobots(string $behavior);
@@ -106,6 +111,7 @@ interface MetaInterface extends Htmlable
      * poor mobile experience
      *
      * @param string $viewport
+     *
      * @return $this
      */
     public function setViewport(string $viewport);
@@ -122,16 +128,29 @@ interface MetaInterface extends Htmlable
      * to search engines.
      *
      * @param string $url
+     *
      * @return $this
      */
     public function setPrevHref(string $url);
 
     /**
-     * Get the prev tag
+     * Get the prev link tag
      *
      * @return Tag|null
      */
     public function getPrevHref(): ?Tag;
+
+    /**
+     * Set pref link
+     *
+     * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
+     * to search engines.
+     *
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function setNextHref(string $url);
 
     /**
      * Get the prev tag
@@ -141,19 +160,46 @@ interface MetaInterface extends Htmlable
     public function getNextHref(): ?Tag;
 
     /**
-     * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
-     * to search engines.
+     * Set canonical link
      *
      * @param string $url
+     *
      * @return $this
      */
-    public function setNextHref(string $url);
+    public function setCanonical(string $url);
+
+    /**
+     * Get the canonical link tag
+     *
+     * @return Tag|null
+     */
+    public function getCanonical(): ?Tag;
+
+    /**
+     * Set canonical link, prev and next from paginator object
+     *
+     * @param Paginator $paginator
+     *
+     * @return $this
+     */
+    public function setPaginationLinks(Paginator $paginator);
 
     /**
      * @param GeoMetaInformationInterface $geo
+     *
      * @return $this
      */
     public function setGeo(GeoMetaInformationInterface $geo);
+
+    /**
+     * Create a custom link tag
+     *
+     * @param string $name
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function addLink(string $name, array $attributes);
 
     /**
      * Create a custom meta tag
@@ -161,6 +207,7 @@ interface MetaInterface extends Htmlable
      * @param string $name
      * @param array $attributes
      * @param bool $checkNameAttribute
+     *
      * @return $this
      */
     public function addMeta(string $name, array $attributes, bool $checkNameAttribute = true);
@@ -172,4 +219,9 @@ interface MetaInterface extends Htmlable
      * @return Tag|null
      */
     public function getMeta(string $name): ?Tag;
+
+    /**
+     * Remove all meta tags except title
+     */
+    public function reset(): void;
 }
