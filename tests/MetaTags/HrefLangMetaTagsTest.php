@@ -12,10 +12,16 @@ class HrefLangMetaTagsTest extends TestCase
         $meta = new Meta();
 
         $meta->setHrefLang('en', 'http://site.com');
+        $meta->setHrefLang('ru', 'http://site.com/ru');
 
         $this->assertEquals(
             '<link rel="alternate" hreflang="en" href="http://site.com" />',
             $meta->getHrefLang('en')->toHtml()
+        );
+
+        $this->assertEquals(
+            '<link rel="alternate" hreflang="ru" href="http://site.com/ru" />',
+            $meta->getHrefLang('ru')->toHtml()
         );
     }
 
