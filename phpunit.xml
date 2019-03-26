@@ -7,13 +7,10 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
-         verbose="true"
->
+         stopOnFailure="false">
     <testsuites>
-        <testsuite name="MetaTags Test Suite">
-            <directory suffix=".php">./tests</directory>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
     <filter>
