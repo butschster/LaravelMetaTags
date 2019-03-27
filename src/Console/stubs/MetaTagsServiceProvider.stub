@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Butschster\Head\Facades\PackageManager;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\MetaInterface;
 use Butschster\Head\Packages\ManagerInterface;
@@ -21,7 +22,9 @@ class MetaTagsServiceProvider extends ServiceProvider
 
     protected function packages()
     {
-        //
+        PackageManager::register('jquery', function(PackageInterface $package) {
+            $package->addScript('jquery.js', 'https://code.jquery.com/jquery-3.3.1.min.js', ['defer']);
+        });
     }
 
     protected function registerMeta(): void
@@ -51,6 +54,8 @@ class MetaTagsServiceProvider extends ServiceProvider
             if ($config['csrf_token']) {
                 $meta->addCsrfToken();
             }
+
+            $meta->includePackages('jquery');
 
             return $meta;
         });
