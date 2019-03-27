@@ -2,7 +2,7 @@
 
 namespace Butschster\Head\Facades;
 
-use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Illuminate\Support\Facades\Facade;
 
 class Meta extends Facade

@@ -1,8 +1,7 @@
 <?php
 
-namespace Butschster\Head\MetaTags;
+namespace Butschster\Head\MetaTags\Entities;
 
-use Butschster\Head\MetaTags\Tag;
 use Butschster\Head\Packages\Concerns\Dependencies;
 
 class Style extends Tag

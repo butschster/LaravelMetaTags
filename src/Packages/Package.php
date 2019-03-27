@@ -2,6 +2,7 @@
 
 namespace Butschster\Head\Packages;
 
+use Butschster\Head\Contracts\Packages\PackageInterface;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\PlacementsBag;
 use Butschster\Head\Packages\Concerns\Dependencies;

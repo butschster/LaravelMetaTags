@@ -15,30 +15,6 @@ class FaviconMetaTagsTest extends TestCase
             '<link rel="icon" type="image/x-icon" href="http://example.com/favicon.ico" />',
             $meta->toHtml()
         );
-
-        $meta = $this->makeMetaTags()
-            ->setFavicon('http://example.com/favicon.png');
-
-        $this->assertStringContainsString(
-            '<link rel="icon" type="image/png" href="http://example.com/favicon.png" />',
-            $meta->toHtml()
-        );
-
-        $meta = $this->makeMetaTags()
-            ->setFavicon('http://example.com/favicon.gif');
-
-        $this->assertStringContainsString(
-            '<link rel="icon" type="image/gif" href="http://example.com/favicon.gif" />',
-            $meta->toHtml()
-        );
-
-        $meta = $this->makeMetaTags()
-            ->setFavicon('http://example.com/favicon.svg');
-
-        $this->assertStringContainsString(
-            '<link rel="icon" type="image/svg+xml" href="http://example.com/favicon.svg" />',
-            $meta->toHtml()
-        );
     }
 
     function test_favicon_can_have_attributes() {

@@ -2,8 +2,17 @@
 
 namespace Butschster\Head\MetaTags;
 
+use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
+use Butschster\Head\Contracts\MetaTags\GeoMetaInformationInterface;
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
+use Butschster\Head\Contracts\MetaTags\PlacementInterface;
+use Butschster\Head\Contracts\Packages\PackageInterface;
+use Butschster\Head\MetaTags\Entities\Favicon;
+use Butschster\Head\MetaTags\Entities\Script;
+use Butschster\Head\MetaTags\Entities\Style;
+use Butschster\Head\MetaTags\Entities\Tag;
+use Butschster\Head\MetaTags\Entities\Title;
 use Butschster\Head\Packages\Manager;
-use Butschster\Head\Packages\PackageInterface;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Traits\Macroable;
@@ -462,7 +471,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function head(): Placement
+    public function head(): PlacementInterface
     {
         return $this->placement(static::PLACEMENT_HEAD);
     }
@@ -470,7 +479,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function footer(): Placement
+    public function footer(): PlacementInterface
     {
         return $this->placement(static::PLACEMENT_FOOTER);
     }
@@ -478,7 +487,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function placement(string $name): Placement
+    public function placement(string $name): PlacementInterface
     {
         return $this->placements->getBag($name);
     }

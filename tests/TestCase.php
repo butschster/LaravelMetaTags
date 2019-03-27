@@ -3,9 +3,9 @@
 
 namespace Butschster\Tests;
 
+use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\MetaTags\Meta;
-use Butschster\Head\MetaTags\MetaInterface;
-use Butschster\Head\MetaTags\TagInterface;
 use Butschster\Head\Packages\Manager;
 use Illuminate\Contracts\Foundation\Application;
 use Mockery as m;

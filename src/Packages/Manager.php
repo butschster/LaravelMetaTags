@@ -2,6 +2,8 @@
 
 namespace Butschster\Head\Packages;
 
+use Butschster\Head\Contracts\Packages\ManagerInterface;
+use Butschster\Head\Contracts\Packages\PackageInterface;
 use Closure;
 use Illuminate\Support\Collection;
 

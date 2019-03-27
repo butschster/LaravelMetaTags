@@ -1,9 +1,9 @@
 <?php
 
-namespace Butschster\Tests\MetaTags;
+namespace Butschster\Tests\MetaTags\Entities;
 
 use Butschster\Head\MetaTags\Meta;
-use Butschster\Head\MetaTags\Script;
+use Butschster\Head\MetaTags\Entities\Script;
 use Butschster\Tests\TestCase;
 
 class ScriptTest extends TestCase

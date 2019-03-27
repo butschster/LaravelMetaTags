@@ -1,8 +1,8 @@
 <?php
 
-namespace Butschster\Tests\MetaTags;
+namespace Butschster\Tests\MetaTags\Entities;
 
-use Butschster\Head\MetaTags\Title;
+use Butschster\Head\MetaTags\Entities\Title;
 use Butschster\Tests\TestCase;
 
 class TitleTest extends TestCase

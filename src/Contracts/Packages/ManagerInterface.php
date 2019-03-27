@@ -1,6 +1,6 @@
 <?php
 
-namespace Butschster\Head\Packages;
+namespace Butschster\Head\Contracts\Packages;
 
 use Closure;
 

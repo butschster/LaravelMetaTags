@@ -1,3 +1,5 @@
+![Image](https://camo.githubusercontent.com/232b6e30a642047f3b1de99599e8f14f05198f6d/68747470733a2f2f686162726173746f726167652e6f72672f776562742f79762f74742f612d2f79767474612d36746e6d366170776373346d63736f6774777a626d2e6a706567)
+
 # SEO Meta Tags - Tools for Laravel
 
 With this package you can manage header Meta Tags, CSS and JavaScript tags.
@@ -137,7 +139,7 @@ Just put this code `{!! Meta::toHtml() !!}` into your HTML and that's all.
 ```
 
 ### Controller
-You can use either Facade `\Butschster\Head\Facades` or `\Butschster\Head\MetaTags\MetaInterface` in your controller
+You can use either Facade `\Butschster\Head\Facades` or `\Butschster\Head\Contracts\MetaTags\MetaInterface` in your controller
 
 ```php
 use Butschster\Head\MetaTags\MetaInterface;
@@ -340,7 +342,7 @@ Meta::addScript('script.js', 'http://site.com/script.js', [], [], 'custom_placem
 
 **Add a custom tag**
 ```php
-class FacebookPixelTag implements \Butschster\Head\MetaTags\TagInterface {
+class FacebookPixelTag implements \Butschster\Head\Contracts\MetaTags\Entities\TagInterface {
 
     public function __construct(string $id)
     {
@@ -420,7 +422,7 @@ Meta::macro('registerSeoMetaTagsForPage', function (\App\Page $page) {
 });
 
 // Controller
-use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
 
 class HomerController extends Controller {
 
@@ -563,11 +565,11 @@ PackageManager::getPackage('jquery');
 
 ### Tag
 ---
-`\Butschster\Head\MetaTags\Tag`
+`\Butschster\Head\MetaTags\Entities\Tag`
 
 **Create a new tag**
 ```php
-$tag = new \Butschster\Head\MetaTags\Tag('meta', [
+$tag = new \Butschster\Head\MetaTags\Entities\Tag('meta', [
     'name' => 'author',
     'content' => 'butschster'
 ]);
@@ -576,7 +578,7 @@ $tag->toHtml();
 // <meta name="author" content="butschster">
 
 // Closed tag
-$tag = new \Butschster\Head\MetaTags\Tag('link', [
+$tag = new \Butschster\Head\MetaTags\Entities\Tag('link', [
     'rel' => 'favicon',
     'href' => 'http://site.com'
 ], true);
@@ -587,20 +589,20 @@ $tag->toHtml();
 
 **Set the placement**
 ```php
-$tag = new \Butschster\Head\MetaTags\Tag(...);
+$tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->setPlacement('footer');
 ```
 
 **Get the placement**
 ```php
-$tag = new \Butschster\Head\MetaTags\Tag(...);
+$tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->placement() // Will return specified placement;
 
 ```
 
 **Get attributes**
 ```php
-$tag = new \Butschster\Head\MetaTags\Tag('link', [
+$tag = new \Butschster\Head\MetaTags\Entities\Tag('link', [
     'rel' => 'favicon',
     'href' => 'http://site.com'
 ]);
@@ -615,13 +617,13 @@ $tag->getAttributes();
 
 ### Title
 ---
-`\Butschster\Head\MetaTags\Title`
+`\Butschster\Head\MetaTags\Entities\Title`
 
 This class is responsible for title generation
 
 **Set the default part of the title**
 ```php
-$title = new \Butschster\Head\MetaTags\Title();
+$title = new \Butschster\Head\MetaTags\Entities\Title();
 
 $title->setTitle('Laravel');
 
@@ -630,7 +632,7 @@ $title->toHtml(); // <title>Laravel</title>
 
 **Prepent a new part of title**
 ```php
-$title = new \Butschster\Head\MetaTags\Title();
+$title = new \Butschster\Head\MetaTags\Entities\Title();
 
 $title->setTitle('Laravel');
 $title->prepend('Index page');
@@ -640,7 +642,7 @@ $title->toHtml(); // <title>Index page | Laravel</title>
 
 **Change default title parts separator**
 ```php
-$title = new \Butschster\Head\MetaTags\Title();
+$title = new \Butschster\Head\MetaTags\Entities\Title();
 
 $title->setTitle('Laravel');
 $title->prepend('Index page');
@@ -651,12 +653,12 @@ $title->toHtml(); // <title>Index page - Laravel</title>
 
 #### Script
 ---
-`\Butschster\Head\MetaTags\Script`
+`\Butschster\Head\MetaTags\Entities\Script`
 
 This class is responsible for script links generation
 
 ```php
-$script = new \Butschster\Head\MetaTags\Script('jquery.js', 'http://site.com/script.js', ['defer', 'async'])
+$script = new \Butschster\Head\MetaTags\Entities\Script('jquery.js', 'http://site.com/script.js', ['defer', 'async'])
 
 $script->toHtml(); 
 // <script src="http://site.com/script.js" defer async></script>
@@ -666,12 +668,12 @@ Meta::addTag($script);
 
 #### Style
 ---
-`\Butschster\Head\MetaTags\Style`
+`\Butschster\Head\MetaTags\Entities\Style`
 
 This class is responsible for css links generation
 
 ```php
-$style = new \Butschster\Head\MetaTags\Style('style.css', 'http://site.com/style.css')
+$style = new \Butschster\Head\MetaTags\Entities\Style('style.css', 'http://site.com/style.css')
 
 $style->toHtml(); 
 // <link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />
@@ -681,6 +683,6 @@ Meta::addTag($style);
 
 #### Favicon
 ---
-`\Butschster\Head\MetaTags\Favicon`
+`\Butschster\Head\MetaTags\Entities\Favicon`
 
 This class is responsible for favicon link generation

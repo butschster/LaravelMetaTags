@@ -1,8 +1,8 @@
 <?php
 
-namespace Butschster\Tests\MetaTags;
+namespace Butschster\Tests\MetaTags\Entities;
 
-use Butschster\Head\MetaTags\Style;
+use Butschster\Head\MetaTags\Entities\Style;
 use Butschster\Tests\TestCase;
 
 class StyleTest extends TestCase

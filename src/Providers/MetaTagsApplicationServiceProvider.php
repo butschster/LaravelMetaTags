@@ -2,10 +2,10 @@
 
 namespace Butschster\Head\Providers;
 
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
+use Butschster\Head\Contracts\Packages\ManagerInterface;
 use Butschster\Head\MetaTags\Meta;
-use Butschster\Head\MetaTags\MetaInterface;
 use Butschster\Head\Packages\Manager;
-use Butschster\Head\Packages\ManagerInterface;
 use Illuminate\Support\ServiceProvider;
 
 class MetaTagsApplicationServiceProvider extends ServiceProvider

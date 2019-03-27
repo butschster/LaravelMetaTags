@@ -2,7 +2,7 @@
 
 namespace Butschster\Head\Facades;
 
-use Butschster\Head\Packages\ManagerInterface;
+use Butschster\Head\Contracts\Packages\ManagerInterface;
 use Illuminate\Support\Facades\Facade;
 
 class PackageManager extends Facade

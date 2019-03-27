@@ -1,8 +1,9 @@
 <?php
 
-namespace Butschster\Head\MetaTags;
+namespace Butschster\Head\Contracts\MetaTags;
 
-use Butschster\Head\Packages\PackageInterface;
+use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
+use Butschster\Head\Contracts\Packages\PackageInterface;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Htmlable;
 
@@ -341,9 +342,9 @@ interface MetaInterface extends Htmlable
      *
      * @param string $name
      *
-     * @return Placement
+     * @return PlacementInterface
      */
-    public function placement(string $name): Placement;
+    public function placement(string $name): PlacementInterface;
 
     /**
      * Get all registered placements
@@ -355,16 +356,16 @@ interface MetaInterface extends Htmlable
     /**
      * Get head meta tags placement bag
      *
-     * @return Placement
+     * @return PlacementInterface
      */
-    public function head(): Placement;
+    public function head(): PlacementInterface;
 
     /**
      * Get footer meta tags placement bag
      *
-     * @return Placement
+     * @return PlacementInterface
      */
-    public function footer(): Placement;
+    public function footer(): PlacementInterface;
 
     /**
      * Include required packages

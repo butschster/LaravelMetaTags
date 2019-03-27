@@ -1,6 +1,6 @@
 <?php
 
-namespace Butschster\Head\MetaTags;
+namespace Butschster\Head\MetaTags\Entities;
 
 class Favicon extends Tag
 {

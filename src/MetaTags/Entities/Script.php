@@ -1,9 +1,8 @@
 <?php
 
-namespace Butschster\Head\MetaTags;
+namespace Butschster\Head\MetaTags\Entities;
 
 use Butschster\Head\MetaTags\Meta;
-use Butschster\Head\MetaTags\Tag;
 use Butschster\Head\Packages\Concerns\Dependencies;
 
 class Script extends Tag

@@ -1,8 +1,8 @@
 <?php
 
-namespace Butschster\Head\Packages;
+namespace Butschster\Head\Contracts\Packages;
 
-use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
 
 interface PackageInterface extends MetaInterface
 {

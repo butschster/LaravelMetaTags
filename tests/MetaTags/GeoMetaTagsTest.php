@@ -2,7 +2,7 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\GeoMetaInformationInterface;
+use Butschster\Head\Contracts\MetaTags\GeoMetaInformationInterface;
 use Butschster\Tests\TestCase;
 use Mockery as m;
 

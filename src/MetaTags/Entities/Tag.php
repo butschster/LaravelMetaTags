@@ -1,6 +1,9 @@
 <?php
 
-namespace Butschster\Head\MetaTags;
+namespace Butschster\Head\MetaTags\Entities;
+
+use Butschster\Head\MetaTags\Meta;
+use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 
 class Tag implements TagInterface
 {

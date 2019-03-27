@@ -3,7 +3,7 @@
 namespace Butschster\Tests\MetaTags;
 
 use Butschster\Head\MetaTags\Placement;
-use Butschster\Head\MetaTags\Tag;
+use Butschster\Head\MetaTags\Entities\Tag;
 use Butschster\Tests\TestCase;
 
 class PlacementTest extends TestCase

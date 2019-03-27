@@ -2,6 +2,7 @@
 
 namespace Butschster\Head\MetaTags;
 
+use Butschster\Head\Contracts\MetaTags\PlacementInterface;
 use Illuminate\Support\Arr;
 
 class PlacementsBag
@@ -16,10 +17,10 @@ class PlacementsBag
     /**
      * Get a Placement instance from the bags.
      *
-     * @param  string  $key
-     * @return Placement
+     * @param  string $key
+     * @return PlacementInterface
      */
-    public function getBag(string $key): Placement
+    public function getBag(string $key): PlacementInterface
     {
         return Arr::get($this->bags, $key) ?: $this->makeBug($key);
     }

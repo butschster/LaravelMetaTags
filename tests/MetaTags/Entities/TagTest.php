@@ -1,9 +1,9 @@
 <?php
 
-namespace Butschster\Tests\MetaTags;
+namespace Butschster\Tests\MetaTags\Entities;
 
 use Butschster\Head\MetaTags\Meta;
-use Butschster\Head\MetaTags\Tag;
+use Butschster\Head\MetaTags\Entities\Tag;
 use Butschster\Tests\TestCase;
 
 class TagTest extends TestCase
