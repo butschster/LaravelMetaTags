@@ -2,7 +2,6 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
 use Illuminate\Contracts\Pagination\Paginator;
 use Butschster\Tests\TestCase;
 use Mockery as m;

@@ -18,14 +18,21 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param string $name
-     * @param Closure $callback
-     *
-     * @return $this
+     * @inheritdoc
      */
-    public function register(string $name, Closure $callback = null)
+    public function register(PackageInterface $package)
     {
-        $this->packages->put($name, $package = new Package($name));
+        $this->packages->put($package->getName(), $package);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function create(string $name, Closure $callback = null)
+    {
+        $this->register($package = new Package($name));
 
         if ($callback) {
             $callback->__invoke($package);
@@ -35,7 +42,7 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getPackages(): array
     {
@@ -43,13 +50,9 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Get registered package by name
-     *
-     * @param string $name
-     *
-     * @return Package|null
+     * @inheritdoc
      */
-    public function getPackage(string $name): ?Package
+    public function getPackage(string $name): ?PackageInterface
     {
         return $this->packages->get($name);
     }

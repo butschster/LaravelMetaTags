@@ -26,7 +26,6 @@ interface PackageInterface extends MetaInterface
      */
     public function addStyle(string $name, string $src, array $attributes = [], array $dependency = []);
 
-
     /**
      * Set a link to script file
      *

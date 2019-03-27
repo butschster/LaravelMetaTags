@@ -8,15 +8,24 @@ use Butschster\Tests\TestCase;
 
 class ManagerTest extends TestCase
 {
+    function test_a_pacakge_can_be_registered()
+    {
+        $manager = new Manager();
+        $package = new Package('jquery');
+        $manager->register($package);
+
+        $this->assertEquals($package, $manager->getPackage('jquery'));
+    }
+
     function test_it_can_register_packages()
     {
         $manager = new Manager();
 
-        $manager->register('jquery', function (Package $package) {
+        $manager->create('jquery', function (Package $package) {
             $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js');
         });
 
-        $manager->register('vuejs', function (Package $package) {
+        $manager->create('vuejs', function (Package $package) {
             $package->addScript('vuejs', 'http://cdn.vuejs.com/vuejs.latest.js');
         });
 
@@ -28,7 +37,7 @@ class ManagerTest extends TestCase
     {
         $manager = new Manager();
 
-        $manager->register('jquery', function (Package $package) {
+        $manager->create('jquery', function (Package $package) {
             $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latespt.js');
         });
 

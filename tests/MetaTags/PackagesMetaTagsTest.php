@@ -14,12 +14,12 @@ class PackagesMetaTagsTest extends TestCase
         $manager = new Manager();
         $meta = new Meta($manager);
 
-        $manager->register('jquery', function (Package $package) {
+        $manager->create('jquery', function (Package $package) {
             $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js', ['defer']);
             $package->addStyle('jquery.css', 'http://cdn.jquery.com/jquery.latest.css');
         });
 
-        $manager->register('vuejs', function (Package $package) {
+        $manager->create('vuejs', function (Package $package) {
             $package->addScript('vuejs', 'http://cdn.vuejs.com/vuejs.latest.js');
         });
 

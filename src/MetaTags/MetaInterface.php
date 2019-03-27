@@ -25,6 +25,8 @@ interface MetaInterface extends Htmlable
     public function setTitle(string $title);
 
     /**
+     * Prepend title part to default title
+     *
      * @param string $text
      *
      * @return $this
@@ -41,7 +43,7 @@ interface MetaInterface extends Htmlable
     public function setTitleSeparator(string $separator);
 
     /**
-     * Sets the meta description
+     * Set the meta description
      *
      * The infamous meta description tag is used for one major purpose: to describe the page to searchers as they
      * read through the SERPs. This tag doesn't influence ranking, but it's very important regardless. It's the ad
@@ -101,7 +103,7 @@ interface MetaInterface extends Htmlable
     public function getRobots(): ?TagInterface;
 
     /**
-     * Set Meta content type
+     * Set the meta content type
      *
      * This tag is necessary to declare your character set for the page and should be present on every page. Leaving
      * this out could impact how your page renders in the browser. A few options are listed below, but your web
@@ -121,7 +123,7 @@ interface MetaInterface extends Htmlable
     public function getContentType(): ?TagInterface;
 
     /**
-     * Set Viewport
+     * Set the viewport
      *
      * In this mobile world, you should be specifying the viewport. If you don’t, you run the risk of having a
      * poor mobile experience
@@ -140,6 +142,8 @@ interface MetaInterface extends Htmlable
     public function getViewport(): ?TagInterface;
 
     /**
+     * Set the prev link tag
+     *
      * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
      * to search engines.
      *
@@ -157,7 +161,7 @@ interface MetaInterface extends Htmlable
     public function getPrevHref(): ?TagInterface;
 
     /**
-     * Set pref link
+     * Set the next link tag
      *
      * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
      * to search engines.
@@ -169,14 +173,14 @@ interface MetaInterface extends Htmlable
     public function setNextHref(string $url);
 
     /**
-     * Get the prev tag
+     * Get the next link tag
      *
      * @return TagInterface|null
      */
     public function getNextHref(): ?TagInterface;
 
     /**
-     * Set canonical link
+     * Set the canonical link
      *
      * @param string $url
      *
@@ -303,7 +307,7 @@ interface MetaInterface extends Htmlable
     public function addCsrfToken();
 
     /**
-     * Remove all meta tags except title
+     * Remove all tags
      */
     public function reset(): void;
 
@@ -347,7 +351,7 @@ interface MetaInterface extends Htmlable
     public function includePackages($packages);
 
     /**
-     * Register package and register all tags from this package
+     * Register a new package and register all tags from this package
      *
      * @param PackageInterface $package
      *

@@ -22,7 +22,7 @@ class MetaTagsServiceProvider extends ServiceProvider
 
     protected function packages()
     {
-        PackageManager::register('jquery', function(PackageInterface $package) {
+        PackageManager::create('jquery', function(PackageInterface $package) {
             $package->addScript('jquery.js', 'https://code.jquery.com/jquery-3.3.1.min.js', ['defer']);
         });
     }
