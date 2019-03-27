@@ -1,6 +1,6 @@
 <?php
 
-namespace Butschster\Head\Packages;
+namespace Butschster\Head\MetaTags;
 
 use Butschster\Head\MetaTags\Tag;
 use Butschster\Head\Packages\Concerns\Dependencies;

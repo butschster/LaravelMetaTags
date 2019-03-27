@@ -140,7 +140,6 @@ Just put this code `{!! Meta::toHtml() !!}` into your HTML and that's all.
 You can use either Facade `\Butschster\Head\Facades` or `\Butschster\Head\MetaTags\MetaInterface` in your controller
 
 ```php
-
 use Butschster\Head\MetaTags\MetaInterface;
 
 class HomerController extends Controller {
@@ -171,44 +170,42 @@ class HomerController extends Controller {
 ```
 
 
-### Meta API
+## Meta API
 
-#### Methods
+`\Butschster\Head\MetaTags\Meta`
+- This class implements `Illuminate\Contracts\Support\Htmlable` interface
 
+### Methods
 
+**Set the meta title**
 ```php
-// Set the meta title
 Meta::setTitle('Laravel');
 // <title>Laravel</title>
 ```
 
+**Prepend title part to default title**
 ```php
-Prepend title part to default title
-
 Meta::setTitle('Laravel')
     ->prependTitle('Home page');
 // <title>Home page - Laravel</title>
 ```
 
+**Set the title separator**
 ```php
-Set the title separator
-
 Meta::setTitleSeparator('->')
     ->setTitle('Laravel')
     ->prependTitle('Home page');
 // <title>Home page -> Laravel</title>
 ```
 
+**Set the meta description**
 ```php
-Set the meta description
-
 Meta::setDescription('Awesome page');
 // <meta name="description" content="Awesome page">
 ```
 
+**Set the meta keywords**
 ```php
-Set the meta keywords
-
 Meta::setKeywords('Awesome keywords');
 // <meta name="keywords" content="Awesome keywords">
 
@@ -217,16 +214,14 @@ Meta::setKeywords(['Awesome keyword', 'keyword2']);
 // <meta name="keywords" content="Awesome keyword, keyword2">
 ```
 
+**Set the meta description**
 ```php
-Set the meta description
-
 Meta::setRobots('nofollow,noindex');
 // <meta name="robots" content="nofollow,noindex">
 ```
 
+**Set the meta content type**
 ```php
-Set the meta content type
-
 Meta::setContentType('text/html');
 // <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -234,37 +229,32 @@ Meta::setContentType('text/html', 'ISO-8859-1');
 // <meta http-equiv="Content-Type" content="text/html; ISO-8859-1">
 ```
 
+**Set the viewport**
 ```php
-Set the viewport
-
 Meta::setViewport('width=device-width, initial-scale=1');
 // <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
 
+**Set the prev href**
 ```php
-Set the prev href
-
 Meta::setPrevHref('http://site.com/prev');
 // <link rel="prev" href="http://site.com/prev" />
 ```
 
+**Set the next href**
 ```php
-Set the next href
-
 Meta::setNextHref('http://site.com/next');
 // <link rel="next" href="http://site.com/next" />
 ```
 
+**Set the canonical link**
 ```php
-Set the canonical link
-
 Meta::setCanonical('http://site.com');
 // <link rel="canonical" href="http://site.com" />
 ```
 
+**Set canonical link, prev and next from paginator object**
 ```php
-Set canonical link, prev and next from paginator object
-
 $news = \App\News::paginate();
 
 Meta::setPaginationLinks($news);
@@ -274,9 +264,8 @@ Meta::setPaginationLinks($news);
 // <link rel="canonical" href="http://site.com" />
 ```
 
+**Add a hreflang link**
 ```php
-Set a hreflang link
-
 Meta::setHrefLang('en', http://site.com/en');
 Meta::setHrefLang('ru', http://site.com/ru');
 
@@ -284,9 +273,8 @@ Meta::setHrefLang('ru', http://site.com/ru');
 // <link rel="alternate" hreflang="ru" href="http://site.com/ru" />
 ```
 
+**Specify the character encoding for the HTML document**
 ```php
-Specify the character encoding for the HTML document
-
 Meta::setCharset();
 // <meta charset="utf-8">
 
@@ -294,9 +282,8 @@ Meta::setCharset('ISO-8859-1');
 // <meta charset="ISO-8859-1">
 ```
 
+**Set the canonical link**
 ```php
-Set the canonical link
-
 Meta::setFavicon('http://site.com/favicon.ico');
 // <link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
 
@@ -314,9 +301,8 @@ Meta::setFavicon('http://site.com/favicon.svg', ['sizes' => '16x16', 'type' => '
 // <link rel="icon" type="custom_type" href="http://site.com/favicon.svg" sizes="16x16" />
 ```
 
+**Add a custom link tag**
 ```php
-Set a custom link tag
-
 Meta::addLink('apple-touch-icon-precomposed', [
     'href' => 'http://site.com',
     'id' => 'id:213'
@@ -324,9 +310,36 @@ Meta::addLink('apple-touch-icon-precomposed', [
 // <link rel="apple-touch-icon-precomposed" href="http://site.com" id="id:213" />
 ```
 
+**Add a link to css file**
 ```php
-Set a custom tag
+Meta::addStyle('style.css', 'http://site.com/style.css');
+// <link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />
 
+
+// You can change or add attributes
+Meta::addStyle('style.css', 'http://site.com/style.css', [
+    'media' => 'custom', 'defer', 'async'
+]);
+
+// <link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css" defer async />
+```
+
+**Add a link to script file**
+```php
+Meta::addScript('script.js', 'http://site.com/script.js');
+// <script src="http://site.com/script.js"></script>
+
+// You can change or add attributes
+Meta::addScript('script.js', 'http://site.com/script.js', ['async', 'defer', 'id' => 'hj2b3424iu2-dfsfsd']);
+// <script src="http://site.com/script.js" async defer id="hj2b3424iu2-dfsfsd"></script>
+
+// You can placement. By default it's footer
+Meta::addScript('script.js', 'http://site.com/script.js', [], [], 'custom_placement');
+// <script src="http://site.com/script.js" async defer id="hj2b3424iu2-dfsfsd"></script>
+```
+
+**Add a custom tag**
+```php
 class FacebookPixelTag implements \Butschster\Head\MetaTags\TagInterface {
 
     public function __construct(string $id)
@@ -354,40 +367,35 @@ Meta::addTag('facebook.pixel', new FacebookPixelTag('42b3h23-34234'));
 // <script type="text/javascript">...</script>
 ```
 
+**Add a custom meta tag**
 ```php
-Set a custom meta tag
-
 Meta::addMeta('author', [
     'content' => 'butschster',
 ]);
 // <meta name="author" content="butschster">
 ```
 
+**Add the CSRF token tag.**
 ```php
-Add the CSRF token tag.
-
 Meta::addCsrfToken();
 // <meta name="csrf-token" content="....">
 ```
 
+**Remove all meta tags**
 ```php
-Remove all meta tags
-
 Meta::reset();
 ```
 
+**Include required packages**
 ```php
-Include required packages
-
 Meta::includePackages('jquery', 'vuejs');
 Meta::includePackages(['jquery', 'vuejs']);
 
 Will load registered packages with names jquery and vuejs and append tags from there to Meta
 ```
 
+**Register a new package and register all tags from this package**
 ```php
-Register a new package and register all tags from this package
-
 Meta::setTitle('Current title');
 
 $package = new \Butschster\Head\Packages\Package('custom_package');
@@ -400,7 +408,7 @@ Meta::registerPackage($package);
 #### Meta extending
 Meta object contains `Macroable` trait and you can extend it! https://unnikked.ga/understanding-the-laravel-macroable-trait-dab051f09172
 
-For example
+**For example**
 ```php
 //Service Provider
 Meta::macro('registerSeoMetaTagsForPage', function (\App\Page $page) {
@@ -431,9 +439,9 @@ class HomerController extends Controller {
 
 ```
 
-#### Meta tags placements
+### Meta tags placements
 
-By default tags place to head placement. You can specify your own placement and use ther all available methods.
+By default, tags place to head placement. You can specify your own placement and use ther all available methods.
 
 ```php
 
@@ -457,14 +465,16 @@ Meta::footer()->...
 </body>
 ```
 
-### Package API
+## Package API
 
 A package object has the same methods as Meta object and also
 
+`\Butschster\Head\Packages\Package`
+- This class extend `Butschster\Head\MetaTags\Meta` class
+- This class implements `Illuminate\Contracts\Support\Htmlable` interface
 
+**Create a new package and register it in PackageManager**
 ```php
-Create a new package and register it in PackageManager
-
 $package = new \Butschster\Head\Packages\Package('jquery');
 PackageManager::register($package);
 
@@ -474,17 +484,15 @@ PackageManager::create('jquery', function($package) {
 });
 ```
 
+**Get the name of the package**
 ```php
-Get the name of the package
-
 $package = new \Butschster\Head\Packages\Package('jquery');
 
 $package->getName(); // jquery
 ```
 
+**Add a link to css file**
 ```php
-Set a link to css file
-
 $package = new \Butschster\Head\Packages\Package('jquery');
 
 $package->addStyle('style.css', 'http://site.com/style.css');
@@ -499,9 +507,8 @@ $package->addStyle('style.css', 'http://site.com/style.css', [
 // <link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css" defer async />
 ```
 
+**Add a link to script file**
 ```php
-Set a link to script file
-
 $package = new \Butschster\Head\Packages\Package('jquery');
 
 $package->addScript('script.js', 'http://site.com/script.js');
@@ -518,39 +525,162 @@ $package->addScript('script.js', 'http://site.com/script.js', [], [], 'custom_pl
 Meta::includePackages('jquery')->placement('custom_placement')->toHtml();
 ```
 
-### PackageManager API
+## PackageManager API
 
 Package manager provide a store for your packages or presets
 
-
+**Create a new package**
 ```php
-Create a new package
-
 PackageManager::create('jquery', function($package) {
     ...
 });
 ```
 
+**Register a new package**
 ```php
-Register a new package
-
 $package = new \Butschster\Head\Packages\Package('jquery');
 
 PackageManager::register($package);
 ```
 
+**Get all registered packages**
 ```php
-Get all registered packages
-
 PackageManager::getPackages(): array;
 ```
 
+**Get registered package by name**
 ```php
-Get registered package by name
-
 PackageManager::create('jquery', function($package) {
     ...
 });
 
-PackageManager::getPackage('jquery'); // Will return the registered pacakge or null;
+PackageManager::getPackage('jquery'); 
+// Will return the registered pacakge or null;
 ```
+
+
+## Helper classes
+
+### Tag
+---
+`\Butschster\Head\MetaTags\Tag`
+
+**Create a new tag**
+```php
+$tag = new \Butschster\Head\MetaTags\Tag('meta', [
+    'name' => 'author',
+    'content' => 'butschster'
+]);
+
+$tag->toHtml();
+// <meta name="author" content="butschster">
+
+// Closed tag
+$tag = new \Butschster\Head\MetaTags\Tag('link', [
+    'rel' => 'favicon',
+    'href' => 'http://site.com'
+], true);
+
+$tag->toHtml();
+// <link rel="favicon" href="http://site.com" />
+```
+
+**Set the placement**
+```php
+$tag = new \Butschster\Head\MetaTags\Tag(...);
+$tag->setPlacement('footer');
+```
+
+**Get the placement**
+```php
+$tag = new \Butschster\Head\MetaTags\Tag(...);
+$tag->placement() // Will return specified placement;
+
+```
+
+**Get attributes**
+```php
+$tag = new \Butschster\Head\MetaTags\Tag('link', [
+    'rel' => 'favicon',
+    'href' => 'http://site.com'
+]);
+
+$tag->getAttributes();
+// Will return 
+[
+    'rel' => 'favicon',
+    'href' => 'http://site.com'
+]
+```
+
+### Title
+---
+`\Butschster\Head\MetaTags\Title`
+
+This class is responsible for title generation
+
+**Set the default part of the title**
+```php
+$title = new \Butschster\Head\MetaTags\Title();
+
+$title->setTitle('Laravel');
+
+$title->toHtml(); // <title>Laravel</title>
+```
+
+**Prepent a new part of title**
+```php
+$title = new \Butschster\Head\MetaTags\Title();
+
+$title->setTitle('Laravel');
+$title->prepend('Index page');
+
+$title->toHtml(); // <title>Index page | Laravel</title>
+```
+
+**Change default title parts separator**
+```php
+$title = new \Butschster\Head\MetaTags\Title();
+
+$title->setTitle('Laravel');
+$title->prepend('Index page');
+$title->setSeparator('-');
+
+$title->toHtml(); // <title>Index page - Laravel</title>
+```
+
+#### Script
+---
+`\Butschster\Head\MetaTags\Script`
+
+This class is responsible for script links generation
+
+```php
+$script = new \Butschster\Head\MetaTags\Script('jquery.js', 'http://site.com/script.js', ['defer', 'async'])
+
+$script->toHtml(); 
+// <script src="http://site.com/script.js" defer async></script>
+
+Meta::addTag($script);
+```
+
+#### Style
+---
+`\Butschster\Head\MetaTags\Style`
+
+This class is responsible for css links generation
+
+```php
+$style = new \Butschster\Head\MetaTags\Style('style.css', 'http://site.com/style.css')
+
+$style->toHtml(); 
+// <link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />
+
+Meta::addTag($style);
+```
+
+#### Favicon
+---
+`\Butschster\Head\MetaTags\Favicon`
+
+This class is responsible for favicon link generation
