@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Providers;
+
+use Butschster\Head\MetaTags\Meta;
+use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Providers\MetaTagsApplicationServiceProvider as ServiceProvider;
+
+class MetaTagsServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+    }
+
+    protected function registerMeta(): void
+    {
+        $this->app->singleton(MetaInterface::class, function () {
+            $meta = new Meta();
+
+            $config = $this->app['config']['meta_tags.meta'];
+
+            $meta->setTitle($config['title'])
+                ->setTitleSeparator($config['separator'])
+                ->setDescription($config['description'])
+                ->setKeywords($config['keywords']);
+
+            if ($viewport = $config['viewport']) {
+                $meta->setViewport($viewport);
+            }
+
+            if ($robots = $config['robots']) {
+                $meta->setRobots($robots);
+            }
+
+            if ($config['csrf_token']) {
+                $meta->addCsrfToken();
+            }
+
+            return $meta;
+        });
+    }
+}

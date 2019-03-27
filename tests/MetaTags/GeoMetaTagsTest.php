@@ -3,15 +3,14 @@
 namespace Butschster\Tests\MetaTags;
 
 use Butschster\Head\MetaTags\GeoMetaInformationInterface;
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 use Mockery as m;
 
 class GeoMetaTagsTest extends TestCase
 {
     function test_set_geo_meta_tags()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $metatags = m::mock(GeoMetaInformationInterface::class);
 
@@ -31,7 +30,7 @@ class GeoMetaTagsTest extends TestCase
 
     function test_set_geo_meta_tags_without_placename()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $metatags = m::mock(GeoMetaInformationInterface::class);
 
@@ -51,7 +50,7 @@ class GeoMetaTagsTest extends TestCase
 
     function test_set_geo_meta_tags_without_region()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $metatags = m::mock(GeoMetaInformationInterface::class);
 

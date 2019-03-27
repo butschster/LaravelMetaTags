@@ -24,6 +24,13 @@ interface MetaInterface extends Htmlable
     public function setTitle(string $title);
 
     /**
+     * @param string $text
+     *
+     * @return $this
+     */
+    public function prependTitle(string $text);
+
+    /**
      * Set the title separator
      *
      * @param string $separator
@@ -42,9 +49,17 @@ interface MetaInterface extends Htmlable
      * descriptions that goes into more detail.
      *
      * @param string $description
+     *
      * @return $this
      */
     public function setDescription(string $description);
+
+    /**
+     * Get the meta description
+     *
+     * @return TagInterface|null
+     */
+    public function getDescription(): ?TagInterface;
 
     /**
      * Set the meta keywords
@@ -58,9 +73,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get the meta keywords
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getKeywords(): ?Tag;
+    public function getKeywords(): ?TagInterface;
 
     /**
      * Set the meta robots
@@ -80,9 +95,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get the meta robots
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getRobots(): ?Tag;
+    public function getRobots(): ?TagInterface;
 
     /**
      * Set Meta content type
@@ -100,9 +115,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get Meta content type
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getContentType(): ?Tag;
+    public function getContentType(): ?TagInterface;
 
     /**
      * Set Viewport
@@ -119,9 +134,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get Viewport
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getViewport(): ?Tag;
+    public function getViewport(): ?TagInterface;
 
     /**
      * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
@@ -136,9 +151,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get the prev link tag
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getPrevHref(): ?Tag;
+    public function getPrevHref(): ?TagInterface;
 
     /**
      * Set pref link
@@ -155,9 +170,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get the prev tag
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getNextHref(): ?Tag;
+    public function getNextHref(): ?TagInterface;
 
     /**
      * Set canonical link
@@ -171,9 +186,9 @@ interface MetaInterface extends Htmlable
     /**
      * Get the canonical link tag
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getCanonical(): ?Tag;
+    public function getCanonical(): ?TagInterface;
 
     /**
      * Set canonical link, prev and next from paginator object
@@ -203,9 +218,9 @@ interface MetaInterface extends Htmlable
      *
      * @param string $lang
      *
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getHrefLang(string $lang): ?Tag;
+    public function getHrefLang(string $lang): ?TagInterface;
 
     /**
      * @param GeoMetaInformationInterface $geo
@@ -213,6 +228,22 @@ interface MetaInterface extends Htmlable
      * @return $this
      */
     public function setGeo(GeoMetaInformationInterface $geo);
+
+    /**
+     * Specify the character encoding for the HTML document
+     *
+     * @param string $charset
+     *
+     * @return $this
+     */
+    public function setCharset(string $charset = 'utf-8');
+
+    /**
+     * Get the character encoding tag
+     *
+     * @return TagInterface|null
+     */
+    public function getCharset(): ?TagInterface;
 
     /**
      * Create a custom link tag
@@ -236,15 +267,55 @@ interface MetaInterface extends Htmlable
     public function addMeta(string $name, array $attributes, bool $checkNameAttribute = true);
 
     /**
+     * Add a custom tag
+     *
+     * @param string $name
+     * @param TagInterface $tag
+     *
+     * @return $this
+     */
+    public function addTag(string $name, TagInterface $tag);
+
+    /**
      * Get the meta tag by name
      *
      * @param string $name
-     * @return Tag|null
+     * @return TagInterface|null
      */
-    public function getMeta(string $name): ?Tag;
+    public function getMeta(string $name): ?TagInterface;
+
+    /**
+     * Add the CSRF token tag.
+     *
+     * @return $this
+     */
+    public function addCsrfToken();
 
     /**
      * Remove all meta tags except title
      */
     public function reset(): void;
+
+    /**
+     * Get specific placement by name
+     *
+     * @param string $name
+     *
+     * @return Placement
+     */
+    public function placement(string $name): Placement;
+
+    /**
+     * Get head meta tags placement bag
+     *
+     * @return Placement
+     */
+    public function head(): Placement;
+
+    /**
+     * Get footer meta tags placement bag
+     *
+     * @return Placement
+     */
+    public function footer(): Placement;
 }

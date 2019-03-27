@@ -3,22 +3,23 @@
 namespace Butschster\Head\MetaTags;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 
 class Meta implements MetaInterface
 {
+    const PLACEMENT_HEAD = 'head';
+    const PLACEMENT_FOOTER = 'footer';
+
     /**
-     * The collection of meta tags
-     *
-     * @var Collection
+     * @var
      */
-    protected $metaTags;
+    protected $placements;
 
     public function __construct()
     {
-        $this->metaTags = new Collection();
-        $this->metaTags->put('title', new Title());
+        $this->placements = new PlacementsBag();
+
+        $this->addTag('title', new Title());
     }
 
     /**
@@ -26,7 +27,7 @@ class Meta implements MetaInterface
      */
     public function setTitle(string $title)
     {
-        $this->metaTags->get('title')->setTitle(
+        $this->head()->get('title')->setTitle(
             $this->cleanString($title)
         );
 
@@ -66,7 +67,7 @@ class Meta implements MetaInterface
      */
     public function getTitle(): ?Title
     {
-        return $this->metaTags->get('title');
+        return $this->getMeta('title');
     }
 
     /**
@@ -82,9 +83,9 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getDescription(): ?Tag
+    public function getDescription(): ?TagInterface
     {
-        return $this->metaTags->get('description');
+        return $this->getMeta('description');
     }
 
     /**
@@ -108,7 +109,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getKeywords(): ?Tag
+    public function getKeywords(): ?TagInterface
     {
         return $this->getMeta('keywords');
     }
@@ -126,7 +127,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getRobots(): ?Tag
+    public function getRobots(): ?TagInterface
     {
         return $this->getMeta('robots');
     }
@@ -145,7 +146,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getContentType(): ?Tag
+    public function getContentType(): ?TagInterface
     {
         return $this->getMeta('content_type');
     }
@@ -164,7 +165,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getViewport(): ?Tag
+    public function getViewport(): ?TagInterface
     {
         return $this->getMeta('viewport');
     }
@@ -183,7 +184,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getPrevHref(): ?Tag
+    public function getPrevHref(): ?TagInterface
     {
         return $this->getMeta('prev_href');
     }
@@ -191,7 +192,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getNextHref(): ?Tag
+    public function getNextHref(): ?TagInterface
     {
         return $this->getMeta('next_href');
     }
@@ -220,7 +221,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getCanonical(): ?Tag
+    public function getCanonical(): ?TagInterface
     {
         return $this->getMeta('canonical');
     }
@@ -283,9 +284,32 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function getHrefLang(string $lang): ?Tag
+    public function getHrefLang(string $lang): ?TagInterface
     {
         return $this->getMeta('alternate_'.$lang);
+    }
+
+    /**
+     * Specify the character encoding for the HTML document
+     *
+     * @param string $charset
+     *
+     * @return $this
+     */
+    public function setCharset(string $charset = 'utf-8')
+    {
+        return $this->addMeta('charset', [
+            'charset' => $charset
+        ], false);
+    }
+
+    /**
+     * Get the character encoding tag
+     * @return TagInterface|null
+     */
+    public function getCharset(): ?TagInterface
+    {
+        return $this->getMeta('charset');
     }
 
     /**
@@ -297,7 +321,22 @@ class Meta implements MetaInterface
             $attributes = array_merge(['rel' => $name], $attributes);
         }
 
-        $this->metaTags->put($name, new Tag('link', $attributes, true));
+        return $this->addTag($name, new Tag('link', $attributes, true));
+    }
+
+    /**
+     * Add a custom tag
+     *
+     * @param string $name
+     * @param TagInterface $tag
+     *
+     * @return $this
+     */
+    public function addTag(string $name, TagInterface $tag)
+    {
+        $this->placements
+            ->getBag($tag->placement())
+            ->put($name, $tag);
 
         return $this;
     }
@@ -311,17 +350,15 @@ class Meta implements MetaInterface
             $attributes = array_merge(['name' => $name], $attributes);
         }
 
-        $this->metaTags->put($name, new Tag('meta', $attributes));
-
-        return $this;
+        return $this->addTag($name, new Tag('meta', $attributes));
     }
 
     /**
      * @inheritdoc
      */
-    public function getMeta(string $name): ?Tag
+    public function getMeta(string $name): ?TagInterface
     {
-        return $this->metaTags->get($name);
+        return $this->head()->get($name);
     }
 
     /**
@@ -329,7 +366,17 @@ class Meta implements MetaInterface
      */
     public function removeMeta(string $name): void
     {
-        $this->metaTags->forget($name);
+        $this->head()->forget($name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCsrfToken()
+    {
+        return $this->addMeta('csrf-token', [
+            'content' => Session::token()
+        ]);
     }
 
     /**
@@ -337,7 +384,7 @@ class Meta implements MetaInterface
      */
     public function reset(): void
     {
-        $this->metaTags = new Collection();
+        $this->head()->reset();
     }
 
     /**
@@ -357,12 +404,30 @@ class Meta implements MetaInterface
      */
     public function toHtml()
     {
-        return $this->metaTags->map(function ($tag) {
-            if ($tag instanceof Htmlable) {
-                return $tag->toHtml();
-            }
+        return $this->head()->toHtml();
+    }
 
-            return (string)$tag;
-        })->implode(PHP_EOL);
+    /**
+     * @inheritdoc
+     */
+    public function head(): Placement
+    {
+        return $this->placement(static::PLACEMENT_HEAD);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function footer(): Placement
+    {
+        return $this->placement(static::PLACEMENT_FOOTER);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function placement(string $name): Placement
+    {
+        return $this->placements->getBag($name);
     }
 }

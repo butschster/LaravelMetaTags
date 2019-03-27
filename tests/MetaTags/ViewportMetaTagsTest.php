@@ -2,14 +2,13 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 
 class ViewportMetaTagsTest extends TestCase
 {
     function test_viewport_can_be_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->setViewport('width=device-width, initial-scale=1');
 
@@ -21,7 +20,7 @@ class ViewportMetaTagsTest extends TestCase
 
     function test_set_viewport_method_should_be_fluent()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $this->assertEquals(
             $meta,
@@ -31,14 +30,14 @@ class ViewportMetaTagsTest extends TestCase
 
     function test_viewport_should_be_null_if_not_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $this->assertNull($meta->getViewport());
     }
 
     function test_viewport_string_should_be_cleaned()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->setViewport('<h5>width=device-width, initial-scale=1</h5>');
 

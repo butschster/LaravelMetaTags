@@ -2,14 +2,13 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 
 class HrefLangMetaTagsTest extends TestCase
 {
     function test_hreflang_can_be_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->setHrefLang('en', 'http://site.com');
         $meta->setHrefLang('ru', 'http://site.com/ru');
@@ -27,7 +26,7 @@ class HrefLangMetaTagsTest extends TestCase
 
     function test_set_hreflang_method_should_be_fluent()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $this->assertEquals(
             $meta,
@@ -37,7 +36,7 @@ class HrefLangMetaTagsTest extends TestCase
 
     function test_hreflang_should_be_null_if_not_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $this->assertNull($meta->getHrefLang('en'));
     }

@@ -2,9 +2,7 @@
 
 namespace Butschster\Head\MetaTags;
 
-use Illuminate\Contracts\Support\Htmlable;
-
-class Title implements Htmlable
+class Title implements TagInterface
 {
     /**
      * @var string
@@ -27,6 +25,14 @@ class Title implements Htmlable
     public function __construct(string $title = null)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function placement(): string
+    {
+        return 'head';
     }
 
     /**

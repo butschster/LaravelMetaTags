@@ -2,14 +2,13 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 
 class CustomMetaTagsTest extends TestCase
 {
     function test_custom_meta_tag_can_be_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->addMeta('custom', [
             'name' => 'custom',
@@ -24,7 +23,7 @@ class CustomMetaTagsTest extends TestCase
 
     function test_meta_tag_can_be_deleted_by_name()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->addMeta('test1', [
             'name' => 'custom',

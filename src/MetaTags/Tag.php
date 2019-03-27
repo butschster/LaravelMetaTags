@@ -2,9 +2,7 @@
 
 namespace Butschster\Head\MetaTags;
 
-use Illuminate\Contracts\Support\Htmlable;
-
-class Tag implements Htmlable
+class Tag implements TagInterface
 {
     /**
      * @var string
@@ -22,6 +20,11 @@ class Tag implements Htmlable
     protected $closeTag;
 
     /**
+     * @var string
+     */
+    protected $placement = Meta::PLACEMENT_HEAD;
+
+    /**
      * @param string $tagName
      * @param array $attributes
      * @param bool $closeTag
@@ -31,6 +34,26 @@ class Tag implements Htmlable
         $this->tagName = $tagName;
         $this->attributes = $attributes;
         $this->closeTag = $closeTag;
+    }
+
+    /**
+     * @return string
+     */
+    public function placement(): string
+    {
+        return $this->placement;
+    }
+
+    /**
+     * @param string $placement
+     *
+     * @return $this
+     */
+    public function setPlacement(string $placement)
+    {
+        $this->placement = $placement;
+
+        return $this;
     }
 
     /**

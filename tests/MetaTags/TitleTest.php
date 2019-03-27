@@ -3,7 +3,7 @@
 namespace Butschster\Tests\MetaTags;
 
 use Butschster\Head\MetaTags\Title;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 
 class TitleTest extends TestCase
 {

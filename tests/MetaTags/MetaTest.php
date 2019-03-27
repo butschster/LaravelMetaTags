@@ -2,14 +2,46 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
+use Illuminate\Support\Facades\Session;
 
 class MetaTest extends TestCase
 {
+    function test_charset_can_be_set()
+    {
+        $meta = $this->makeMetaTags()
+            ->setCharset();
+
+        $this->assertStringContainsString(
+            '<meta charset="utf-8">',
+            $meta->getCharset()->toHtml()
+        );
+
+        $meta->setCharset('ISO-8859-1');
+
+        $this->assertStringContainsString(
+            '<meta charset="ISO-8859-1">',
+            $meta->getCharset()->toHtml()
+        );
+    }
+
+    function test_csrf_token_can_be_add()
+    {
+        Session::shouldReceive('token')->once()->andReturn('token');
+
+        $meta = $this->makeMetaTags();
+
+        $meta->addCsrfToken();
+
+        $this->assertStringContainsString(
+            '<meta name="csrf-token" content="token">',
+            $meta->toHtml()
+        );
+    }
+
     function test_it_can_be_reset()
     {
-        $meta = (new Meta())
+        $meta = $this->makeMetaTags()
             ->setTitle('test title')
             ->prependTitle('additional title')
             ->setDescription('meta description')
@@ -42,7 +74,7 @@ class MetaTest extends TestCase
 
 //    function test_seo_meta_tags_can_be_read_from_seo_meta_tags_interface()
 //    {
-//        $meta = new Meta();
+//        $meta = $this->makeMetaTags();
 //
 //        $metatags = m::mock(SeoMetaTagsInterface::class);
 //
@@ -55,9 +87,9 @@ class MetaTest extends TestCase
 //        $this->assertStringContainsString('<meta name="keywords" content="keyword 1, keyword 2">', $html);
 //    }
 
-    function test_meta_information_can_be_rendered()
+    function test_meta_information_for_head_can_be_rendered()
     {
-        $meta = (new Meta())
+        $meta = $this->makeMetaTags()
             ->setTitle('test title')
             ->prependTitle('additional title')
             ->setDescription('meta description')
@@ -74,8 +106,13 @@ class MetaTest extends TestCase
                 'content' => 'test og title'
             ]);
 
+        $tag = $this->makeTag();
+        $tag->shouldReceive('placement')->once()->andReturn('footer');
+        $meta->addTag('footer_tag', $tag);
+
         $html = $meta->toHtml();
 
+        $this->assertStringNotContainsString('<tag></tag>', $html);
         $this->assertStringContainsString('<meta name="viewport" content="width=device-width, initial-scale=1">', $html);
         $this->assertStringContainsString('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">', $html);
         $this->assertStringContainsString('<title>additional title | test title</title>', $html);
@@ -89,5 +126,4 @@ class MetaTest extends TestCase
         $this->assertStringContainsString('<link rel="alternate" hreflang="en" href="http://site.com/en" />', $html);
         $this->assertStringContainsString('<link rel="alternate" hreflang="ru" href="http://site.com/ru" />', $html);
     }
-
 }

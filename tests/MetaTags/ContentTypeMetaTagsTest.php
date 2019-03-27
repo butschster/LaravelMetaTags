@@ -2,14 +2,13 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 
 class ContentTypeMetaTagsTest extends TestCase
 {
     function test_content_type_can_be_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->setContentType('text/html');
 
@@ -28,7 +27,7 @@ class ContentTypeMetaTagsTest extends TestCase
 
     function test_set_content_type_method_should_be_fluent()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $this->assertEquals(
             $meta,
@@ -38,14 +37,14 @@ class ContentTypeMetaTagsTest extends TestCase
 
     function test_content_type_should_be_null_if_not_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $this->assertNull($meta->getContentType());
     }
 
     function test_content_type_string_should_be_cleaned()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->setContentType('<h5>text/html</h5>');
 

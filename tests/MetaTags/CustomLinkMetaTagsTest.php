@@ -2,14 +2,13 @@
 
 namespace Butschster\Tests\MetaTags;
 
-use Butschster\Head\MetaTags\Meta;
-use PHPUnit\Framework\TestCase;
+use Butschster\Tests\TestCase;
 
 class CustomLinkMetaTagsTest extends TestCase
 {
     function test_custom_meta_tag_can_be_set()
     {
-        $meta = new Meta();
+        $meta = $this->makeMetaTags();
 
         $meta->addLink('canonical', [
             'href' => 'http://site.com',
