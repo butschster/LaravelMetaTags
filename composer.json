@@ -1,11 +1,10 @@
 {
   "name": "butschster/meta-tags",
-  "description": "Meta tags for Laravel and Lumen",
+  "description": "SEO Meta Tags - Tools for Laravel",
   "keywords": [
     "laravel5",
     "lumen",
     "seo",
-    "seotools",
     "webmaster",
     "metatags",
     "opengraph"
