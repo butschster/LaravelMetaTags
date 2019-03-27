@@ -28,6 +28,7 @@ class MacroableMetaTagsTest extends TestCase
 
         $this->assertStringContainsString('<title>Laravel</title>', $meta->toHtml());
         $this->assertStringContainsString('<meta name="description" content="The best php framework">', $meta->toHtml());
+        $this->assertStringContainsString('<meta name="keywords" content="php, framework">', $meta->toHtml());
     }
 }
 
