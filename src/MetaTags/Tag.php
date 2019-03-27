@@ -61,11 +61,11 @@ class Tag implements TagInterface
      *
      * @return string
      */
-    public function compiledAttributes()
+    public function compiledAttributes(): string
     {
         $html = [];
 
-        foreach ($this->attributes as $key => $value) {
+        foreach ($this->getAttributes() as $key => $value) {
             $element = $this->attributeElement($key, $value);
 
             if (!is_null($element)) {
@@ -76,6 +76,14 @@ class Tag implements TagInterface
         return count($html) > 0
             ? implode(' ', $html)
             : '';
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
     }
 
     /**
@@ -92,7 +100,7 @@ class Tag implements TagInterface
         // as this will convert HTML attributes such as "required" to a correct
         // form like required="required" instead of using incorrect numerics.
         if (is_numeric($key)) {
-            $key = $value;
+            return e($value);
         }
 
         if (!is_null($value)) {

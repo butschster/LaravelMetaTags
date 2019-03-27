@@ -2,24 +2,41 @@
 
 namespace Butschster\Head\MetaTags;
 
+use Butschster\Head\Packages\Manager;
+use Butschster\Head\Packages\PackageInterface;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Traits\Macroable;
 
 class Meta implements MetaInterface
 {
-    const PLACEMENT_HEAD = 'head';
+    use Macroable;
+
+    const PLACEMENT_HEAD   = 'head';
     const PLACEMENT_FOOTER = 'footer';
 
     /**
-     * @var
+     * @var PlacementsBag
      */
     protected $placements;
 
-    public function __construct()
+    /**
+     * @var array
+     */
+    private $packages = [];
+
+    /**
+     * @var Manager
+     */
+    private $packageManager;
+
+    /**
+     * @param Manager $packageManager
+     */
+    public function __construct(Manager $packageManager)
     {
         $this->placements = new PlacementsBag();
-
-        $this->addTag('title', new Title());
+        $this->packageManager = $packageManager;
     }
 
     /**
@@ -27,9 +44,7 @@ class Meta implements MetaInterface
      */
     public function setTitle(string $title)
     {
-        $this->head()->get('title')->setTitle(
-            $this->cleanString($title)
-        );
+        $this->getTitle()->setTitle($this->cleanString($title));
 
         return $this;
     }
@@ -52,9 +67,7 @@ class Meta implements MetaInterface
         $title = $this->getTitle();
 
         if ($title) {
-            $title->prepend(
-                $this->cleanString($text)
-            );
+            $title->prepend($this->cleanString($text));
         } else {
             $this->setTitle($text);
         }
@@ -67,7 +80,13 @@ class Meta implements MetaInterface
      */
     public function getTitle(): ?Title
     {
-        return $this->getMeta('title');
+        $title = $this->getMeta('title');
+
+        if (!$title) {
+            $this->addTag('title', $title = new Title());
+        }
+
+        return $title;
     }
 
     /**
@@ -151,7 +170,6 @@ class Meta implements MetaInterface
         return $this->getMeta('content_type');
     }
 
-
     /**
      * @inheritdoc
      */
@@ -177,7 +195,7 @@ class Meta implements MetaInterface
     {
         return $this->addLink('prev_href', [
             'rel' => 'prev',
-            'href' => $this->cleanString($url)
+            'href' => $this->cleanString($url),
         ]);
     }
 
@@ -204,7 +222,7 @@ class Meta implements MetaInterface
     {
         return $this->addLink('next_href', [
             'rel' => 'next',
-            'href' => $this->cleanString($url)
+            'href' => $this->cleanString($url),
         ]);
     }
 
@@ -214,7 +232,7 @@ class Meta implements MetaInterface
     public function setCanonical(string $url)
     {
         return $this->addLink('canonical', [
-            'href' => $this->cleanString($url)
+            'href' => $this->cleanString($url),
         ]);
     }
 
@@ -235,9 +253,7 @@ class Meta implements MetaInterface
      */
     public function setPaginationLinks(Paginator $paginator)
     {
-        $this->setCanonical(
-            $paginator->url($paginator->currentPage())
-        );
+        $this->setCanonical($paginator->url($paginator->currentPage()));
 
         $this->setNextHref($paginator->nextPageUrl());
         $this->setPrevHref($paginator->previousPageUrl());
@@ -274,10 +290,10 @@ class Meta implements MetaInterface
      */
     public function setHrefLang(string $lang, string $url)
     {
-        return $this->addLink('alternate_'.$lang, [
+        return $this->addLink('alternate_' . $lang, [
             'rel' => 'alternate',
             'hreflang' => $this->cleanString($lang),
-            'href' => $this->cleanString($url)
+            'href' => $this->cleanString($url),
         ]);
     }
 
@@ -286,30 +302,33 @@ class Meta implements MetaInterface
      */
     public function getHrefLang(string $lang): ?TagInterface
     {
-        return $this->getMeta('alternate_'.$lang);
+        return $this->getMeta('alternate_' . $lang);
     }
 
     /**
-     * Specify the character encoding for the HTML document
-     *
-     * @param string $charset
-     *
-     * @return $this
+     * @inheritdoc
      */
     public function setCharset(string $charset = 'utf-8')
     {
         return $this->addMeta('charset', [
-            'charset' => $charset
+            'charset' => $charset,
         ], false);
     }
 
     /**
-     * Get the character encoding tag
-     * @return TagInterface|null
+     * @inheritdoc
      */
     public function getCharset(): ?TagInterface
     {
         return $this->getMeta('charset');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setFavicon(string $href, array $attributes = [])
+    {
+        return $this->addTag('favicon', new Favicon($href, $attributes));
     }
 
     /**
@@ -334,9 +353,7 @@ class Meta implements MetaInterface
      */
     public function addTag(string $name, TagInterface $tag)
     {
-        $this->placements
-            ->getBag($tag->placement())
-            ->put($name, $tag);
+        $this->placements->getBag($tag->placement())->put($name, $tag);
 
         return $this;
     }
@@ -375,7 +392,7 @@ class Meta implements MetaInterface
     public function addCsrfToken()
     {
         return $this->addMeta('csrf-token', [
-            'content' => Session::token()
+            'content' => Session::token(),
         ]);
     }
 
@@ -389,7 +406,9 @@ class Meta implements MetaInterface
 
     /**
      * Remove HTML tags
+     *
      * @param string $string
+     *
      * @return string
      */
     protected function cleanString(string $string): string
@@ -399,7 +418,6 @@ class Meta implements MetaInterface
 
     /**
      * Get content as a string of HTML.
-     *
      * @return string
      */
     public function toHtml()
@@ -429,5 +447,43 @@ class Meta implements MetaInterface
     public function placement(string $name): Placement
     {
         return $this->placements->getBag($name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPlacements(): array
+    {
+        return $this->placements->all();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerPackage(PackageInterface $package)
+    {
+        foreach ($package->getPlacements() as $key => $placement) {
+            foreach ($placement as $name => $tag) {
+                $this->placement($key)->put(
+                    $package->getName() . '.' . $name, $tag
+                );
+            }
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function includePackages($packages)
+    {
+        $packages = is_array($packages) ? $packages : func_get_args();
+
+        foreach ($packages as $package) {
+            if ($package = $this->packageManager->getPackage($package)) {
+                $this->registerPackage($package);
+            }
+        }
+
+        return $this;
     }
 }

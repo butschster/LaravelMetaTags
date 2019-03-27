@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Packages\ManagerInterface;
 use Butschster\Head\Providers\MetaTagsApplicationServiceProvider as ServiceProvider;
 
 class MetaTagsServiceProvider extends ServiceProvider
@@ -18,17 +19,26 @@ class MetaTagsServiceProvider extends ServiceProvider
         parent::boot();
     }
 
+    protected function packages()
+    {
+        //
+    }
+
     protected function registerMeta(): void
     {
         $this->app->singleton(MetaInterface::class, function () {
-            $meta = new Meta();
+            $meta = new Meta(
+                $this->app[ManagerInterface::class]
+            );
 
             $config = $this->app['config']['meta_tags.meta'];
 
             $meta->setTitle($config['title'])
                 ->setTitleSeparator($config['separator'])
                 ->setDescription($config['description'])
-                ->setKeywords($config['keywords']);
+                ->setKeywords($config['keywords'])
+                ->setCharset($config['charset'])
+                ->setFavicon(asset('favicon.ico'));
 
             if ($viewport = $config['viewport']) {
                 $meta->setViewport($viewport);

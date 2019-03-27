@@ -45,7 +45,8 @@
         "Butschster\\Head\\Providers\\MetaTagsServiceProvider"
       ],
       "aliases": {
-        "Meta": "Butschster\\Head\\Facades\\Meta"
+        "Meta": "Butschster\\Head\\Facades\\Meta",
+        "PackageManager": "Butschster\\Head\\Facades\\PackageManager"
       }
     }
   },

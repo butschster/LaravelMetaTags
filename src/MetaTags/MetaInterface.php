@@ -2,6 +2,7 @@
 
 namespace Butschster\Head\MetaTags;
 
+use Butschster\Head\Packages\PackageInterface;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Htmlable;
 
@@ -246,6 +247,16 @@ interface MetaInterface extends Htmlable
     public function getCharset(): ?TagInterface;
 
     /**
+     * Add a favicon tag
+     *
+     * @param string $href
+     * @param array $attributes
+     *
+     * @return mixed
+     */
+    public function setFavicon(string $href, array $attributes = []);
+
+    /**
      * Create a custom link tag
      *
      * @param string $name
@@ -306,6 +317,13 @@ interface MetaInterface extends Htmlable
     public function placement(string $name): Placement;
 
     /**
+     * Get all registered placements
+     *
+     * @return array
+     */
+    public function getPlacements(): array;
+
+    /**
      * Get head meta tags placement bag
      *
      * @return Placement
@@ -318,4 +336,22 @@ interface MetaInterface extends Htmlable
      * @return Placement
      */
     public function footer(): Placement;
+
+    /**
+     * Include required packages
+     *
+     * @param array|string $packages
+     *
+     * @return $this
+     */
+    public function includePackages($packages);
+
+    /**
+     * Register package and register all tags from this package
+     *
+     * @param PackageInterface $package
+     *
+     * @return $this
+     */
+    public function registerPackage(PackageInterface $package);
 }

@@ -10,6 +10,7 @@ return [
         'keywords' => [],
         'robots' => null,
         'viewport' => Viewport::RESPONSIVE,
-        'csrf_token' => true
+        'csrf_token' => true,
+        'charset' => 'utf-8',
     ],
 ];

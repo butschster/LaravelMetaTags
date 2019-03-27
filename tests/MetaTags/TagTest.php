@@ -18,6 +18,16 @@ class TagTest extends TestCase
         $this->assertEquals('<meta name="custom" content="test data">', $tag->toHtml());
     }
 
+    function test_it_has_attributes()
+    {
+        $tag = new Tag('meta', $attributes = [
+            'name' => 'custom',
+            'content' => 'test data'
+        ]);
+
+        $this->assertEquals($attributes, $tag->getAttributes());
+    }
+
     function test_it_can_build_attributes()
     {
         $tag = new Tag('meta', [

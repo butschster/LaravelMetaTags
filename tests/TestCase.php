@@ -6,6 +6,7 @@ namespace Butschster\Tests;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\MetaInterface;
 use Butschster\Head\MetaTags\TagInterface;
+use Butschster\Head\Packages\Manager;
 use Illuminate\Contracts\Foundation\Application;
 use Mockery as m;
 
@@ -28,7 +29,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function makeMetaTags(): MetaInterface
     {
-        return new Meta();
+        return new Meta(new Manager());
     }
 
     /**

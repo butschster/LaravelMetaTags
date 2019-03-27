@@ -35,4 +35,12 @@ class PlacementsBag
     {
         return $this->bags[$key] = new Placement();
     }
+
+    /**
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->bags;
+    }
 }

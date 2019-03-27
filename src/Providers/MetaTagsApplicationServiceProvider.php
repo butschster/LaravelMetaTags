@@ -4,6 +4,8 @@ namespace Butschster\Head\Providers;
 
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Packages\Manager;
+use Butschster\Head\Packages\ManagerInterface;
 use Illuminate\Support\ServiceProvider;
 
 class MetaTagsApplicationServiceProvider extends ServiceProvider
@@ -16,7 +18,6 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
      * @return void
      */
     public function boot()
@@ -26,13 +27,28 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->registerPackageManager();
         $this->registerMeta();
+
+        $this->packages();
+    }
+
+    protected function packages()
+    {
+        //
     }
 
     protected function registerMeta(): void
     {
         $this->app->singleton(MetaInterface::class, function () {
-            return new Meta();
+            return new Meta($this->app[ManagerInterface::class]);
+        });
+    }
+
+    protected function registerPackageManager()
+    {
+        $this->app->singleton(ManagerInterface::class, function () {
+            return new Manager();
         });
     }
 
@@ -44,6 +60,7 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
     {
         return [
             MetaInterface::class,
+            ManagerInterface::class,
         ];
     }
 }

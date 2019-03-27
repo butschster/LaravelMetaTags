@@ -89,4 +89,12 @@ class Title implements TagInterface
     {
         return sprintf('<title>%s</title>', $this->makeTitle());
     }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return [];
+    }
 }
