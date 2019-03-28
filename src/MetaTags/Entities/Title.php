@@ -4,6 +4,7 @@ namespace Butschster\Head\MetaTags\Entities;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TitleInterface;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class Title implements TitleInterface
 {
@@ -52,6 +53,10 @@ class Title implements TitleInterface
      */
     public function setMaxLength(int $maxLength)
     {
+        if ($maxLength < 1) {
+            throw new InvalidArgumentException('The title maximum length must be greater 0.');
+        }
+
         $this->maxLength = $maxLength;
 
         return $this;

@@ -4,6 +4,7 @@ namespace Butschster\Head\MetaTags\Concerns;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\MetaTags\GeoMetaInformationInterface;
+use Butschster\Head\MetaTags\Entities\Description;
 use Butschster\Head\MetaTags\Entities\Tag;
 use Illuminate\Support\Facades\Session;
 
@@ -14,9 +15,8 @@ trait ManageMetaTags
      */
     public function setDescription(string $description)
     {
-        return $this->addMeta('description', [
-            'content' => $this->cleanString($description),
-        ]);
+        $description = $this->cleanString($description);
+        return $this->addTag('description', new Description($description));
     }
 
     /**

@@ -688,6 +688,22 @@ $title->setSeparator('-');
 $title->toHtml(); // <title>Index page - Laravel</title>
 ```
 
+**Specify max length** *(default length is 255)*
+```php
+$title = new \Butschster\Head\MetaTags\Entities\Title('Lorem Ipsum is simply dummy text of the printing and typesetting');
+
+$title->setMaxLength(20);
+
+$title->toHtml(); // <title>Lorem Ipsum is simpl...</title>
+```
+
+
+### Description
+---
+`\Butschster\Head\MetaTags\Entities\Description`
+
+
+
 #### Script
 ---
 `\Butschster\Head\MetaTags\Entities\Script`

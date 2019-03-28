@@ -41,6 +41,28 @@ class TitleTest extends TestCase
         $title->prepend('another part');
         $title->setMaxLength(20);
 
-        $this->assertEquals('<title>another part | test </title>', $title->toHtml());
+        $this->assertEquals('<title>another part | test...</title>', $title->toHtml());
+    }
+
+    function test_max_length_should_be_greater_than_zero()
+    {
+        $title = new Title('test title');
+        $title->prepend('another part');
+
+        try {
+            $title->setMaxLength(0);
+            $this->fail();
+        } catch (\InvalidArgumentException $e) {
+
+        }
+
+        try {
+            $title->setMaxLength(-100);
+            $this->fail();
+        } catch (\InvalidArgumentException $e) {
+
+        }
+
+        $this->assertInstanceOf(Title::class, $title->setMaxLength(1));
     }
 }
