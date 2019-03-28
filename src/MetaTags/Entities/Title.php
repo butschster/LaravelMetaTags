@@ -3,9 +3,12 @@
 namespace Butschster\Head\MetaTags\Entities;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TitleInterface;
+use Illuminate\Support\Str;
 
 class Title implements TitleInterface
 {
+    const DEFAULT_LENGTH = 255;
+
     /**
      * @var string
      */
@@ -24,13 +27,13 @@ class Title implements TitleInterface
     /**
      * @var int
      */
-    protected $maxLength = 255;
+    protected $maxLength = Title::DEFAULT_LENGTH;
 
     /**
      * @param string|null $title
      * @param int $maxLength
      */
-    public function __construct(string $title = null, int $maxLength = 255)
+    public function __construct(string $title = null, int $maxLength = Title::DEFAULT_LENGTH)
     {
         $this->title = $title;
         $this->maxLength = $maxLength;
@@ -102,7 +105,7 @@ class Title implements TitleInterface
             $title = $this->title;
         }
 
-        return $title;
+        return Str::limit($title, $this->maxLength);
     }
 
     /**

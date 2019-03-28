@@ -34,4 +34,13 @@ class TitleTest extends TestCase
 
         $this->assertEquals('<title>another part -> test title</title>', $title->toHtml());
     }
+
+    function test_a_title_should_be_limited_if_it_exceeded_max_length()
+    {
+        $title = new Title('test title');
+        $title->prepend('another part');
+        $title->setMaxLength(20);
+
+        $this->assertEquals('<title>another part | test </title>', $title->toHtml());
+    }
 }
