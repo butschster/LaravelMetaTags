@@ -11,7 +11,7 @@ class CustomTagTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
         $tag = $this->makeTag();
-        $tag->shouldReceive('placement')->once()->andReturn(Meta::PLACEMENT_HEAD);
+        $tag->shouldReceive('getPlacement')->once()->andReturn(Meta::PLACEMENT_HEAD);
         $tag->shouldReceive('toHtml')->andReturn('<script src="http://site.com"></script>');
 
         $meta->addTag('custom', $tag);
@@ -20,5 +20,46 @@ class CustomTagTagsTest extends TestCase
             '<script src="http://site.com"></script>',
             $meta->getTag('custom')->toHtml()
         );
+    }
+
+    function test_custom_tag_can_be_placed_into_different_placements()
+    {
+        $meta = $this->makeMetaTags();
+
+        $tag = $this->makeTag();
+        $tag->shouldReceive('getPlacement')->once()->andReturn('footer');
+
+        $tag1 = $this->makeTag();
+        $tag1->shouldReceive('getPlacement')->once()->andReturn('head');
+
+        $meta->addTag('tag1', $tag);
+        $meta->addTag('tag2', $tag1);
+
+        $this->assertFalse($meta->placement('head')->has('tag1'));
+        $this->assertTrue($meta->placement('footer')->has('tag1'));
+
+        $this->assertFalse($meta->placement('footer')->has('tag2'));
+        $this->assertTrue($meta->placement('head')->has('tag2'));
+    }
+
+    function test_tag_can_be_removed_from_all_placements()
+    {
+        $meta = $this->makeMetaTags();
+
+        $tag = $this->makeTag();
+        $tag->shouldReceive('getPlacement')->once()->andReturn('footer');
+
+        $tag1 = $this->makeTag();
+        $tag1->shouldReceive('getPlacement')->once()->andReturn('head');
+
+        $meta->addTag('tag1', $tag);
+        $meta->addTag('tag2', $tag1);
+
+        $meta->removeTag('tag1');
+        $this->assertFalse($meta->placement('footer')->has('tag1'));
+        $this->assertTrue($meta->placement('head')->has('tag2'));
+
+        $meta->removeTag('tag2');
+        $this->assertFalse($meta->placement('head')->has('tag2'));
     }
 }

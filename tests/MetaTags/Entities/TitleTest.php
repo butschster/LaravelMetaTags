@@ -11,7 +11,7 @@ class TitleTest extends TestCase
     {
         $title = new Title();
 
-        $title->setTitle('test title');
+        $this->assertInstanceOf(Title::class, $title->setTitle('test title'));
 
         $this->assertEquals('<title>test title</title>', $title->toHtml());
     }
@@ -20,7 +20,7 @@ class TitleTest extends TestCase
     {
         $title = new Title('test title');
 
-        $title->prepend('another part');
+        $this->assertInstanceOf(Title::class, $title->prepend('another part'));
 
         $this->assertEquals('<title>another part | test title</title>', $title->toHtml());
     }
@@ -30,7 +30,7 @@ class TitleTest extends TestCase
         $title = new Title('test title');
 
         $title->prepend('another part');
-        $title->setSeparator('->');
+        $this->assertInstanceOf(Title::class, $title->setSeparator('->'));
 
         $this->assertEquals('<title>another part -> test title</title>', $title->toHtml());
     }

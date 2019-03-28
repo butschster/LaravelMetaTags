@@ -2,6 +2,7 @@
 
 namespace Butschster\Head\MetaTags\Concerns;
 
+use Butschster\Head\Contracts\MetaTags\Entities\TitleInterface;
 use Butschster\Head\MetaTags\Entities\Title;
 
 trait ManageTitle
@@ -45,7 +46,7 @@ trait ManageTitle
     /**
      * @inheritdoc
      */
-    public function getTitle(): ?Title
+    public function getTitle(): ?TitleInterface
     {
         $title = $this->getTag('title');
 

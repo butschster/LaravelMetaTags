@@ -2,9 +2,9 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
-use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
+use Butschster\Head\Contracts\MetaTags\Entities\TitleInterface;
 
-class Title implements TagInterface
+class Title implements TitleInterface
 {
     /**
      * @var string
@@ -22,43 +22,66 @@ class Title implements TagInterface
     protected $prepend = [];
 
     /**
-     * @param string|null $title
+     * @var int
      */
-    public function __construct(string $title = null)
+    protected $maxLength = 255;
+
+    /**
+     * @param string|null $title
+     * @param int $maxLength
+     */
+    public function __construct(string $title = null, int $maxLength = 255)
     {
         $this->title = $title;
+        $this->maxLength = $maxLength;
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
-    public function placement(): string
+    public function getPlacement(): string
     {
         return 'head';
     }
 
     /**
-     * @param string|null $title
+     * @inheritdoc
      */
-    public function setTitle(?string $title): void
+    public function setMaxLength(int $maxLength)
+    {
+        $this->maxLength = $maxLength;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setTitle(?string $title)
     {
         $this->title = $title;
+
+        return $this;
     }
 
     /**
-     * @param string $text
+     * @inheritdoc
      */
-    public function prepend(string $text): void
+    public function prepend(string $text)
     {
         $this->prepend[] = $text;
+
+        return $this;
     }
 
     /**
-     * @param string $separator
+     * @inheritdoc
      */
     public function setSeparator(string $separator)
     {
         $this->separator = trim($separator);
+
+        return $this;
     }
 
     /**
@@ -83,9 +106,7 @@ class Title implements TagInterface
     }
 
     /**
-     * Get content as a string of HTML.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function toHtml()
     {
@@ -93,7 +114,7 @@ class Title implements TagInterface
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getAttributes(): array
     {

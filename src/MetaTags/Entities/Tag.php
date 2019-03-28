@@ -42,7 +42,7 @@ class Tag implements TagInterface
     /**
      * @return string
      */
-    public function placement(): string
+    public function getPlacement(): string
     {
         return $this->placement;
     }

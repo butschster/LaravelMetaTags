@@ -44,7 +44,7 @@ class Meta implements MetaInterface
      */
     public function addTag(string $name, TagInterface $tag)
     {
-        $this->placements->getBag($tag->placement())->put($name, $tag);
+        $this->placements->getBag($tag->getPlacement())->put($name, $tag);
 
         return $this;
     }
@@ -70,7 +70,7 @@ class Meta implements MetaInterface
     public function registerTags(TagsCollection $tags, string $placement = null)
     {
         foreach ($tags as $name => $tag) {
-            $this->placement($placement ?: $tag->placement())->put(
+            $this->placement($placement ?: $tag->getPlacement())->put(
                 $name, $tag
             );
         }

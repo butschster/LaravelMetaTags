@@ -12,7 +12,6 @@ class ScriptTest extends TestCase
     {
         $script = new Script('script_name', 'http://site.com');
 
-
         $this->assertEquals(
             '<script src="http://site.com"></script>',
             $script->toHtml()
@@ -52,13 +51,13 @@ class ScriptTest extends TestCase
     {
         $script = new Script('script_name', 'http://site.com');
 
-        $this->assertEquals(Meta::PLACEMENT_FOOTER, $script->placement());
+        $this->assertEquals(Meta::PLACEMENT_FOOTER, $script->getPlacement());
     }
 
     function test_a_placement_can_be_set_through_constructor()
     {
         $script = new Script('script_name', 'http://site.com', [], [], 'test');
 
-        $this->assertEquals('test', $script->placement());
+        $this->assertEquals('test', $script->getPlacement());
     }
 }

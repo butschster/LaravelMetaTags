@@ -55,10 +55,10 @@ class TagTest extends TestCase
             'href' => 'http://site.com'
         ], true);
 
-        $this->assertEquals(Meta::PLACEMENT_HEAD, $tag->placement());
+        $this->assertEquals(Meta::PLACEMENT_HEAD, $tag->getPlacement());
 
         $tag->setPlacement('footer');
 
-        $this->assertEquals('footer', $tag->placement());
+        $this->assertEquals('footer', $tag->getPlacement());
     }
 }

@@ -107,7 +107,7 @@ class MetaTest extends TestCase
             ]);
 
         $tag = $this->makeTag();
-        $tag->shouldReceive('placement')->once()->andReturn('footer');
+        $tag->shouldReceive('getPlacement')->once()->andReturn('footer');
         $meta->addTag('footer_tag', $tag);
 
         $html = $meta->toHtml();

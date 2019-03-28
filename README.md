@@ -633,7 +633,7 @@ $tag->setPlacement('footer');
 **Get the placement**
 ```php
 $tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
-$tag->placement() // Will return specified placement;
+$tag->getPlacement() // Will return specified placement;
 
 ```
 
