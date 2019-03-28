@@ -128,4 +128,5 @@ class PackagesMetaTagsTest extends TestCase
 class TestPackage extends TagsCollection implements PackageInterface
 {
     public function getName(): string { return 'test'; }
+    public function getTags(): TagsCollection { return $this; }
 }

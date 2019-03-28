@@ -2,6 +2,8 @@
 
 namespace Butschster\Head\Contracts\Packages;
 
+use Butschster\Head\MetaTags\TagsCollection;
+
 interface PackageInterface
 {
     /**
@@ -10,4 +12,11 @@ interface PackageInterface
      * @return string
      */
     public function getName(): string;
+
+    /**
+     * Get the collection of tags
+     *
+     * @return TagsCollection
+     */
+    public function getTags(): TagsCollection;
 }

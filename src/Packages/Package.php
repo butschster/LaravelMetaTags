@@ -2,13 +2,13 @@
 
 namespace Butschster\Head\Packages;
 
-use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\PlacementsBag;
+use Butschster\Head\MetaTags\TagsCollection;
 use Butschster\Head\Packages\Concerns\Dependencies;
 
-class Package extends Meta implements PackageInterface, MetaInterface
+class Package extends Meta implements PackageInterface
 {
     use Dependencies;
 
@@ -32,5 +32,15 @@ class Package extends Meta implements PackageInterface, MetaInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Get the collection of tags
+     *
+     * @return TagsCollection
+     */
+    public function getTags(): TagsCollection
+    {
+        return new TagsCollection();
     }
 }

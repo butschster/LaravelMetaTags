@@ -4,7 +4,6 @@ namespace Butschster\Head\MetaTags\Concerns;
 
 use Butschster\Head\Contracts\MetaTags\PlacementsInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
-use Butschster\Head\MetaTags\TagsCollection;
 
 trait ManagePackages
 {
@@ -24,9 +23,9 @@ trait ManagePackages
             }
         }
 
-        if ($package instanceof TagsCollection) {
-            $this->registerTags($package);
-        }
+        $this->registerTags(
+            $package->getTags()
+        );
     }
 
     /**
