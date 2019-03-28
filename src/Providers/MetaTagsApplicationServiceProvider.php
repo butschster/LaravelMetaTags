@@ -6,23 +6,20 @@ use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\Contracts\Packages\ManagerInterface;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\Packages\Manager;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class MetaTagsApplicationServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     * @var bool
-     */
-    protected $defer = true;
-
     /**
      * Bootstrap any application services.
      * @return void
      */
     public function boot()
     {
-
+        if ($this->app->bound('blade.compiler')) {
+            $this->registerBladeDirectives();
+        }
     }
 
     public function register()
@@ -52,15 +49,14 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Get the services provided by the provider.
-     * @return string[]
-     */
-    public function provides()
+    protected function registerBladeDirectives()
     {
-        return [
-            MetaInterface::class,
-            ManagerInterface::class,
-        ];
+        Blade::directive('meta_tags', function($expression) {
+            if (empty($expression)) {
+                return "<?php echo \Butschster\Head\Facades\Meta::toHtml(); ?>";
+            }
+
+            return "<?php echo \Butschster\Head\Facades\Meta::placement($expression)->toHtml(); ?>";
+        });
     }
 }

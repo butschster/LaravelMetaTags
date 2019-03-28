@@ -119,7 +119,6 @@ protected function packages()
 
 Just put this code `{!! Meta::toHtml() !!}` into your HTML and that's all.
 
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +134,24 @@ Just put this code `{!! Meta::toHtml() !!}` into your HTML and that's all.
         {!! Meta::footer()->toHtml() !!}
     </body>
 </html>
+```
 
+You can use blade directive also `@meta_tags`
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @meta_tags
+    </head>
+    <body>
+        <div id="app">
+            ...        
+        </div>
+    
+        <!-- Tags for specific placement -->
+        @meta_tags('footer')
+    </body>
+</html>
 ```
 
 ### Controller
