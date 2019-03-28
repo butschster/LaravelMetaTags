@@ -101,7 +101,7 @@ class TwitterCardPackage implements TwitterCardPackageInterface
     }
 
     /**
-     * Set the @username for the website used in the card footer.
+     * Set the title
      *
      * @param string $title
      *

@@ -564,6 +564,174 @@ $package->addScript('script.js', 'http://site.com/script.js', [], [], 'custom_pl
 Meta::includePackages('jquery')->placement('custom_placement')->toHtml();
 ```
 
+
+### Available packages
+---
+
+#### OpenGraphPackage
+`Butschster\Head\Packages\Entities\OpenGraphPackage`
+
+You can use this package for managing OpenGraph meta tags
+
+```php
+$og = new Butschster\Head\Packages\Entities\OpenGraphPackage('some_name');
+
+$og->setType('website')
+   ->setSiteName('My awesome site')
+   ->setTitle('Post title');
+   
+// You can render itself
+
+$og->toHtml();
+// <meta name="og:type" content="website">
+// <meta name="og:site_name" content="My awesome site">
+// <meta name="og:title" content="Post title">
+
+// Or just register this package in Meta class and it will be rendered automatically
+Meta::registerPackage($og);
+```
+
+**setType** Set the type of your object, e.g., "video.movie".
+```php
+$og->setType('website');
+// <meta name="og:type" content="website">
+```
+
+**setTitle** Set the title of your object as it should appear within the graph, e.g., "The Rock".
+```php
+$og->setTitle('Post title');
+// <meta name="og:title" content="Post title">
+```
+
+**setDescription** Set the description
+```php
+$og->setDescription('View the album on Flickr.');
+// <meta name="og:description" content="View the album on Flickr.">
+```
+
+**setSiteName** Set the site name
+```php
+$og->setSiteName('My awesome site');
+// <meta name="og:site_name" content="My awesome site">
+```
+
+**setUrl** Set the canonical URL of your object that will be used as its permanent ID in the graph.
+```php
+$og->setUrl('https://site.com');
+// <meta name="og:url" content="https://site.com">
+```
+
+**setLocale** Set the locale these tags are marked up in. Of the format language_TERRITORY
+```php
+$og->setLocale('en_US');
+// <meta name="og:locale" content="en_US">
+```
+
+**addAlternateLocale**
+```php
+$og->addAlternateLocale('en_US', 'ru_RU');
+// <meta name="og:locale:alternate" content="en_US">
+// <meta name="og:locale:alternate" content="ru_RU">
+```
+
+**addImage** Add an image URL which should represent your object within the graph.
+```php
+$og->addImage('http://site.com');
+// <meta name="og:image" content="http://site.com">
+
+// You can pass properties
+$og->addImage('http://site.com', [
+    'secure_url' => 'https://site.com',
+    'type' => 'image/png'
+]);
+
+// <meta name="og:image" content="http://site.com">
+// <meta name="og:image:secure_url" content="https://site.com">
+// <meta name="og:image:type" content="image/png">
+```
+
+**addVideo** Add an image URL which should represent your object within the graph.
+```php
+$og->addVideo('http://site.com');
+// <meta name="og:video" content="http://site.com">
+
+// You can pass properties
+$og->addVideo('http://site.com', [
+    'secure_url' => 'https://site.com',
+    'type' => 'application/x-shockwave-flash'
+]);
+
+// <meta name="og:video" content="http://site.com">
+// <meta name="og:video:secure_url" content="https://site.com">
+// <meta name="og:video:type" content="application/x-shockwave-flash">
+```
+
+#### TwitterCardPackage
+`Butschster\Head\Packages\Entities\TwitterCardPackage`
+
+You can use this package for managing Twitter card meta tags
+
+```php
+$card = new Butschster\Head\Packages\Entities\TwitterCardPackage('some_name');
+
+$card->setType('summary')
+   ->setSite('@username')
+   ->setTitle('Post title');
+   
+// You can render itself
+
+$card->toHtml();
+// <meta name="twitter:card" content="summary">
+// <meta name="twitter:site" content="@username">
+// <meta name="twitter:title" content="Post title">
+
+// Or just register this package in Meta class and it will be rendered automatically
+Meta::registerPackage($card);
+```
+
+**setType** Set the type of the card
+```php
+$og->setType('summary');
+// <meta name="twitter:card" content="summary">
+```
+
+**setSite** Set the @username for the website used in the card footer.
+```php
+$og->setSite('@username');
+// <meta name="twitter:site" content="@username">
+```
+
+**setCreator** Set the @username for the content creator / author.
+```php
+$og->setCreator('@username');
+// <meta name="twitter:creator" content="@username">
+```
+
+**setTitle** Set the title
+```php
+$og->setTitle('Post title');
+// <meta name="twitter:title" content="Post title">
+```
+
+**setDescription** Set the description
+```php
+$og->setDescription('View the album on Flickr.');
+// <meta name="twitter:title" content="View the album on Flickr.">
+```
+
+**addImage** Set the description
+```php
+$og->addImage('https://site.com');
+// <meta name="twitter:image" content="https://site.com">
+```
+
+**addMeta** Set a custom meta tags
+```php
+$og->addMeta('url', 'https://site.com');
+// <meta name="twitter:url" content="https://site.com">
+```
+
+
 ## PackageManager API
 
 Package manager provide a store for your packages or presets
