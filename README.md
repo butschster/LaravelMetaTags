@@ -160,7 +160,7 @@ You can use either Facade `\Butschster\Head\Facades` or `\Butschster\Head\Contra
 ```php
 use Butschster\Head\MetaTags\MetaInterface;
 
-class HomerController extends Controller {
+class HomeController extends Controller {
 
     protected $meta;
  
@@ -314,7 +314,7 @@ Meta::setFavicon('http://site.com/favicon.gif');
 Meta::setFavicon('http://site.com/favicon.svg');
 // <link rel="icon" type="image/svg+xml" href="http://site.com/favicon.svg" />
 
-You can pass additional attributes
+//You can pass additional attributes
 Meta::setFavicon('http://site.com/favicon.svg', ['sizes' => '16x16', 'type' => 'custom_type']);
 // <link rel="icon" type="custom_type" href="http://site.com/favicon.svg" sizes="16x16" />
 ```
@@ -383,6 +383,27 @@ class FacebookPixelTag implements \Butschster\Head\Contracts\MetaTags\Entities\T
 
 Meta::addTag('facebook.pixel', new FacebookPixelTag('42b3h23-34234'));
 // <script type="text/javascript">...</script>
+```
+
+**Register tags from TagsCollection**
+```php
+$tags = new \Butschster\Head\MetaTags\TagsCollection([
+    ...
+]);
+Meta::registerTags($tags);
+
+// You can specify the placement 
+Meta::registerTags($tags, 'footer');
+```
+
+**Get tag by name**
+```php
+Meta::getTag('author');
+```
+
+**Remove tag by name**
+```php
+Meta::removeTag('author');
 ```
 
 **Add a custom meta tag**
@@ -459,7 +480,7 @@ class HomerController extends Controller {
 
 ### Meta tags placements
 
-By default, tags place to head placement. You can specify your own placement and use ther all available methods.
+By default, tags place to head placement. You can specify your own placement and use their all available methods.
 
 ```php
 
@@ -646,7 +667,7 @@ $title->setTitle('Laravel');
 $title->toHtml(); // <title>Laravel</title>
 ```
 
-**Prepent a new part of title**
+**Prepend a new part of title**
 ```php
 $title = new \Butschster\Head\MetaTags\Entities\Title();
 

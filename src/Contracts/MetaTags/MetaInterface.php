@@ -4,10 +4,11 @@ namespace Butschster\Head\Contracts\MetaTags;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
+use Butschster\Head\MetaTags\TagsCollection;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Htmlable;
 
-interface MetaInterface extends Htmlable
+interface MetaInterface extends Htmlable, PlacementsInterface
 {
     /**
      * Set the meta title
@@ -293,12 +294,27 @@ interface MetaInterface extends Htmlable
     public function addTag(string $name, TagInterface $tag);
 
     /**
-     * Get the meta tag by name
+     * Register tags from collection
+     *
+     * @param TagsCollection $tags
+     * @param string|null $placement
+     */
+    public function registerTags(TagsCollection $tags, string $placement = null);
+
+    /**
+     * Get the tag by name
      *
      * @param string $name
      * @return TagInterface|null
      */
-    public function getMeta(string $name): ?TagInterface;
+    public function getTag(string $name): ?TagInterface;
+
+    /**
+     * Remove tag by name
+     *
+     * @param string $name
+     */
+    public function removeTag(string $name): void;
 
     /**
      * Set a link to css file
@@ -336,22 +352,6 @@ interface MetaInterface extends Htmlable
      * Remove all tags
      */
     public function reset(): void;
-
-    /**
-     * Get specific placement by name
-     *
-     * @param string $name
-     *
-     * @return PlacementInterface
-     */
-    public function placement(string $name): PlacementInterface;
-
-    /**
-     * Get all registered placements
-     *
-     * @return array
-     */
-    public function getPlacements(): array;
 
     /**
      * Get head meta tags placement bag

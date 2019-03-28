@@ -9,6 +9,7 @@ use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\Packages\Manager;
 use Illuminate\Contracts\Foundation\Application;
 use Mockery as m;
+use Symfony\Component\VarDumper\VarDumper;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {

@@ -69,7 +69,7 @@ class MetaTest extends TestCase
         $this->assertNull($meta->getViewport());
         $this->assertNull($meta->getHrefLang('en'));
         $this->assertNull($meta->getHrefLang('ru'));
-        $this->assertNull($meta->getMeta('og::title'));
+        $this->assertNull($meta->getTag('og::title'));
     }
 
 //    function test_seo_meta_tags_can_be_read_from_seo_meta_tags_interface()

@@ -2,9 +2,7 @@
 
 namespace Butschster\Head\Contracts\Packages;
 
-use Butschster\Head\Contracts\MetaTags\MetaInterface;
-
-interface PackageInterface extends MetaInterface
+interface PackageInterface
 {
     /**
      * Get the package name

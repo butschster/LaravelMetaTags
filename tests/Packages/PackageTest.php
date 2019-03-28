@@ -22,7 +22,7 @@ class PackageTest extends TestCase
 
         $this->assertEquals(
             '<link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
-            $package->getMeta('style.css')->toHtml()
+            $package->getTag('style.css')->toHtml()
         );
 
         $package->addStyle('style.css', 'http://site.com/style.css', [
@@ -31,14 +31,14 @@ class PackageTest extends TestCase
 
         $this->assertEquals(
             '<link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
-            $package->getMeta('style.css')->toHtml()
+            $package->getTag('style.css')->toHtml()
         );
 
         $package->addStyle('style.css', 'http://site.com/style.css', [], ['jquery', 'vue']);
 
         $this->assertEquals(
             ['jquery', 'vue'],
-            $package->getMeta('style.css')->getDependencies()
+            $package->getTag('style.css')->getDependencies()
         );
     }
 

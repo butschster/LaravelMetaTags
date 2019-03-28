@@ -18,7 +18,7 @@ class CustomTagTagsTest extends TestCase
 
         $this->assertEquals(
             '<script src="http://site.com"></script>',
-            $meta->getMeta('custom')->toHtml()
+            $meta->getTag('custom')->toHtml()
         );
     }
 }

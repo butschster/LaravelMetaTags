@@ -16,7 +16,7 @@ class CustomLinkMetaTagsTest extends TestCase
 
         $this->assertEquals(
             '<link rel="canonical" href="http://site.com" />',
-            $meta->getMeta('canonical')->toHtml()
+            $meta->getTag('canonical')->toHtml()
         );
     }
 }

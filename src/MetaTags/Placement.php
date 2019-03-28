@@ -4,9 +4,8 @@ namespace Butschster\Head\MetaTags;
 
 use Butschster\Head\Contracts\MetaTags\PlacementInterface;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Collection;
 
-class Placement extends Collection implements PlacementInterface
+class Placement extends TagsCollection implements PlacementInterface
 {
     /**
      * Clear bag
