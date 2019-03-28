@@ -34,6 +34,10 @@ class InstallCommand extends Command
         $this->comment('Publishing MetaTags Service Provider...');
         $this->callSilent('vendor:publish', ['--tag' => 'meta-tags-provider']);
 
+        $this->comment('Publishing MetaTags config...');
+        $this->callSilent('vendor:publish', ['--tag' => 'meta-tags-config']);
+
+        $this->comment('Registering Service Provider in [config/app.php] ..');
         $this->registerServiceProvider();
         $this->setAppNamespace();
 
@@ -49,10 +53,18 @@ class InstallCommand extends Command
     {
         $namespace = Str::replaceLast('\\', '', $this->getAppNamespace());
 
+        $config = file_get_contents(config_path('app.php'));
+        $line = "{$namespace}\Providers\MetaTagsServiceProvider::class";
+
+        if (Str::contains($config, $line)) {
+            $this->warn('Config config/app.php contains MetaTagsServiceProvider. Registration canceled!');
+            return;
+        }
+
         file_put_contents(config_path('app.php'), str_replace(
             "{$namespace}\\Providers\EventServiceProvider::class,".PHP_EOL,
-            "{$namespace}\\Providers\EventServiceProvider::class,".PHP_EOL."        {$namespace}\Providers\MetaTagsServiceProvider::class,".PHP_EOL,
-            file_get_contents(config_path('app.php'))
+            "{$namespace}\\Providers\EventServiceProvider::class,".PHP_EOL."        {$line},".PHP_EOL,
+            $config
         ));
     }
 

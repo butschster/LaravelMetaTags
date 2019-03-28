@@ -6,7 +6,7 @@ return [
     'meta' => [
         'title' => env('APP_NAME'),
         'description' => '',
-        'separator' => ' - ',
+        'separator' => '-',
         'keywords' => [],
         'robots' => null,
         'viewport' => Viewport::RESPONSIVE,
