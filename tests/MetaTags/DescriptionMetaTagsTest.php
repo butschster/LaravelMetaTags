@@ -8,13 +8,9 @@ class DescriptionMetaTagsTest extends TestCase
 {
     function test_description_can_be_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $meta->setDescription('test description');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="description" content="test description">',
-            $meta->getDescription()->toHtml()
+            $this->makeMetaTags()->setDescription('test description')->getDescription()
         );
     }
 
@@ -39,11 +35,9 @@ class DescriptionMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $meta->setDescription('<h5>test description</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="description" content="test description">',
-            $meta->getDescription()->toHtml()
+            $meta->setDescription('<h5>test description</h5>')->getDescription()
         );
     }
 }

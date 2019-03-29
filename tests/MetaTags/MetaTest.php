@@ -72,23 +72,11 @@ class MetaTest extends TestCase
         $this->assertNull($meta->getTag('og::title'));
     }
 
-//    function test_seo_meta_tags_can_be_read_from_seo_meta_tags_interface()
-//    {
-//        $meta = $this->makeMetaTags();
-//
-//        $metatags = m::mock(SeoMetaTagsInterface::class);
-//
-//        $meta->setSeoMetaTags($metatags);
-//
-//        $html = $meta->toHtml();
-//
-//        $this->assertStringContainsString('<title>additional title | test title</title>', $html);
-//        $this->assertStringContainsString('<meta name="description" content="meta description">', $html);
-//        $this->assertStringContainsString('<meta name="keywords" content="keyword 1, keyword 2">', $html);
-//    }
-
     function test_meta_information_for_head_can_be_rendered()
     {
+        $tag = $this->makeTag();
+        $tag->shouldReceive('getPlacement')->once()->andReturn('footer');
+
         $meta = $this->makeMetaTags()
             ->setTitle('test title')
             ->prependTitle('additional title')
@@ -104,26 +92,24 @@ class MetaTest extends TestCase
             ->setViewport('width=device-width, initial-scale=1')
             ->addMeta('og::title', [
                 'content' => 'test og title'
-            ]);
+            ])
+            ->addTag('footer_tag', $tag);
 
-        $tag = $this->makeTag();
-        $tag->shouldReceive('getPlacement')->once()->andReturn('footer');
-        $meta->addTag('footer_tag', $tag);
+        $this->assertHtmlableNotContains('<tag></tag>', $meta);
 
-        $html = $meta->toHtml();
-
-        $this->assertStringNotContainsString('<tag></tag>', $html);
-        $this->assertStringContainsString('<meta name="viewport" content="width=device-width, initial-scale=1">', $html);
-        $this->assertStringContainsString('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">', $html);
-        $this->assertStringContainsString('<title>additional title | test title</title>', $html);
-        $this->assertStringContainsString('<meta name="description" content="meta description">', $html);
-        $this->assertStringContainsString('<meta name="keywords" content="keyword 1, keyword 2">', $html);
-        $this->assertStringContainsString('<meta name="robots" content="no follow">', $html);
-        $this->assertStringContainsString('<meta name="og::title" content="test og title">', $html);
-        $this->assertStringContainsString('<link rel="next" href="http://site.com" />', $html);
-        $this->assertStringContainsString('<link rel="prev" href="http://site.com" />', $html);
-        $this->assertStringContainsString('<link rel="canonical" href="http://site.com" />', $html);
-        $this->assertStringContainsString('<link rel="alternate" hreflang="en" href="http://site.com/en" />', $html);
-        $this->assertStringContainsString('<link rel="alternate" hreflang="ru" href="http://site.com/ru" />', $html);
+        $this->assertHtmlableContains([
+            '<meta name="viewport" content="width=device-width, initial-scale=1">',
+            '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
+            '<title>additional title | test title</title>',
+            '<meta name="description" content="meta description">',
+            '<meta name="keywords" content="keyword 1, keyword 2">',
+            '<meta name="robots" content="no follow">',
+            '<meta name="og::title" content="test og title">',
+            '<link rel="next" href="http://site.com" />',
+            '<link rel="prev" href="http://site.com" />',
+            '<link rel="canonical" href="http://site.com" />',
+            '<link rel="alternate" hreflang="en" href="http://site.com/en" />',
+            '<link rel="alternate" hreflang="ru" href="http://site.com/ru" />'
+        ], $meta);
     }
 }

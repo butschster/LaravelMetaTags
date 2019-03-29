@@ -10,23 +10,19 @@ class ScriptTest extends TestCase
 {
     function test_it_can_be_created()
     {
-        $script = new Script('script_name', 'http://site.com');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<script src="http://site.com"></script>',
-            $script->toHtml()
+            new Script('script_name', 'http://site.com')
         );
     }
 
     function test_it_can_has_attributes()
     {
-        $script = new Script('script_name', 'http://site.com', [
-            'defer', 'async'
-        ]);
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<script src="http://site.com" defer async></script>',
-            $script->toHtml()
+            new Script('script_name', 'http://site.com', [
+                'defer', 'async'
+            ])
         );
     }
 

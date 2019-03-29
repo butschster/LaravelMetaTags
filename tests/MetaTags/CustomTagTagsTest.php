@@ -14,11 +14,9 @@ class CustomTagTagsTest extends TestCase
         $tag->shouldReceive('getPlacement')->once()->andReturn(Meta::PLACEMENT_HEAD);
         $tag->shouldReceive('toHtml')->andReturn('<script src="http://site.com"></script>');
 
-        $meta->addTag('custom', $tag);
-
-        $this->assertEquals(
+        $this->assertHtmlableContains(
             '<script src="http://site.com"></script>',
-            $meta->getTag('custom')->toHtml()
+            $meta->addTag('custom', $tag)->getTag('custom')
         );
     }
 
@@ -32,8 +30,7 @@ class CustomTagTagsTest extends TestCase
         $tag1 = $this->makeTag();
         $tag1->shouldReceive('getPlacement')->once()->andReturn('head');
 
-        $meta->addTag('tag1', $tag);
-        $meta->addTag('tag2', $tag1);
+        $meta->addTag('tag1', $tag)->addTag('tag2', $tag1);
 
         $this->assertFalse($meta->placement('head')->has('tag1'));
         $this->assertTrue($meta->placement('footer')->has('tag1'));

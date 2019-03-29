@@ -8,25 +8,21 @@ class KeywordsMetaTagsTest extends TestCase
 {
     function test_keywords_from_array_can_be_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $meta->setKeywords(['keyword1', 'keyword2']);
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="keywords" content="keyword1, keyword2">',
-            $meta->getKeywords()->toHtml()
+            $this->makeMetaTags()
+                ->setKeywords(['keyword1', 'keyword2'])
+                ->getKeywords()
         );
     }
 
     function test_keywords_from_string_can_be_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $meta->setKeywords('keyword1, keyword2');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="keywords" content="keyword1, keyword2">',
-            $meta->getKeywords()->toHtml()
+            $this->makeMetaTags()
+                ->setKeywords('keyword1, keyword2')
+                ->getKeywords()
         );
     }
 
@@ -39,26 +35,25 @@ class KeywordsMetaTagsTest extends TestCase
 
     function test_keywords_should_be_null_if_not_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $this->assertNull($meta->getKeywords());
+        $this->assertNull(
+            $this->makeMetaTags()->getKeywords()
+        );
     }
 
     function test_keywords_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setKeywords('<h5>keyword1, keyword2</h5>');
 
-        $meta->setKeywords('<h5>keyword1, keyword2</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="keywords" content="keyword1, keyword2">',
-            $meta->getKeywords()->toHtml()
+            $meta->getKeywords()
         );
 
         $meta->setKeywords(['<h5>keyword1</h5>', '<h5>keyword2</h5>']);
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="keywords" content="keyword1, keyword2">',
-            $meta->getKeywords()->toHtml()
+            $meta->getKeywords()
         );
     }
 }

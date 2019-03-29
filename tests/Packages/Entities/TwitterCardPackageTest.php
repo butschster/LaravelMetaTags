@@ -11,14 +11,9 @@ class TwitterCardPackageTest extends TestCase
     {
         $card = new TwitterCardPackage('twitter');
 
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->setType(TwitterCardPackage::CARD_SUMMARY)
-        );
-
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:card" content="summary">',
-            $card->toHtml()
+            $card->setType(TwitterCardPackage::CARD_SUMMARY)
         );
     }
 
@@ -26,14 +21,9 @@ class TwitterCardPackageTest extends TestCase
     {
         $card = new TwitterCardPackage('twitter');
 
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->setSite('@username')
-        );
-
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:site" content="@username">',
-            $card->toHtml()
+            $card->setSite('@username')
         );
     }
 
@@ -41,14 +31,9 @@ class TwitterCardPackageTest extends TestCase
     {
         $card = new TwitterCardPackage('twitter');
 
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->setTitle('Post title')
-        );
-
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:title" content="Post title">',
-            $card->toHtml()
+            $card->setTitle('Post title')
         );
     }
 
@@ -56,14 +41,9 @@ class TwitterCardPackageTest extends TestCase
     {
         $card = new TwitterCardPackage('twitter');
 
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->setDescription('View the album on Flickr.')
-        );
-
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:description" content="View the album on Flickr.">',
-            $card->toHtml()
+            $card->setDescription('View the album on Flickr.')
         );
     }
 
@@ -71,14 +51,9 @@ class TwitterCardPackageTest extends TestCase
     {
         $card = new TwitterCardPackage('twitter');
 
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->setCreator('@username')
-        );
-
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:creator" content="@username">',
-            $card->toHtml()
+            $card->setCreator('@username')
         );
     }
 
@@ -86,28 +61,19 @@ class TwitterCardPackageTest extends TestCase
     {
         $card = new TwitterCardPackage('twitter');
 
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->addImage('https://site.com')
-        );
-
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:image" content="https://site.com">',
-            $card->toHtml()
+            $card->addImage('https://site.com')
         );
     }
 
     function test_custom_meta_tags_can_be_added()
     {
         $card = new TwitterCardPackage('twitter');
-        $this->assertInstanceOf(
-            TwitterCardPackage::class,
-            $card->addMeta('url', 'https://site.com')
-        );
 
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<meta name="twitter:url" content="https://site.com">',
-            $card->toHtml()
+            $card->addMeta('url', 'https://site.com')
         );
     }
 
@@ -129,9 +95,11 @@ class TwitterCardPackageTest extends TestCase
 
         $meta->registerPackage($card);
 
-        $this->assertStringContainsString('<title>Meta title</title>', $meta->toHtml());
-        $this->assertStringContainsString('<meta name="description" content="Meta description">', $meta->toHtml());
-        $this->assertStringContainsString('<meta name="twitter:url" content="https://site.com">', $meta->toHtml());
-        $this->assertStringContainsString('<meta name="twitter:image" content="https://site.com">', $meta->toHtml());
+        $this->assertHtmlableContains([
+            '<title>Meta title</title>',
+            '<meta name="description" content="Meta description">',
+            '<meta name="twitter:url" content="https://site.com">',
+            '<meta name="twitter:image" content="https://site.com">'
+        ], $meta);
     }
 }

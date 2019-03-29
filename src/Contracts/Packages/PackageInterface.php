@@ -3,8 +3,9 @@
 namespace Butschster\Head\Contracts\Packages;
 
 use Butschster\Head\MetaTags\TagsCollection;
+use Illuminate\Contracts\Support\Htmlable;
 
-interface PackageInterface
+interface PackageInterface extends Htmlable
 {
     /**
      * Get the package name

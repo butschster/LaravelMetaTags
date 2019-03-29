@@ -8,13 +8,12 @@ class RobotsMetaTagsTest extends TestCase
 {
     function test_robots_from_string_can_be_set()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setRobots('noindex');
 
-        $meta->setRobots('noindex');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="robots" content="noindex">',
-            $meta->getRobots()->toHtml()
+            $meta->getRobots()
         );
     }
 
@@ -34,13 +33,12 @@ class RobotsMetaTagsTest extends TestCase
 
     function test_robots_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setRobots('<h5>noindex</h5>');
 
-        $meta->setRobots('<h5>noindex</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="robots" content="noindex">',
-            $meta->getRobots()->toHtml()
+            $meta->getRobots()
         );
     }
 }

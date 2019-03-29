@@ -8,15 +8,11 @@ class CustomLinkMetaTagsTest extends TestCase
 {
     function test_custom_meta_tag_can_be_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $meta->addLink('canonical', [
-            'href' => 'http://site.com',
-        ]);
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="canonical" href="http://site.com" />',
-            $meta->getTag('canonical')->toHtml()
+            $this->makeMetaTags()->addLink('canonical', [
+                'href' => 'http://site.com',
+            ])->getTag('canonical')
         );
     }
 }

@@ -10,8 +10,6 @@ class GeoMetaTagsTest extends TestCase
 {
     function test_set_geo_meta_tags()
     {
-        $meta = $this->makeMetaTags();
-
         $metatags = m::mock(GeoMetaInformationInterface::class);
 
         $metatags->shouldReceive('latitude')->once()->andReturn('latitude');
@@ -19,19 +17,15 @@ class GeoMetaTagsTest extends TestCase
         $metatags->shouldReceive('placename')->once()->andReturn('Moscow');
         $metatags->shouldReceive('region')->once()->andReturn('Russia');
 
-        $meta->setGeo($metatags);
-
-        $html = $meta->toHtml();
-
-        $this->assertStringContainsString('<meta name="geo.position" content="latitude; longitude">', $html);
-        $this->assertStringContainsString('<meta name="geo.placename" content="Moscow">', $html);
-        $this->assertStringContainsString('<meta name="geo.region" content="Russia">', $html);
+        $this->assertHtmlableContains([
+            '<meta name="geo.position" content="latitude; longitude">',
+            '<meta name="geo.placename" content="Moscow">',
+            '<meta name="geo.region" content="Russia">'
+        ], $this->makeMetaTags()->setGeo($metatags));
     }
 
     function test_set_geo_meta_tags_without_placename()
     {
-        $meta = $this->makeMetaTags();
-
         $metatags = m::mock(GeoMetaInformationInterface::class);
 
         $metatags->shouldReceive('latitude')->once()->andReturn('latitude');
@@ -39,19 +33,21 @@ class GeoMetaTagsTest extends TestCase
         $metatags->shouldReceive('placename')->once()->andReturn(null);
         $metatags->shouldReceive('region')->once()->andReturn('Russia');
 
-        $meta->setGeo($metatags);
+        $meta = $this->makeMetaTags()->setGeo($metatags);
 
-        $html = $meta->toHtml();
+        $this->assertHtmlableNotContains(
+            '<meta name="geo.placename" content="Moscow">',
+            $meta
+        );
 
-        $this->assertStringContainsString('<meta name="geo.position" content="latitude; longitude">', $html);
-        $this->assertStringNotContainsString('<meta name="geo.placename" content="Moscow">', $html);
-        $this->assertStringContainsString('<meta name="geo.region" content="Russia">', $html);
+        $this->assertHtmlableContains([
+            '<meta name="geo.region" content="Russia">',
+            '<meta name="geo.position" content="latitude; longitude">',
+        ], $meta);
     }
 
     function test_set_geo_meta_tags_without_region()
     {
-        $meta = $this->makeMetaTags();
-
         $metatags = m::mock(GeoMetaInformationInterface::class);
 
         $metatags->shouldReceive('latitude')->once()->andReturn('latitude');
@@ -59,12 +55,16 @@ class GeoMetaTagsTest extends TestCase
         $metatags->shouldReceive('placename')->once()->andReturn('Moscow');
         $metatags->shouldReceive('region')->once()->andReturn(null);
 
-        $meta->setGeo($metatags);
+        $meta = $this->makeMetaTags()->setGeo($metatags);
 
-        $html = $meta->toHtml();
+        $this->assertHtmlableContains([
+            '<meta name="geo.placename" content="Moscow">',
+            '<meta name="geo.position" content="latitude; longitude">'
+        ], $meta);
 
-        $this->assertStringContainsString('<meta name="geo.position" content="latitude; longitude">', $html);
-        $this->assertStringContainsString('<meta name="geo.placename" content="Moscow">', $html);
-        $this->assertStringNotContainsString('<meta name="geo.region" content="Russia">', $html);
+        $this->assertHtmlableNotContains(
+            '<meta name="geo.region" content="Russia">',
+            $meta
+        );
     }
 }

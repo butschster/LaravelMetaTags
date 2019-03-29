@@ -10,7 +10,6 @@ class PackageTest extends TestCase
     function test_a_package_can_be_created()
     {
         $package = new Package('jquery');
-
         $this->assertEquals('jquery', $package->getName());
     }
 
@@ -20,18 +19,18 @@ class PackageTest extends TestCase
 
         $package->addStyle('style.css', 'http://site.com/style.css');
 
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
-            $package->getTag('style.css')->toHtml()
+            $package->getTag('style.css')
         );
 
         $package->addStyle('style.css', 'http://site.com/style.css', [
             'media' => 'custom'
         ]);
 
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
-            $package->getTag('style.css')->toHtml()
+            $package->getTag('style.css')
         );
 
         $package->addStyle('style.css', 'http://site.com/style.css', [], ['jquery', 'vue']);
@@ -48,9 +47,9 @@ class PackageTest extends TestCase
 
         $package->addScript('script.js', 'http://site.com/script.js', ['async', 'defer']);
 
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<script src="http://site.com/script.js" async defer></script>',
-            $package->footer()->get('script.js')->toHtml()
+            $package->footer()->get('script.js')
         );
     }
 

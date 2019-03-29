@@ -8,13 +8,12 @@ class ViewportMetaTagsTest extends TestCase
 {
     function test_viewport_can_be_set()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setViewport('width=device-width, initial-scale=1');
 
-        $meta->setViewport('width=device-width, initial-scale=1');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="viewport" content="width=device-width, initial-scale=1">',
-            $meta->getViewport()->toHtml()
+            $meta->getViewport()
         );
     }
 
@@ -37,13 +36,12 @@ class ViewportMetaTagsTest extends TestCase
 
     function test_viewport_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setViewport('<h5>width=device-width, initial-scale=1</h5>');
 
-        $meta->setViewport('<h5>width=device-width, initial-scale=1</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="viewport" content="width=device-width, initial-scale=1">',
-            $meta->getViewport()->toHtml()
+            $meta->getViewport()
         );
     }
 }

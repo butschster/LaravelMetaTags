@@ -8,19 +8,18 @@ class HrefLangMetaTagsTest extends TestCase
 {
     function test_hreflang_can_be_set()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setHrefLang('en', 'http://site.com')
+            ->setHrefLang('ru', 'http://site.com/ru');
 
-        $meta->setHrefLang('en', 'http://site.com');
-        $meta->setHrefLang('ru', 'http://site.com/ru');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="alternate" hreflang="en" href="http://site.com" />',
-            $meta->getHrefLang('en')->toHtml()
+            $meta->getHrefLang('en')
         );
 
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="alternate" hreflang="ru" href="http://site.com/ru" />',
-            $meta->getHrefLang('ru')->toHtml()
+            $meta->getHrefLang('ru')
         );
     }
 
@@ -36,8 +35,6 @@ class HrefLangMetaTagsTest extends TestCase
 
     function test_hreflang_should_be_null_if_not_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $this->assertNull($meta->getHrefLang('en'));
+        $this->assertNull($this->makeMetaTags()->getHrefLang('en'));
     }
 }

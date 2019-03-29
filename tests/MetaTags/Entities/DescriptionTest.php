@@ -9,19 +9,24 @@ class DescriptionTest extends TestCase
 {
     function test_it_can_be_rendered_to_html()
     {
-        $description = new Description('test');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="description" content="test">',
-            $description->toHtml()
+            new Description('test')
         );
     }
 
     function test_a_description_should_be_limited_if_it_exceeded_max_length()
     {
         $description = new Description('Lorem Ipsum is simply dummy text of the printing and typesetting');
-        $this->assertInstanceOf(Description::class, $description->setMaxLength(20));
 
-        $this->assertEquals('<meta name="description" content="Lorem Ipsum is simpl...">', $description->toHtml());
+        $this->assertInstanceOf(
+            Description::class,
+            $description->setMaxLength(20)
+        );
+
+        $this->assertHtmlableEquals(
+            '<meta name="description" content="Lorem Ipsum is simpl...">',
+            $description
+        );
     }
 }

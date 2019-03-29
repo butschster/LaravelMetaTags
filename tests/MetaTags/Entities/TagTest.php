@@ -10,12 +10,13 @@ class TagTest extends TestCase
 {
     function test_it_can_be_rendered_to_string()
     {
-        $tag = new Tag('meta', [
-            'name' => 'custom',
-            'content' => 'test data'
-        ]);
-
-        $this->assertEquals('<meta name="custom" content="test data">', $tag->toHtml());
+        $this->assertHtmlableEquals(
+            '<meta name="custom" content="test data">',
+            new Tag('meta', [
+                'name' => 'custom',
+                'content' => 'test data'
+            ])
+        );
     }
 
     function test_it_has_attributes()
@@ -35,17 +36,21 @@ class TagTest extends TestCase
             'content' => 'test data'
         ]);
 
-        $this->assertEquals('name="custom" content="test data"', $tag->compiledAttributes());
+        $this->assertEquals(
+            'name="custom" content="test data"',
+            $tag->compiledAttributes()
+        );
     }
 
     function test_tag_can_be_closed()
     {
-        $tag = new Tag('link', [
-            'rel' => 'prev',
-            'href' => 'http://site.com'
-        ], true);
-
-        $this->assertEquals('<link rel="prev" href="http://site.com" />', $tag->toHtml());
+        $this->assertHtmlableEquals(
+            '<link rel="prev" href="http://site.com" />',
+            new Tag('link', [
+                'rel' => 'prev',
+                'href' => 'http://site.com'
+            ], true)
+        );
     }
 
     function test_it_has_placement()

@@ -28,9 +28,10 @@ class PlacementTest extends TestCase
             'attr' => 'value1'
         ]));
 
-
-        $this->assertStringContainsString('<meta attr="value">', $placement->toHtml());
-        $this->assertStringContainsString('<meta attr="value1">', $placement->toHtml());
+        $this->assertHtmlableContains([
+            '<meta attr="value">',
+            '<meta attr="value1">'
+        ], $placement);
     }
 
 }

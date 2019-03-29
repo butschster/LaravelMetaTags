@@ -29,35 +29,25 @@ class PackagesMetaTagsTest extends TestCase
 
         $meta->includePackages(['jquery']);
 
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
-            $meta->footer()->toHtml()
+            $meta->footer()
         );
 
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains(
             '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
-            $meta->toHtml()
+            $meta
         );
 
-        $this->assertStringNotContainsString(
-            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
-            $meta->footer()->toHtml()
-        );
-
-        $this->assertStringNotContainsString(
+        $this->assertHtmlableNotContains([
+            '<script src="http://cdn.vuejs.com/vuejs.latest.js"></script>',
             '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
-            $meta->toHtml()
-        );
+        ], $meta);
 
-        $this->assertStringNotContainsString(
+        $this->assertHtmlableNotContains([
+            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
             '<script src="http://cdn.vuejs.com/vuejs.latest.js"></script>',
-            $meta->toHtml()
-        );
-
-        $this->assertStringNotContainsString(
-            '<script src="http://cdn.vuejs.com/vuejs.latest.js"></script>',
-            $meta->footer()->toHtml()
-        );
+        ], $meta->footer());
     }
 
     function test_a_package_can_be_registered()
@@ -71,24 +61,19 @@ class PackagesMetaTagsTest extends TestCase
 
         $meta->registerPackage($package);
 
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains([
             '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
-            $meta->toHtml()
-        );
-
-        $this->assertStringContainsString(
             '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
-            $meta->toHtml()
+        ], $meta);
+
+        $this->assertHtmlableNotContains(
+            '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
+            $meta
         );
 
-        $this->assertStringNotContainsString(
+        $this->assertHtmlableContains(
             '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
-            $meta->toHtml()
-        );
-
-        $this->assertStringContainsString(
-            '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
-            $meta->placement('footer')->toHtml()
+            $meta->placement('footer')
         );
     }
 
@@ -103,24 +88,19 @@ class PackagesMetaTagsTest extends TestCase
 
         $meta->registerPackage($package);
 
-        $this->assertStringContainsString(
+        $this->assertHtmlableContains([
             '<script src="http://cdn.jquery.com/jquery.latest.js"></script>',
-            $meta->toHtml()
-        );
-
-        $this->assertStringContainsString(
             '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
-            $meta->toHtml()
+        ], $meta);
+
+        $this->assertHtmlableNotContains(
+            '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
+            $meta
         );
 
-        $this->assertStringNotContainsString(
+        $this->assertHtmlableContains(
             '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
-            $meta->toHtml()
-        );
-
-        $this->assertStringContainsString(
-            '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
-            $meta->placement('footer')->toHtml()
+            $meta->placement('footer')
         );
     }
 }
@@ -129,4 +109,5 @@ class TestPackage extends TagsCollection implements PackageInterface
 {
     public function getName(): string { return 'test'; }
     public function getTags(): TagsCollection { return $this; }
+    public function toHtml(){}
 }

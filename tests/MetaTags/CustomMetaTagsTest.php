@@ -17,9 +17,9 @@ class CustomMetaTagsTest extends TestCase
             'content' => 'test data'
         ]);
 
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta name="custom" content="test data">',
-            $meta->getTag('custom')->toHtml()
+            $meta->getTag('custom')
         );
     }
 
@@ -45,28 +45,16 @@ class CustomMetaTagsTest extends TestCase
 
         $tag1 = new Tag('meta', ['name' => 'tag1']);
         $tag2 = new Tag('meta', ['name' => 'tag2']);
-        $tag2->setPlacement('footer');
 
-        $tags = new TagsCollection([
-            $tag1, $tag2
-        ]);
-
-        $meta->registerTags($tags);
-
-        $this->assertStringContainsString(
-            '<meta name="tag1">',
-            $meta->toHtml()
+        $meta->registerTags(
+            new TagsCollection([
+                $tag1, $tag2->setPlacement('footer')
+            ])
         );
 
-        $this->assertStringNotContainsString(
-            '<meta name="tag2">',
-            $meta->toHtml()
-        );
-
-        $this->assertStringContainsString(
-            '<meta name="tag2">',
-            $meta->placement('footer')->toHtml()
-        );
+        $this->assertHtmlableContains('<meta name="tag1">', $meta);
+        $this->assertHtmlableNotContains('<meta name="tag2">', $meta);
+        $this->assertHtmlableContains('<meta name="tag2">', $meta->placement('footer'));
     }
 
     function test_tags_collection_can_be_registered_with_custom_placement()
@@ -75,36 +63,15 @@ class CustomMetaTagsTest extends TestCase
 
         $tag1 = new Tag('meta', ['name' => 'tag1']);
         $tag2 = new Tag('meta', ['name' => 'tag2']);
-        $tag2->setPlacement('footer');
 
-        $tags = new TagsCollection([
-            $tag1, $tag2
-        ]);
+        $meta->registerTags(new TagsCollection([
+            $tag1, $tag2->setPlacement('footer')
+        ]), 'test');
 
-        $meta->registerTags($tags, 'test');
-
-        $this->assertStringNotContainsString(
-            '<meta name="tag1">',
-            $meta->toHtml()
-        );
-
-        $this->assertStringNotContainsString(
-            '<meta name="tag2">',
-            $meta->toHtml()
-        );
-
-        $this->assertStringNotContainsString(
-            '<meta name="tag2">',
-            $meta->placement('footer')->toHtml()
-        );
-
-        $this->assertStringContainsString(
-            '<meta name="tag1">',
-            $meta->placement('test')->toHtml()
-        );
-        $this->assertStringContainsString(
-            '<meta name="tag2">',
-            $meta->placement('test')->toHtml()
-        );
+        $this->assertHtmlableNotContains('<meta name="tag1">', $meta);
+        $this->assertHtmlableNotContains('<meta name="tag2">', $meta);
+        $this->assertHtmlableNotContains('<meta name="tag2">', $meta->placement('footer'));
+        $this->assertHtmlableContains('<meta name="tag1">', $meta->placement('test'));
+        $this->assertHtmlableContains('<meta name="tag2">', $meta->placement('test'));
     }
 }

@@ -21,20 +21,30 @@ class PaginatorMetaTagsTest extends TestCase
 
         $meta->setPaginationLinks($paginator);
 
-        $this->assertStringContainsString('<link rel="next" href="http://site.com/next" />', $meta->getNextHref()->toHtml());
-        $this->assertStringContainsString('<link rel="prev" href="http://site.com/prev" />', $meta->getPrevHref()->toHtml());
-        $this->assertStringContainsString('<link rel="canonical" href="http://site.com/1" />', $meta->getCanonical()->toHtml());
+        $this->assertHtmlableContains(
+            '<link rel="next" href="http://site.com/next" />',
+            $meta->getNextHref()
+        );
+
+        $this->assertHtmlableContains(
+            '<link rel="prev" href="http://site.com/prev" />',
+            $meta->getPrevHref()
+        );
+
+        $this->assertHtmlableContains(
+            '<link rel="canonical" href="http://site.com/1" />',
+            $meta->getCanonical()
+        );
     }
 
     function test_canonical_can_be_set()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setCanonical('http://site.com');
 
-        $meta->setCanonical('http://site.com');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="canonical" href="http://site.com" />',
-            $meta->getCanonical()->toHtml()
+            $meta->getCanonical()
         );
     }
 
@@ -42,10 +52,7 @@ class PaginatorMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $this->assertEquals(
-            $meta,
-            $meta->setCanonical('http://site.com')
-        );
+        $this->assertEquals($meta, $meta->setCanonical('http://site.com'));
     }
 
     function test_canonical_should_be_null_if_not_set()
@@ -57,25 +64,23 @@ class PaginatorMetaTagsTest extends TestCase
 
     function test_canonical_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setCanonical('<h5>http://site.com</h5>');
 
-        $meta->setCanonical('<h5>http://site.com</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="canonical" href="http://site.com" />',
-            $meta->getCanonical()->toHtml()
+            $meta->getCanonical()
         );
     }
 
     function test_prev_href_can_be_set()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setPrevHref('http://site.com');
 
-        $meta->setPrevHref('http://site.com');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="prev" href="http://site.com" />',
-            $meta->getPrevHref()->toHtml()
+            $meta->getPrevHref()
         );
     }
 
@@ -83,10 +88,7 @@ class PaginatorMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $this->assertEquals(
-            $meta,
-            $meta->setPrevHref('http://site.com')
-        );
+        $this->assertEquals($meta, $meta->setPrevHref('http://site.com'));
     }
 
     function test_prev_href_should_be_null_if_not_set()
@@ -98,25 +100,23 @@ class PaginatorMetaTagsTest extends TestCase
 
     function test_prev_href_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setPrevHref('<h5>http://site.com</h5>');
 
-        $meta->setPrevHref('<h5>http://site.com</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="prev" href="http://site.com" />',
-            $meta->getPrevHref()->toHtml()
+            $meta->getPrevHref()
         );
     }
 
     function test_next_href_can_be_set()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setNextHref('http://site.com');
 
-        $meta->setNextHref('http://site.com');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="next" href="http://site.com" />',
-            $meta->getNextHref()->toHtml()
+            $meta->getNextHref()
         );
     }
 
@@ -124,10 +124,7 @@ class PaginatorMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $this->assertEquals(
-            $meta,
-            $meta->setNextHref('http://site.com')
-        );
+        $this->assertEquals($meta, $meta->setNextHref('http://site.com'));
     }
 
     function test_next_href_should_be_null_if_not_set()
@@ -139,13 +136,12 @@ class PaginatorMetaTagsTest extends TestCase
 
     function test_next_href_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setNextHref('<h5>http://site.com</h5>');
 
-        $meta->setNextHref('<h5>http://site.com</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="next" href="http://site.com" />',
-            $meta->getNextHref()->toHtml()
+            $meta->getNextHref()
         );
     }
 }

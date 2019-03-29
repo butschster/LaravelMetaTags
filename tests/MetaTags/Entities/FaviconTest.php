@@ -11,45 +11,37 @@ class FaviconTest extends TestCase
     {
         $favicon = new Favicon('http://site.com/favicon.ico');
 
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />',
-            $favicon->toHtml()
+            $favicon
         );
     }
 
     function test_in_can_change_type_based_on_file_extension()
     {
-        $favicon = new Favicon('http://site.com/favicon.png');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="icon" type="image/png" href="http://site.com/favicon.png" />',
-            $favicon->toHtml()
+            new Favicon('http://site.com/favicon.png')
         );
 
-        $favicon = new Favicon('http://site.com/favicon.gif');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="icon" type="image/gif" href="http://site.com/favicon.gif" />',
-            $favicon->toHtml()
+            new Favicon('http://site.com/favicon.gif')
         );
 
-        $favicon = new Favicon('http://site.com/favicon.svg');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="icon" type="image/svg+xml" href="http://site.com/favicon.svg" />',
-            $favicon->toHtml()
+            new Favicon('http://site.com/favicon.svg')
         );
     }
 
     function test_it_can_have_custom_attributes()
     {
-        $favicon = new Favicon('http://site.com/favicon.png', [
-            'sizes' => '16x16'
-        ]);
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<link rel="icon" type="image/png" href="http://site.com/favicon.png" sizes="16x16" />',
-            $favicon->toHtml()
+            new Favicon('http://site.com/favicon.png', [
+                'sizes' => '16x16'
+            ])
         );
     }
 }

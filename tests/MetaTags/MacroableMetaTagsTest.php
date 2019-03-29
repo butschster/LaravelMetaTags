@@ -20,15 +20,18 @@ class MacroableMetaTagsTest extends TestCase
             $this->setTitle($page->getTitle());
             $this->setDescription($page->getDescription());
             $this->setKeywords($page->getKeywords());
+
+            return $this;
         });
 
-        $meta = $this->makeMetaTags();
+        $meta = $this->makeMetaTags()
+            ->setMetaTagsFromPage($page);
 
-        $meta->setMetaTagsFromPage($page);
-
-        $this->assertStringContainsString('<title>Laravel</title>', $meta->toHtml());
-        $this->assertStringContainsString('<meta name="description" content="The best php framework">', $meta->toHtml());
-        $this->assertStringContainsString('<meta name="keywords" content="php, framework">', $meta->toHtml());
+        $this->assertHtmlableContains([
+            '<title>Laravel</title>',
+            '<meta name="description" content="The best php framework">',
+            '<meta name="keywords" content="php, framework">'
+        ], $meta);
     }
 }
 

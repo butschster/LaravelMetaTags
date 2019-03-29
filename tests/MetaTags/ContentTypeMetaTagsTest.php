@@ -10,18 +10,14 @@ class ContentTypeMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $meta->setContentType('text/html');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
-            $meta->getContentType()->toHtml()
+            $meta->setContentType('text/html')->getContentType()
         );
 
-        $meta->setContentType('text/html', 'ISO-8859-1');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">',
-            $meta->getContentType()->toHtml()
+            $meta->setContentType('text/html', 'ISO-8859-1')->getContentType()
         );
     }
 
@@ -37,20 +33,19 @@ class ContentTypeMetaTagsTest extends TestCase
 
     function test_content_type_should_be_null_if_not_set()
     {
-        $meta = $this->makeMetaTags();
-
-        $this->assertNull($meta->getContentType());
+        $this->assertNull(
+            $this->makeMetaTags()
+                ->getContentType()
+        );
     }
 
     function test_content_type_string_should_be_cleaned()
     {
-        $meta = $this->makeMetaTags();
-
-        $meta->setContentType('<h5>text/html</h5>');
-
-        $this->assertEquals(
+        $this->assertHtmlableEquals(
             '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
-            $meta->getContentType()->toHtml()
+            $this->makeMetaTags()
+                ->setContentType('<h5>text/html</h5>')
+                ->getContentType()
         );
     }
 }
