@@ -31,6 +31,11 @@ class Title implements TitleInterface
     protected $maxLength = Title::DEFAULT_LENGTH;
 
     /**
+     * @var bool
+     */
+    protected $rtl = false;
+
+    /**
      * @param string|null $title
      * @param int $maxLength
      */
@@ -83,6 +88,20 @@ class Title implements TitleInterface
     }
 
     /**
+     * Toggle RTL mode
+     *
+     * @param bool $status
+     *
+     * @return $this
+     */
+    public function rtl(bool $status = true)
+    {
+        $this->rtl = $status;
+
+        return $this;
+    }
+
+    /**
      * @inheritdoc
      */
     public function setSeparator(string $separator)
@@ -101,11 +120,17 @@ class Title implements TitleInterface
         $title = '';
 
         if (!empty($this->prepend)) {
-            $title = implode($separator, $this->prepend);
+            $parts = $this->rtl ? $this->prepend : array_reverse($this->prepend);
+            $title = implode($separator, $parts);
         }
 
         if (!empty($title) && !empty($this->title)) {
-            $title .= $separator . $this->title;
+            if ($this->rtl) {
+                $title = $this->title . $separator . $title;
+            } else {
+                $title .= $separator . $this->title;
+            }
+
         } else if (!empty($this->title)) {
             $title = $this->title;
         }

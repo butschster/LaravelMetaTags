@@ -23,11 +23,10 @@ class TitleTest extends TestCase
     {
         $title = new Title('test title');
 
-        $this->assertInstanceOf(Title::class, $title->prepend('another part'));
-
         $this->assertHtmlableEquals(
-            '<title>another part | test title</title>',
-            $title
+            '<title>The end of the title | Another part of title | test title</title>',
+            $title->prepend('Another part of title')
+                ->prepend('The end of the title')
         );
     }
 
@@ -88,5 +87,20 @@ class TitleTest extends TestCase
         }
 
         $this->assertInstanceOf(Title::class, $title->setMaxLength(1));
+    }
+
+    function test_it_can_support_rtl_title()
+    {
+        $title = new Title('Site name');
+
+        $title->prepend('Another part of title')
+            ->prepend('The end of the title')
+            ->setSeparator('-')
+            ->rtl();
+
+        $this->assertHtmlableEquals(
+            '<title>Site name - Another part of title - The end of the title</title>',
+            $title
+        );
     }
 }

@@ -32,6 +32,15 @@ interface TitleInterface extends TagInterface
     public function prepend(string $text);
 
     /**
+     * Toggle RTL mode
+     *
+     * @param bool $status
+     *
+     * @return $this
+     */
+    public function rtl(bool $status = true);
+
+    /**
      * Determine separator among title parts
      *
      * @param string $separator
