@@ -56,4 +56,14 @@ class KeywordsMetaTagsTest extends TestCase
             $meta->getKeywords()
         );
     }
+
+    function test_it_can_support_utf8()
+    {
+        $text = 'quête de performance, grâce à ses solutions d’amélioration de la qualité de vie et de fidélisation des salariés';
+
+        $this->assertHtmlableEquals(
+            '<meta name="keywords" content="'.$text.'">',
+            $this->makeMetaTags()->setKeywords($text)
+        );
+    }
 }

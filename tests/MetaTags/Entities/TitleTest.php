@@ -56,6 +56,18 @@ class TitleTest extends TestCase
         );
     }
 
+    function test_it_can_support_utf8()
+    {
+        $title = new Title(
+            $text = 'quête de performance, grâce à ses solutions d’amélioration de la qualité de vie et de fidélisation des salariés'
+        );
+
+        $this->assertHtmlableEquals(
+            "<title>quête de performance, grâce à ses solutions d’amélioration de la qualité de vie et de fidélisation des salariés</title>",
+            $title
+        );
+    }
+
     function test_max_length_should_be_greater_than_zero()
     {
         $title = new Title('test title');

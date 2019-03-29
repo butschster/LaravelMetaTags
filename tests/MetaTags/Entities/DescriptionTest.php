@@ -19,14 +19,19 @@ class DescriptionTest extends TestCase
     {
         $description = new Description('Lorem Ipsum is simply dummy text of the printing and typesetting');
 
-        $this->assertInstanceOf(
-            Description::class,
-            $description->setMaxLength(20)
-        );
-
         $this->assertHtmlableEquals(
             '<meta name="description" content="Lorem Ipsum is simpl...">',
-            $description
+            $description->setMaxLength(20)
+        );
+    }
+
+    function test_it_can_support_utf8()
+    {
+        $text = 'quête de performance, grâce à ses solutions d’amélioration de la qualité de vie et de fidélisation des salariés';
+
+        $this->assertHtmlableEquals(
+            '<meta name="description" content="'.$text.'">',
+            new Description($text)
         );
     }
 }
