@@ -7,6 +7,18 @@ use Illuminate\Support\Facades\Session;
 
 class MetaTest extends TestCase
 {
+    function test_multiple_webmaster_tags_can_be_set()
+    {
+        $meta = $this->makeMetaTags()
+            ->addWebmaster('google', 'long-hash-string')
+            ->addWebmaster('yandex', 'long-hash-string');
+
+        $this->assertHtmlableContains([
+            '<meta name="yandex-verification" content="long-hash-string">',
+            '<meta name="google-site-verification" content="long-hash-string">',
+        ], $meta);
+    }
+
     function test_charset_can_be_set()
     {
         $meta = $this->makeMetaTags()

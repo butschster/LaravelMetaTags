@@ -7,6 +7,7 @@ use Butschster\Head\Contracts\MetaTags\GeoMetaInformationInterface;
 use Butschster\Head\MetaTags\Entities\Description;
 use Butschster\Head\MetaTags\Entities\Keywords;
 use Butschster\Head\MetaTags\Entities\Tag;
+use Butschster\Head\MetaTags\Entities\Webmaster;
 use Illuminate\Support\Facades\Session;
 
 trait ManageMetaTags
@@ -138,6 +139,16 @@ trait ManageMetaTags
     /**
      * @inheritdoc
      */
+    public function addWebmaster(string $service, string $content)
+    {
+        return $this->addTag('webmaster.'.$service, new Webmaster(
+            $service, $content
+        ));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function setGeo(GeoMetaInformationInterface $geo)
     {
         $this->addMeta('geo.position', [
@@ -150,9 +161,9 @@ trait ManageMetaTags
             ]);
         }
 
-        if ($pregion = $geo->region()) {
+        if ($region = $geo->region()) {
             $this->addMeta('geo.region', [
-                'content' => $pregion,
+                'content' => $region,
             ]);
         }
 

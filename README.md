@@ -278,6 +278,27 @@ Meta::setViewport('width=device-width, initial-scale=1');
 // <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
 
+**Add webmaster tags** You can add multiple tags
+```php
+use Butschster\Head\MetaTags\Entities\Webmaster;
+
+// Supported services [google, yandex, pinterest, alexa, bing]
+Meta::addWebmaster(Webmaster::GOOGLE, 'f+e-Ww4=[Pp4wyEPLdVx4LxTsQ');
+// <meta name="google-site-verification" content="f+e-Ww4=[Pp4wyEPLdVx4LxTsQ">
+
+Meta::addWebmaster('yandex', 'f+e-Ww4=[Pp4wyEPLdVx4LxTsQ');
+// <meta name="yandex-verification" content="f+e-Ww4=[Pp4wyEPLdVx4LxTsQ">
+
+Meta::addWebmaster('bing', 'f+e-Ww4=[Pp4wyEPLdVx4LxTsQ');
+// <meta name="msvalidate.01" content="f+e-Ww4=[Pp4wyEPLdVx4LxTsQ">
+
+Meta::addWebmaster('alexa', 'f+e-Ww4=[Pp4wyEPLdVx4LxTsQ');
+// <meta name="alexaVerifyID" content="f+e-Ww4=[Pp4wyEPLdVx4LxTsQ">
+
+Meta::addWebmaster(Webmaster::PINTEREST, 'f+e-Ww4=[Pp4wyEPLdVx4LxTsQ');
+// <meta name="p:domain_verify" content="f+e-Ww4=[Pp4wyEPLdVx4LxTsQ">
+```
+
 **Set the prev href**
 ```php
 Meta::setPrevHref('http://site.com/prev');

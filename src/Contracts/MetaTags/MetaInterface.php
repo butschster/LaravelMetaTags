@@ -258,9 +258,19 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * @param string $href
      * @param array $attributes
      *
-     * @return mixed
+     * @return $this
      */
     public function setFavicon(string $href, array $attributes = []);
+
+    /**
+     * Add webmaster tag.
+     *
+     * @param string $service Supported services [google, yandex, pinterest, alexa, bing]
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function addWebmaster(string $service, string $content);
 
     /**
      * Create a custom link tag
