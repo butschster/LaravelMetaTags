@@ -929,6 +929,7 @@ This class is responsible for favicon link generation
 
 #### Yandex Metrika
 ---
+> Has footer placement!
 
 ```php
 $script = new \Butschster\Head\MetaTags\Entities\YandexMetrika('20925319');
