@@ -23,7 +23,7 @@ class Favicon extends Tag
     /**
      * @return array
      */
-    public function getAttributes(): array
+    protected function getAttributes(): array
     {
         return array_merge([
             'rel' => 'icon',

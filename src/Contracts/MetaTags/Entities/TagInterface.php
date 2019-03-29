@@ -10,9 +10,4 @@ interface TagInterface extends Htmlable
      * @return string
      */
     public function getPlacement(): string;
-
-    /**
-     * @return array
-     */
-    public function getAttributes(): array;
 }

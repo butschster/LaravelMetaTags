@@ -39,7 +39,7 @@ class Script extends Tag
     /**
      * @return array
      */
-    public function getAttributes(): array
+    protected function getAttributes(): array
     {
         return array_merge([
             'src' => $this->src,

@@ -145,12 +145,4 @@ class Title implements TitleInterface
     {
         return sprintf('<title>%s</title>', $this->makeTitle());
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAttributes(): array
-    {
-        return [];
-    }
 }

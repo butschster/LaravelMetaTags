@@ -84,7 +84,7 @@ class Tag implements TagInterface
     /**
      * @return array
      */
-    public function getAttributes(): array
+    protected function getAttributes(): array
     {
         return $this->attributes;
     }
