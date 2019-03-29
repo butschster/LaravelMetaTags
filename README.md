@@ -163,7 +163,8 @@ If you want to use meta tags not only in header, you can specify placements in y
 ### Packages
 I developed lots of web-sites and I solved lots of problems. One of them is code duplication and I decided I need a tool that allows me define groups of tags, assets, e.t.c in a package with name and use it wherever I want.
 
-I can register a new package in \Butschster\Head\Contracts\MetaTags\MetaInterface
+I can register a new package in `\Butschster\Head\Contracts\MetaTags\MetaInterface`
+
 ```php
 protected function packages()
 {
@@ -394,11 +395,6 @@ class FacebookPixelTag implements \Butschster\Head\Contracts\MetaTags\Entities\T
     public function placement(): string
     {
         return 'footer'
-    }
-    
-    public function getAttributes(): array
-    {
-        return [];
     }
     
     public function toHtml()
@@ -821,22 +817,6 @@ $tag->setPlacement('footer');
 ```php
 $tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->getPlacement() // Will return specified placement;
-
-```
-
-**Get attributes**
-```php
-$tag = new \Butschster\Head\MetaTags\Entities\Tag('link', [
-    'rel' => 'favicon',
-    'href' => 'http://site.com'
-]);
-
-$tag->getAttributes();
-// Will return 
-[
-    'rel' => 'favicon',
-    'href' => 'http://site.com'
-]
 ```
 
 ### Title
