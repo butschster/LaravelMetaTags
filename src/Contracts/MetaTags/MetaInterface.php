@@ -394,9 +394,4 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * @return $this
      */
     public function registerPackage(PackageInterface $package);
-
-    /**
-     * @return string
-     */
-    public function __toString();
 }

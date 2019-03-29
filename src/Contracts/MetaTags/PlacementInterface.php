@@ -10,9 +10,4 @@ interface PlacementInterface extends Htmlable
      * Clear bag
      */
     public function reset(): void;
-
-    /**
-     * @return string
-     */
-    public function __toString();
 }
