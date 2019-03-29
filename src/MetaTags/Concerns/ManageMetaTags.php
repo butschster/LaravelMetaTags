@@ -5,6 +5,7 @@ namespace Butschster\Head\MetaTags\Concerns;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\MetaTags\GeoMetaInformationInterface;
 use Butschster\Head\MetaTags\Entities\Description;
+use Butschster\Head\MetaTags\Entities\Keywords;
 use Butschster\Head\MetaTags\Entities\Tag;
 use Illuminate\Support\Facades\Session;
 
@@ -40,9 +41,7 @@ trait ManageMetaTags
             return $this->cleanString($keyword);
         }, $keywords);
 
-        return $this->addMeta('keywords', [
-            'content' => implode(', ', $keywords),
-        ]);
+        return $this->addTag('keywords', new Keywords($keywords));
     }
 
     /**
