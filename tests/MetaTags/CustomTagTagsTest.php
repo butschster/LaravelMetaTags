@@ -12,7 +12,7 @@ class CustomTagTagsTest extends TestCase
         $meta = $this->makeMetaTags();
         $tag = $this->makeTag();
         $tag->shouldReceive('getPlacement')->once()->andReturn(Meta::PLACEMENT_HEAD);
-        $tag->shouldReceive('toHtml')->andReturn('<script src="http://site.com"></script>');
+        $tag->shouldReceive('__toString')->andReturn('<script src="http://site.com"></script>');
 
         $this->assertHtmlableContains(
             '<script src="http://site.com"></script>',

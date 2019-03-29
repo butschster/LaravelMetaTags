@@ -61,4 +61,12 @@ trait ManageMeta
             })
             ->implode(PHP_EOL);
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toHtml();
+    }
 }

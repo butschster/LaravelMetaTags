@@ -145,4 +145,12 @@ class Title implements TitleInterface
     {
         return sprintf('<title>%s</title>', $this->makeTitle());
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toHtml();
+    }
 }

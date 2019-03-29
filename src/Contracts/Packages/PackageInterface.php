@@ -20,4 +20,9 @@ interface PackageInterface extends Htmlable
      * @return TagsCollection
      */
     public function getTags(): TagsCollection;
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }

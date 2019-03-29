@@ -116,4 +116,9 @@ class Meta implements MetaInterface
     {
         return $this->head()->toHtml();
     }
+
+    public function __toString()
+    {
+        return $this->toHtml();
+    }
 }

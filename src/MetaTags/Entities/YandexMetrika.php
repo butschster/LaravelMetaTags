@@ -50,4 +50,12 @@ class YandexMetrika implements TagInterface
 <noscript><div><img src="https://mc.yandex.ru/watch/40925319" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 TAG;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toHtml();
+    }
 }

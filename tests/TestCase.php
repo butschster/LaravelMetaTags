@@ -61,7 +61,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = $object->toHtml();
+        $html = (string) $object;
 
         foreach ($expectations as $expected) {
             $this->assertStringContainsString($expected, $html);
@@ -82,7 +82,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = $object->toHtml();
+        $html = (string) $object;
 
         foreach ($expectations as $expected) {
             $this->assertStringNotContainsString($expected, $html);
@@ -103,7 +103,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = $object->toHtml();
+        $html = (string) $object;
 
         foreach ($expectations as $expected) {
             $this->assertEquals($expected, $html);
@@ -124,7 +124,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = $object->toHtml();
+        $html = (string) $object;
 
         foreach ($expectations as $expected) {
             $this->assertEquals($expected, $html);
