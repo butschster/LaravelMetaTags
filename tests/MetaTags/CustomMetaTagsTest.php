@@ -43,8 +43,8 @@ class CustomMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $tag1 = new Tag('meta', ['name' => 'tag1']);
-        $tag2 = new Tag('meta', ['name' => 'tag2']);
+        $tag1 = Tag::meta(['name' => 'tag1']);
+        $tag2 = Tag::meta(['name' => 'tag2']);
 
         $meta->registerTags(
             new TagsCollection([
@@ -61,8 +61,8 @@ class CustomMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
 
-        $tag1 = new Tag('meta', ['name' => 'tag1']);
-        $tag2 = new Tag('meta', ['name' => 'tag2']);
+        $tag1 = Tag::meta(['name' => 'tag1']);
+        $tag2 = Tag::meta(['name' => 'tag2']);
 
         $meta->registerTags(new TagsCollection([
             $tag1, $tag2->setPlacement('footer')

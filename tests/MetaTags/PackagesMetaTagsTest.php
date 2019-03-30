@@ -15,8 +15,9 @@ class PackagesMetaTagsTest extends TestCase
 {
     function test_packages_can_be_loaded()
     {
-        $manager = new Manager();
-        $meta = new Meta($manager);
+        $meta = $this->makeMetaTags(
+            $manager = new Manager()
+        );
 
         $manager->create('jquery', function (Package $package) {
             $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js', ['defer']);

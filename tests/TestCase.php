@@ -7,6 +7,7 @@ use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\Packages\Manager;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Htmlable;
 use Mockery as m;
@@ -26,11 +27,29 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @param Manager|null $manager
+     * @param Repository|null $config
      * @return MetaInterface
      */
-    protected function makeMetaTags(): MetaInterface
+    protected function makeMetaTags(Manager $manager = null, Repository $config = null): MetaInterface
     {
-        return new Meta(new Manager());
+        if (!$manager) {
+            $manager = new Manager();
+        }
+
+        if (!$config) {
+            $config = m::spy(Repository::class);
+        }
+
+        return new Meta($manager, $config);
+    }
+
+    /**
+     * @return Repository|m\MockInterface
+     */
+    protected function makeConfig()
+    {
+        return m::mock(Repository::class);
     }
 
     /**
@@ -61,7 +80,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = (string) $object;
+        $html = (string)$object;
 
         foreach ($expectations as $expected) {
             $this->assertStringContainsString($expected, $html);
@@ -82,7 +101,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = (string) $object;
+        $html = (string)$object;
 
         foreach ($expectations as $expected) {
             $this->assertStringNotContainsString($expected, $html);
@@ -103,7 +122,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = (string) $object;
+        $html = (string)$object;
 
         foreach ($expectations as $expected) {
             $this->assertEquals($expected, $html);
@@ -124,7 +143,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $expectations = [$expectations];
         }
 
-        $html = (string) $object;
+        $html = (string)$object;
 
         foreach ($expectations as $expected) {
             $this->assertEquals($expected, $html);

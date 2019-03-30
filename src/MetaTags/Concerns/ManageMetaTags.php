@@ -15,10 +15,16 @@ trait ManageMetaTags
     /**
      * @inheritdoc
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description, int $maxLength = null)
     {
-        $description = $this->cleanString($description);
-        return $this->addTag('description', new Description($description));
+        if (is_null($maxLength)) {
+            $maxLength = $this->config('description.max_length');
+        }
+
+        return $this->addTag('description', new Description(
+            $this->cleanString($description),
+            $maxLength)
+        );
     }
 
     /**
@@ -32,17 +38,21 @@ trait ManageMetaTags
     /**
      * @inheritdoc
      */
-    public function setKeywords($keywords)
+    public function setKeywords($keywords, int $maxLength = null)
     {
         if (!is_array($keywords)) {
             $keywords = [$keywords];
+        }
+
+        if (is_null($maxLength)) {
+            $maxLength = $this->config('keywords.max_length');
         }
 
         $keywords = array_map(function ($keyword) {
             return $this->cleanString($keyword);
         }, $keywords);
 
-        return $this->addTag('keywords', new Keywords($keywords));
+        return $this->addTag('keywords', new Keywords($keywords, $maxLength));
     }
 
     /**
@@ -179,6 +189,6 @@ trait ManageMetaTags
             $attributes = array_merge(['name' => $name], $attributes);
         }
 
-        return $this->addTag($name, new Tag('meta', $attributes));
+        return $this->addTag($name, Tag::meta($attributes));
     }
 }

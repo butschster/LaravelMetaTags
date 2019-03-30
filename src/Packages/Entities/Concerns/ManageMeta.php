@@ -40,7 +40,7 @@ trait ManageMeta
     {
         $key = $this->prefix.$key;
 
-        $this->tags->put($key, new Tag('meta', [
+        $this->tags->put($key, Tag::meta([
             'name' => $key,
             'content' => $content,
         ]));

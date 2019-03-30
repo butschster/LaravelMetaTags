@@ -5,6 +5,7 @@ namespace Butschster\Head\MetaTags;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\Packages\Manager;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Traits\Macroable;
 
 class Meta implements MetaInterface
@@ -26,11 +27,19 @@ class Meta implements MetaInterface
     protected $packageManager;
 
     /**
-     * @param Manager $packageManager
+     * @var Repository|null
      */
-    public function __construct(Manager $packageManager)
+    private $config;
+
+    /**
+     * @param Manager $packageManager
+     * @param Repository|null $config
+     */
+    public function __construct(Manager $packageManager, Repository $config = null)
     {
+        $this->config = $config;
         $this->packageManager = $packageManager;
+
         $this->initPlacements();
     }
 
@@ -97,6 +106,20 @@ class Meta implements MetaInterface
     }
 
     /**
+     * Get content as a string of HTML.
+     * @return string
+     */
+    public function toHtml()
+    {
+        return $this->head()->toHtml();
+    }
+
+    public function __toString()
+    {
+        return $this->toHtml();
+    }
+
+    /**
      * Remove HTML tags
      *
      * @param string $string
@@ -109,16 +132,20 @@ class Meta implements MetaInterface
     }
 
     /**
-     * Get content as a string of HTML.
-     * @return string
+     * Get value from config repository
+     * If config repository is not set, it returns default value
+     *
+     * @param string $key
+     * @param mixed|null $default
+     *
+     * @return mixed|null
      */
-    public function toHtml()
+    protected function config(string $key, $default = null)
     {
-        return $this->head()->toHtml();
-    }
+        if (is_null($this->config)) {
+            return $default;
+        }
 
-    public function __toString()
-    {
-        return $this->toHtml();
+        return $this->config->get($key, $default);
     }
 }

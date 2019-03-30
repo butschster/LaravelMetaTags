@@ -20,11 +20,11 @@ class PlacementTest extends TestCase
     {
         $placement = new Placement();
 
-        $placement->add(new Tag('meta', [
+        $placement->add(Tag::meta([
             'attr' => 'value'
         ]));
 
-        $placement->add(new Tag('meta', [
+        $placement->add(Tag::meta([
             'attr' => 'value1'
         ]));
 

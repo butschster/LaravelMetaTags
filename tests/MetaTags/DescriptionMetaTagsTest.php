@@ -40,4 +40,24 @@ class DescriptionMetaTagsTest extends TestCase
             $meta->setDescription('<h5>test description</h5>')->getDescription()
         );
     }
+
+    function test_description_can_be_limited()
+    {
+        $meta = $this->makeMetaTags();
+        $this->assertHtmlableContains(
+            '<meta name="description" content="test...">',
+            $meta->setDescription('test description', 4)
+        );
+    }
+
+    function test_gets_max_description_length_from_config_by_default()
+    {
+        $config = $this->makeConfig();
+        $config->shouldReceive('get')->once()->with('description.max_length', null)->andReturn(4);
+
+        $this->assertHtmlableContains(
+            '<meta name="description" content="test...">',
+            $this->makeMetaTags(null, $config)->setDescription('test description')
+        );
+    }
 }

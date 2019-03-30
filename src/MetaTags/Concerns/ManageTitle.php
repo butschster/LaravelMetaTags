@@ -10,9 +10,13 @@ trait ManageTitle
     /**
      * @inheritdoc
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title, int $maxLength = null)
     {
-        $this->getTitle()->setTitle($this->cleanString($title));
+        if (is_null($maxLength)) {
+            $maxLength = $this->config('title.max_length');
+        }
+
+        $this->getTitle()->setTitle($this->cleanString($title), $maxLength);
 
         return $this;
     }

@@ -82,4 +82,23 @@ class TitleMetaTagsTest extends TestCase
             $meta->getTitle()
         );
     }
+
+    function test_title_can_be_limited()
+    {
+        $this->assertHtmlableContains(
+            '<title>test...</title>',
+            $this->makeMetaTags()->setTitle('test title', 4)
+        );
+    }
+
+    function test_gets_max_keywords_length_from_config_by_default()
+    {
+        $config = $this->makeConfig();
+        $config->shouldReceive('get')->once()->with('title.max_length', null)->andReturn(4);
+
+        $this->assertHtmlableContains(
+            '<title>test...</title>',
+            $this->makeMetaTags(null, $config)->setTitle('test title')
+        );
+    }
 }

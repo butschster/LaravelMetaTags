@@ -21,10 +21,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * properly.
      *
      * @param string $title
+     * @param int|null $maxLength
      *
      * @return $this
      */
-    public function setTitle(string $title);
+    public function setTitle(string $title, int $maxLength = null);
 
     /**
      * Prepend title part to default title
@@ -54,10 +55,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * descriptions that goes into more detail.
      *
      * @param string $description
+     * @param int|null $maxLength
      *
      * @return $this
      */
-    public function setDescription(string $description);
+    public function setDescription(string $description, int $maxLength = null);
 
     /**
      * Get the meta description
@@ -70,10 +72,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * Set the meta keywords
      *
      * @param string|array $keywords
+     * @param int|null $maxLength
      *
      * @return $this
      */
-    public function setKeywords($keywords);
+    public function setKeywords($keywords, int $maxLength = null);
 
     /**
      * Get the meta keywords

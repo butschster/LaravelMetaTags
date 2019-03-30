@@ -103,4 +103,15 @@ class TitleTest extends TestCase
             $title
         );
     }
+
+    function test_if_max_length_is_null_then_text_should_not_cut()
+    {
+        $text = 'Lorem ipsum dolor sit amet, ei omnium accommodare definitionem sed, cum ut esse nihil fabellas. 
+        Ne eam autem nihil eloquentiam, eius ornatus no ius. Sint oportere scripserit vel cu, eu nec debitis 
+        mediocrem gubergren. Vim sonet sensibus ea, est justo adipisci constituam ex. Percipitur voluptatibus 
+        usu ad. Ea audiam ornatus eum, eros homero ridens et vim.';
+        $title = new Title($text);
+
+        $this->assertHtmlableContains($text, $title);
+    }
 }

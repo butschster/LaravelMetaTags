@@ -35,7 +35,7 @@ class MetaTagsServiceProvider extends ServiceProvider
                 $this->app[ManagerInterface::class]
             );
 
-            $config = $this->app['config']['meta_tags.meta'];
+            $config = $this->app['config']['meta_tags'];
 
             $meta->setTitle($config['title'])
                 ->setTitleSeparator($config['separator'])

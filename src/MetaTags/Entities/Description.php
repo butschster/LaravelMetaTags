@@ -2,12 +2,11 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
-use Illuminate\Support\Str;
-use InvalidArgumentException;
-
 class Description extends Tag
 {
-    const DEFAULT_LENGTH = 255;
+    use Concerns\ManageMaxLength;
+
+    const DEFAULT_LENGTH = null;
 
     /**
      * @var string
@@ -15,20 +14,15 @@ class Description extends Tag
     protected $description;
 
     /**
-     * @var int
-     */
-    protected $maxLength = Description::DEFAULT_LENGTH;
-
-    /**
      * @param string $description
      * @param int $maxLength
      */
-    public function __construct(string $description, int $maxLength = Description::DEFAULT_LENGTH)
+    public function __construct(string $description, int $maxLength = self::DEFAULT_LENGTH)
     {
         parent::__construct('meta', []);
 
         $this->description = $description;
-        $this->maxLength = $maxLength;
+        $this->setMaxLength($maxLength);
     }
 
     /**
@@ -38,21 +32,7 @@ class Description extends Tag
     {
         return array_merge([
             'name' => 'description',
-            'content' => Str::limit($this->description, $this->maxLength),
+            'content' => $this->limitString($this->description),
         ], parent::getAttributes());
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setMaxLength(int $maxLength)
-    {
-        if ($maxLength < 1) {
-            throw new InvalidArgumentException('The description maximum length must be greater 0.');
-        }
-
-        $this->maxLength = $maxLength;
-
-        return $this;
     }
 }

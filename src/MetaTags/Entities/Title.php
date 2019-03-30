@@ -8,7 +8,9 @@ use InvalidArgumentException;
 
 class Title implements TitleInterface
 {
-    const DEFAULT_LENGTH = 255;
+    use Concerns\ManageMaxLength;
+
+    const DEFAULT_LENGTH = null;
 
     /**
      * @var string
@@ -26,11 +28,6 @@ class Title implements TitleInterface
     protected $prepend = [];
 
     /**
-     * @var int
-     */
-    protected $maxLength = Title::DEFAULT_LENGTH;
-
-    /**
      * @var bool
      */
     protected $rtl = false;
@@ -39,10 +36,10 @@ class Title implements TitleInterface
      * @param string|null $title
      * @param int $maxLength
      */
-    public function __construct(string $title = null, int $maxLength = Title::DEFAULT_LENGTH)
+    public function __construct(string $title = null, int $maxLength = self::DEFAULT_LENGTH)
     {
         $this->title = $title;
-        $this->maxLength = $maxLength;
+        $this->setMaxLength($maxLength);
     }
 
     /**
@@ -56,23 +53,10 @@ class Title implements TitleInterface
     /**
      * @inheritdoc
      */
-    public function setMaxLength(int $maxLength)
-    {
-        if ($maxLength < 1) {
-            throw new InvalidArgumentException('The title maximum length must be greater 0.');
-        }
-
-        $this->maxLength = $maxLength;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTitle(?string $title)
+    public function setTitle(?string $title, int $maxLength = null)
     {
         $this->title = $title;
+        $this->setMaxLength($maxLength);
 
         return $this;
     }
@@ -135,7 +119,7 @@ class Title implements TitleInterface
             $title = $this->title;
         }
 
-        return Str::limit($title, $this->maxLength);
+        return $this->limitString($title);
     }
 
     /**

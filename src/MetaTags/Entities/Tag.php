@@ -8,6 +8,44 @@ use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 class Tag implements TagInterface
 {
     /**
+     * Make a new instance
+     *
+     * @param string $tagName
+     * @param array $attributes
+     * @param bool $closeTag
+     *
+     * @return static
+     */
+    public static function make(string $tagName, array $attributes, bool $closeTag = false)
+    {
+        return new static($tagName, $attributes, $closeTag);
+    }
+
+    /**
+     * Make a new meta tag
+     *
+     * @param array $attributes
+     *
+     * @return static
+     */
+    public static function meta(array $attributes)
+    {
+        return new static('meta', $attributes);
+    }
+
+    /**
+     * Make a new link tag
+     *
+     * @param array $attributes
+     *
+     * @return static
+     */
+    public static function link(array $attributes)
+    {
+        return new static('link', $attributes, true);
+    }
+
+    /**
      * @var string
      */
     protected $tagName;

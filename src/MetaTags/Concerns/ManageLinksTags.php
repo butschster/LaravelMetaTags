@@ -119,6 +119,6 @@ trait ManageLinksTags
             $attributes = array_merge(['rel' => $name], $attributes);
         }
 
-        return $this->addTag($name, new Tag('link', $attributes, true));
+        return $this->addTag($name, Tag::link($attributes));
     }
 }

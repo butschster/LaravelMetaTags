@@ -56,4 +56,53 @@ class TagTest extends TestCase
 
         $this->assertEquals('footer', $tag->getPlacement());
     }
+
+    function test_it_can_be_made()
+    {
+        $tag = Tag::make('meta', [
+            'name' => 'description',
+            'content' => 'Another cool description'
+        ]);
+
+        $this->assertHtmlableEquals(
+            '<meta name="description" content="Another cool description">',
+            $tag
+        );
+
+        $tag = Tag::make('meta', [
+            'name' => 'description',
+            'content' => 'Another cool description'
+        ], true);
+
+        $this->assertHtmlableEquals(
+            '<meta name="description" content="Another cool description" />',
+            $tag
+        );
+    }
+
+    function test_a_link_can_be_made()
+    {
+        $tag = Tag::link([
+            'rel' => 'prev',
+            'href' => 'http://site.com'
+        ]);
+
+        $this->assertHtmlableEquals(
+            '<link rel="prev" href="http://site.com" />',
+            $tag
+        );
+    }
+
+    function test_a_meta_can_be_made()
+    {
+        $tag = Tag::meta([
+            'name' => 'description',
+            'content' => 'Another cool description'
+        ]);
+
+        $this->assertHtmlableEquals(
+            '<meta name="description" content="Another cool description">',
+            $tag
+        );
+    }
 }

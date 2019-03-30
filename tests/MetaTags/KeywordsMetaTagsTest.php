@@ -66,4 +66,23 @@ class KeywordsMetaTagsTest extends TestCase
             $this->makeMetaTags()->setKeywords($text)
         );
     }
+
+    function test_keywords_can_be_limited()
+    {
+        $this->assertHtmlableContains(
+            '<meta name="keywords" content="test...">',
+            $this->makeMetaTags()->setKeywords('test keywords', 4)
+        );
+    }
+
+    function test_gets_max_keywords_length_from_config_by_default()
+    {
+        $config = $this->makeConfig();
+        $config->shouldReceive('get')->once()->with('keywords.max_length', null)->andReturn(4);
+
+        $this->assertHtmlableContains(
+            '<meta name="keywords" content="test...">',
+            $this->makeMetaTags(null, $config)->setKeywords('test keywords')
+        );
+    }
 }

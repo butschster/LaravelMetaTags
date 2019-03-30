@@ -17,10 +17,11 @@ interface TitleInterface extends TagInterface
      * Set the main title
      *
      * @param string|null $title
+     * @param int|null $maxLength
      *
      * @return $this
      */
-    public function setTitle(?string $title);
+    public function setTitle(?string $title, int $maxLength = null);
 
     /**
      * Prepend next part of title

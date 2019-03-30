@@ -167,7 +167,7 @@ class OpenGraphPackage implements PackageInterface
         foreach ($locales as $locale) {
             $key = $this->prefix . 'locale:alternate';
 
-            $this->tags->put($key . $locale, new Tag('meta', [
+            $this->tags->put($key . $locale, Tag::meta([
                 'name' => $key,
                 'content' => $locale,
             ]));

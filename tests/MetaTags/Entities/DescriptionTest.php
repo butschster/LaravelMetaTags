@@ -4,6 +4,7 @@ namespace Butschster\Tests\MetaTags\Entities;
 
 use Butschster\Head\MetaTags\Entities\Description;
 use Butschster\Tests\TestCase;
+use Illuminate\Support\Str;
 
 class DescriptionTest extends TestCase
 {
@@ -33,5 +34,16 @@ class DescriptionTest extends TestCase
             '<meta name="description" content="'.$text.'">',
             new Description($text)
         );
+    }
+
+    function test_if_max_length_is_null_then_text_should_not_cut()
+    {
+        $text = 'Lorem ipsum dolor sit amet, ei omnium accommodare definitionem sed, cum ut esse nihil fabellas. 
+        Ne eam autem nihil eloquentiam, eius ornatus no ius. Sint oportere scripserit vel cu, eu nec debitis 
+        mediocrem gubergren. Vim sonet sensibus ea, est justo adipisci constituam ex. Percipitur voluptatibus 
+        usu ad. Ea audiam ornatus eum, eros homero ridens et vim.';
+        $description = new Description($text);
+
+        $this->assertHtmlableContains($text, $description);
     }
 }
