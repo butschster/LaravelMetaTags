@@ -3,6 +3,7 @@
 namespace Butschster\Tests\MetaTags;
 
 use Butschster\Head\MetaTags\Viewport;
+use Butschster\Head\Packages\Manager;
 use Butschster\Tests\TestCase;
 use Illuminate\Support\Facades\Session;
 
@@ -11,6 +12,16 @@ class MetaTest extends TestCase
     function test_class_can_be_initialized_with_default_values()
     {
         Session::shouldReceive('token')->once()->andReturn('token');
+        $manager = new Manager();
+
+        $manager->create('jquery', function ($package) {
+            $package->addScript('jquery.js', 'http://site.com/jquery.js', ['defer']);
+        });
+
+        $manager->create('vuejs', function ($package) {
+            $package->addScript('vuejs.js', 'http://site.com/vuejs.js', ['defer']);
+        });
+
         $config = $this->makeConfig();
 
         $config->shouldReceive('get')->andReturnUsing(function (string $key) {
@@ -29,12 +40,14 @@ class MetaTest extends TestCase
                     return 'noindex';
                 case 'meta_tags.csrf_token':
                     return true;
+                case 'meta_tags.packages':
+                    return ['jquery'];
             }
 
             return null;
         });
 
-        $meta = $this->makeMetaTags(null, $config);
+        $meta = $this->makeMetaTags($manager, $config);
         $meta->initialize();
 
         $this->assertHtmlableContains([
@@ -46,6 +59,18 @@ class MetaTest extends TestCase
             '<meta name="robots" content="noindex">',
             '<meta name="csrf-token" content="token">',
         ], $meta);
+
+        $this->assertHtmlableContains([
+            '<script src="http://site.com/jquery.js" defer></script>',
+        ], $meta->footer());
+
+        $this->assertHtmlableNotContains([
+            '<script src="http://site.com/jquery.js" defer></script>',
+        ], $meta);
+
+        $this->assertHtmlableNotContains([
+            '<script src="http://site.com/vuejs.js" defer></script>',
+        ], $meta->footer());
     }
 
 

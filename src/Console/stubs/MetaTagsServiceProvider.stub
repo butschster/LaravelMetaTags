@@ -16,6 +16,7 @@ class MetaTagsServiceProvider extends ServiceProvider
         // Create your own packages here
     }
 
+    // if you don't want to change anything in this method just remove it
     protected function registerMeta(): void
     {
         $this->app->singleton(MetaInterface::class, function () {
@@ -30,7 +31,7 @@ class MetaTagsServiceProvider extends ServiceProvider
             //    $meta->setFavicon('/favicon.ico');
             // }
 
-            // This method gets default values from config and creates tags
+            // This method gets default values from config and creates tags, includes default packages, e.t.c
             // If you don't want to use default values just remove it.
             $meta->initialize();
 

@@ -33,44 +33,13 @@ Once Meta Tags is installed you need to register the service provider. Just run 
 php artisan meta-tags:install
 ```
 
-This command will install MetaTagsServiceProvider and will publish config `config/meta_tags.php`. In this config you can specify default title, keywords, description and other meta tags and it will be put into your HTML.
+This command will install MetaTagsServiceProvider and will publish config `config/meta_tags.php`. In this config you can specify default title, keywords, description and other meta tags and its will be put into your HTML.
 
 After running this command, verify that the `App\Providers\MetaTagsServiceProvider` was added to the providers array in your app `config/app.php` configuration file. If it wasn't, you should add it manually. Of course, if your application  does not use the App namespace, you should update the provider class name as needed.
 
-That's it! Next, you may navigate to the `App\Providers\MetaTagsServiceProvider` and configure default settings.
+That's it!
 
 ## Usage
-
-Open service provider `App\Providers\MetaTagsServiceProvider` and there you can configure your default settings.
-
-#### MetaTagsServiceProvider
-```php
-// App\Providers\MetaTagsServiceProvider
-protected function registerMeta(): void
-{
-    $this->app->singleton(MetaInterface::class, function () {
-        $meta = new Meta(
-            $this->app[ManagerInterface::class],
-            $this->app['config']
-        );
-
-
-        // It just an imagination, you can automatically 
-        // add favicon if it exists
-        if (file_exists(public_path('favicon.ico'))) {
-            $meta->setFavicon('/favicon.ico');
-        }
-
-        $meta->includePackages('fonts', 'assets');
-        
-        // This method gets default values from config and creates tags
-        // If you don't want to use default values just remove it.
-        $meta->initialize();
-
-        return $meta;
-    });
-}
-```
 
 ### Controller
 You can use either Facade `\Butschster\Head\Facades\Meta` or `\Butschster\Head\Contracts\MetaTags\MetaInterface` in your controller
@@ -929,6 +898,16 @@ Meta::addTag($style);
 
 This class is responsible for favicon link generation
 
+
+#### Comment
+---
+`\Butschster\Head\MetaTags\Entities\Comment`
+
+This class is a wraper
+
+
+
+
 #### Yandex Metrika
 ---
 > Has footer placement!
@@ -954,4 +933,91 @@ Will return
    });
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/40925319" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+```
+
+# Use cases
+
+### Multiple favicons
+
+You can use your own package for that. 
+
+At first create your package in the MetaTagsServiceProvider `App\Providers\MetaTagsServiceProvider`
+```php
+use Butschster\Head\MetaTags\Entities\Favicon;
+
+protected function packages()
+{
+    ...
+
+    PackageManager::create('favicons', function($package) {
+        $sizes = ['16x16', '32x32', '64x64'];
+
+        foreach ($sizes as $size) {
+            $package->addTag(
+                'favicon.'.$size, 
+                new Favicon('http://site.com/favicon-'.$size.'.png', [
+                    'sizes' => $size
+                ])
+            );
+        }
+    });
+}
+```
+
+And then append this package into `packages` section in `config/meta_tags.php`:
+
+```php
+...
+'packages' => [
+    'favicons'
+],
+...
+```
+
+And the every page you will see in the head seaction something like that:
+
+```html
+<head>
+    ...
+    <title>...</title>
+    <link rel="icon" type="image/png" href="http://site.com/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="http://site.com/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="http://site.com/favicon-64x64.png" sizes="64x64" />
+    ...
+</head>
+```
+
+# Extending
+
+If you want to extend Meta class you can do it in the `App\Providers\MetaTagsServiceProvider`. Just override `registerMeta` method.
+
+```php
+use Butschster\Head\MetaTags\Meta;
+use Butschster\Head\Contracts\MetaTags\MetaInterface;
+use Butschster\Head\Contracts\Packages\ManagerInterface;
+
+protected function registerMeta(): void
+{
+    $this->app->singleton(MetaInterface::class, function () {
+        $meta = new Meta(
+            $this->app[ManagerInterface::class],
+            $this->app['config']
+        );
+
+
+        // It just an imagination, you can automatically 
+        // add favicon if it exists
+        if (file_exists(public_path('favicon.ico'))) {
+            $meta->setFavicon('/favicon.ico');
+        }
+
+        $meta->includePackages('fonts', 'assets');
+        
+        // This method gets default values from config and creates tags
+        // If you don't want to use default values just remove it.
+        $meta->initialize();
+
+        return $meta;
+    });
+}
 ```

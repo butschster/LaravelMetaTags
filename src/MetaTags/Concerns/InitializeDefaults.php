@@ -37,6 +37,10 @@ trait InitializeDefaults
             $this->addCsrfToken();
         }
 
+        if (!empty($packages = $this->config('packages'))) {
+            $this->includePackages($packages);
+        }
+
         return $this;
     }
 }
