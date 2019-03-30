@@ -165,6 +165,15 @@ class EventsController extends Controller {
 }
 ```
 
+Or you can set packages, that can be included on every pages in `config/meta_tags.php`
+```php
+...
+'packages' => [
+    'jquery', 'calendar',
+],
+...
+```
+
 That's all! It's very easy.
 
 > P.S. You can also use all methods, that are in Meta class.
@@ -903,9 +912,43 @@ This class is responsible for favicon link generation
 ---
 `\Butschster\Head\MetaTags\Entities\Comment`
 
-This class is a wraper
+This class is a wrapper for tags, that allows to add comments to your tags
+
+```php
+use Butschster\Head\MetaTags\Entities\Comment;
+use Butschster\Head\MetaTags\Entities\Favicon;
+
+$favicon = new Favicon('http://site.com/favicon.ico');
+$comment = new Comment($favicon, 'Favicon');
+
+Meta::addTag('favicon', $comment);
+
+// Will render
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
+<!-- /Favicon -->
+
+```
 
 
+#### Conditional comment
+---
+`\Butschster\Head\MetaTags\Entities\ConditionalComment`
+
+This class is a wrapper for tags, that allows to add conditional comments to your tags
+
+```php
+use Butschster\Head\MetaTags\Entities\Comment;
+use Butschster\Head\MetaTags\Entities\Favicon;
+
+$favicon = new Favicon('http://site.com/favicon.ico');
+$comment = new ConditionalComment($favicon, 'IE 6');
+
+Meta::addTag('favicon', $comment);
+<!--[if IE 6]>
+<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
+<![endif]-->
+```
 
 
 #### Yandex Metrika
@@ -944,6 +987,7 @@ You can use your own package for that.
 At first create your package in the MetaTagsServiceProvider `App\Providers\MetaTagsServiceProvider`
 ```php
 use Butschster\Head\MetaTags\Entities\Favicon;
+use Butschster\Head\MetaTags\Entities\ConditionalComment;
 
 protected function packages()
 {
@@ -960,6 +1004,10 @@ protected function packages()
                 ])
             );
         }
+
+        $package->addTag('favicon.ie', new ConditionalComment(
+            new Favicon('http://site.com/favicon-ie.png'), 'IE gt 6'
+        ));
     });
 }
 ```
@@ -983,6 +1031,9 @@ And the every page you will see in the head seaction something like that:
     <link rel="icon" type="image/png" href="http://site.com/favicon-16x16.png" sizes="16x16" />
     <link rel="icon" type="image/png" href="http://site.com/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="http://site.com/favicon-64x64.png" sizes="64x64" />
+    <!--[if IE gt 6]>
+    <link rel="icon" type="image/png" href="http://site.com/favicon-ie.png" />
+    <![endif]-->
     ...
 </head>
 ```
