@@ -38,7 +38,12 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
     protected function registerMeta(): void
     {
         $this->app->singleton(MetaInterface::class, function () {
-            return new Meta($this->app[ManagerInterface::class]);
+            $meta = new Meta(
+                $this->app[ManagerInterface::class],
+                $this->app['config']
+            );
+
+            return $meta->initialize();
         });
     }
 

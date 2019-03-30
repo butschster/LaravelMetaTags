@@ -94,7 +94,7 @@ class TitleMetaTagsTest extends TestCase
     function test_gets_max_keywords_length_from_config_by_default()
     {
         $config = $this->makeConfig();
-        $config->shouldReceive('get')->once()->with('title.max_length', null)->andReturn(4);
+        $config->shouldReceive('get')->once()->with('meta_tags.title.max_length', null)->andReturn(4);
 
         $this->assertHtmlableContains(
             '<title>test...</title>',

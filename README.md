@@ -33,9 +33,10 @@ Once Meta Tags is installed you need to register the service provider. Just run 
 php artisan meta-tags:install
 ```
 
-This command will install MetaTagsServiceProvider and will publish config `config/meta_tags.php`
+This command will install MetaTagsServiceProvider and will publish config `config/meta_tags.php`. In this config you can specify default title, keywords, description and other meta tags and it will be put into your HTML.
 
 After running this command, verify that the `App\Providers\MetaTagsServiceProvider` was added to the providers array in your app `config/app.php` configuration file. If it wasn't, you should add it manually. Of course, if your application  does not use the App namespace, you should update the provider class name as needed.
+
 That's it! Next, you may navigate to the `App\Providers\MetaTagsServiceProvider` and configure default settings.
 
 ## Usage
@@ -47,51 +48,24 @@ Open service provider `App\Providers\MetaTagsServiceProvider` and there you can 
 // App\Providers\MetaTagsServiceProvider
 protected function registerMeta(): void
 {
-    // Service container initialization
     $this->app->singleton(MetaInterface::class, function () {
-    
-        // Create meta object
         $meta = new Meta(
-            $this->app[ManagerInterface::class]
+            $this->app[ManagerInterface::class],
+            $this->app['config']
         );
 
-        // Load default settings from config file
-        $config = $this->app['config']['meta_tags.meta'];
 
-        // Title by default
-        $meta->setTitle($config['title'])
-            // Title segments separator by default
-            ->setTitleSeparator($config['separator'])
-            
-            // Meta description by default
-            ->setDescription($config['description'])
-            
-            // Meta keywords by default
-            ->setKeywords($config['keywords'])
-            
-            // Charset by default
-            ->setCharset($config['charset'])
-            
-            // Favicon by default
-            ->setFavicon(asset('favicon.ico'));
-
-        // Viewport meta tag by default
-        if ($viewport = $config['viewport']) {
-            $meta->setViewport($viewport);
+        // It just an imagination, you can automatically 
+        // add favicon if it exists
+        if (file_exists(public_path('favicon.ico'))) {
+            $meta->setFavicon('/favicon.ico');
         }
 
-        // Robots meta tag by default
-        if ($robots = $config['robots']) {
-            $meta->setRobots($robots);
-        }
-
-        // Add csrf token everywhere
-        if ($config['csrf_token']) {
-            $meta->addCsrfToken();
-        }
-
-        // Include package
-        $meta->includePackages('jquery', 'bootstrap');
+        $meta->includePackages('fonts', 'assets');
+        
+        // This method gets default values from config and creates tags
+        // If you don't want to use default values just remove it.
+        $meta->initialize();
 
         return $meta;
     });
@@ -103,7 +77,6 @@ You can use either Facade `\Butschster\Head\Facades\Meta` or `\Butschster\Head\C
 
 ```php
 use Butschster\Head\MetaTags\MetaInterface;
-use Butschster\Head\Facades\Meta;
 
 class HomeController extends Controller {
 
@@ -128,9 +101,22 @@ class HomeController extends Controller {
            ->setPaginationLinks($news)
            
            // Will change default favicon
-           ->setFavicon(asset('favicon-index.ico'));
-           
-        // Or Meta::prependTitle('Home page')->....
+           ->setFavicon('/favicon-index.ico')
+    }
+}
+
+// Or you can use the facade
+
+use Butschster\Head\Facades\Meta;
+
+class HomeController extends Controller {
+    public function index()
+    {
+        $news = News::paginate();
+        
+        Meta::prependTitle('Home page')
+            ->setPaginationLinks($news)
+            ->setFavicon('favicon-index.ico');
     }
 }
 ```
@@ -155,6 +141,8 @@ If you want to use meta tags not only in header, you can specify placements in y
 
 ```html
 <body>
+    ...
+    {!! Meta::placement('middle_of_the_page')->toHtml() !!}
     ...
     {!! Meta::footer()->toHtml() !!}
 </body>
@@ -193,7 +181,8 @@ protected function packages()
 }
 ```
 
-And then if I need some package in one of my controllers I can do next:
+And then if I need some package in one of my controllers I can do thing like this:
+
 ```php
 use Butschster\Head\Facades\Meta;
 
@@ -207,7 +196,7 @@ class EventsController extends Controller {
 }
 ```
 
-That's all.
+That's all! It's very easy.
 
 > P.S. You can also use all methods, that are in Meta class.
 
@@ -224,6 +213,10 @@ That's all.
 ```php
 Meta::setTitle('Laravel');
 // <title>Laravel</title>
+
+// You can specify max length. (By default it gets from config.)
+Meta::setTitle('Laravel', 4);
+// <title>Lara...</title>
 ```
 
 **Prepend title part to main title**
@@ -234,6 +227,7 @@ Meta::setTitle('Laravel')
 ```
 
 **Set the title separator**
+> By default it gets from config
 ```php
 Meta::setTitleSeparator('->')
     ->setTitle('Laravel')
@@ -245,6 +239,10 @@ Meta::setTitleSeparator('->')
 ```php
 Meta::setDescription('Awesome page');
 // <meta name="description" content="Awesome page">
+
+// You can specify max length. (By default it gets from config.)
+Meta::setDescription('Awesome page', 7);
+// <meta name="description" content="Awesome...">
 ```
 
 **Set the keywords**
@@ -255,6 +253,10 @@ Meta::setKeywords('Awesome keywords');
 
 Meta::setKeywords(['Awesome keyword', 'keyword2']);
 // <meta name="keywords" content="Awesome keyword, keyword2">
+
+// You can specify max length. (By default it gets from config.)
+Meta::setKeywords(['keyword', 'keyword2'], 10);
+// <meta name="keywords" content="keyword, key...">
 ```
 
 **Set the robots**

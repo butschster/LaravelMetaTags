@@ -2,61 +2,37 @@
 
 namespace App\Providers;
 
+use Butschster\Head\Contracts\Packages\PackageInterface;
 use Butschster\Head\Facades\PackageManager;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\Contracts\Packages\ManagerInterface;
-use Butschster\Head\Contracts\Packages\PackageInterface;
 use Butschster\Head\Providers\MetaTagsApplicationServiceProvider as ServiceProvider;
 
 class MetaTagsServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
-
     protected function packages()
     {
-        PackageManager::create('jquery', function(PackageInterface $package) {
-            $package->addScript('jquery.js', 'https://code.jquery.com/jquery-3.3.1.min.js', ['defer']);
-        });
+        // Create your own packages here
     }
 
     protected function registerMeta(): void
     {
         $this->app->singleton(MetaInterface::class, function () {
             $meta = new Meta(
-                $this->app[ManagerInterface::class]
+                $this->app[ManagerInterface::class],
+                $this->app['config']
             );
 
-            $config = $this->app['config']['meta_tags'];
+            // It just an imagination, you can automatically
+            // add favicon if it exists
+            // if (file_exists(public_path('favicon.ico'))) {
+            //    $meta->setFavicon('/favicon.ico');
+            // }
 
-            $meta->setTitle($config['title'])
-                ->setTitleSeparator($config['separator'])
-                ->setDescription($config['description'])
-                ->setKeywords($config['keywords'])
-                ->setCharset($config['charset'])
-                ->setFavicon(asset('favicon.ico'));
-
-            if ($viewport = $config['viewport']) {
-                $meta->setViewport($viewport);
-            }
-
-            if ($robots = $config['robots']) {
-                $meta->setRobots($robots);
-            }
-
-            if ($config['csrf_token']) {
-                $meta->addCsrfToken();
-            }
-
-            $meta->includePackages('jquery');
+            // This method gets default values from config and creates tags
+            // If you don't want to use default values just remove it.
+            $meta->initialize();
 
             return $meta;
         });

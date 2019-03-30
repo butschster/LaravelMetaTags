@@ -16,7 +16,8 @@ class Meta implements MetaInterface
         Concerns\ManageLinksTags,
         Concerns\ManagePlacements,
         Concerns\ManagePackages,
-        Concerns\ManageAssets;
+        Concerns\ManageAssets,
+        Concerns\InitializeDefaults;
 
     const PLACEMENT_HEAD   = 'head';
     const PLACEMENT_FOOTER = 'footer';
@@ -142,10 +143,10 @@ class Meta implements MetaInterface
      */
     protected function config(string $key, $default = null)
     {
-        if (is_null($this->config)) {
+        if (!$this->config) {
             return $default;
         }
 
-        return $this->config->get($key, $default);
+        return $this->config->get('meta_tags.'.$key, $default);
     }
 }

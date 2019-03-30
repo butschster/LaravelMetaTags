@@ -78,7 +78,7 @@ class KeywordsMetaTagsTest extends TestCase
     function test_gets_max_keywords_length_from_config_by_default()
     {
         $config = $this->makeConfig();
-        $config->shouldReceive('get')->once()->with('keywords.max_length', null)->andReturn(4);
+        $config->shouldReceive('get')->once()->with('meta_tags.keywords.max_length', null)->andReturn(4);
 
         $this->assertHtmlableContains(
             '<meta name="keywords" content="test...">',

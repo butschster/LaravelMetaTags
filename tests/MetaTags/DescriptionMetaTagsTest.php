@@ -53,7 +53,7 @@ class DescriptionMetaTagsTest extends TestCase
     function test_gets_max_description_length_from_config_by_default()
     {
         $config = $this->makeConfig();
-        $config->shouldReceive('get')->once()->with('description.max_length', null)->andReturn(4);
+        $config->shouldReceive('get')->once()->with('meta_tags.description.max_length', null)->andReturn(4);
 
         $this->assertHtmlableContains(
             '<meta name="description" content="test...">',

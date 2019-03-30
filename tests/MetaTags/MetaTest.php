@@ -2,11 +2,53 @@
 
 namespace Butschster\Tests\MetaTags;
 
+use Butschster\Head\MetaTags\Viewport;
 use Butschster\Tests\TestCase;
 use Illuminate\Support\Facades\Session;
 
 class MetaTest extends TestCase
 {
+    function test_class_can_be_initialized_with_default_values()
+    {
+        Session::shouldReceive('token')->once()->andReturn('token');
+        $config = $this->makeConfig();
+
+        $config->shouldReceive('get')->andReturnUsing(function (string $key) {
+            switch ($key) {
+                case 'meta_tags.title.default':
+                    return 'Default title';
+                case 'meta_tags.description.default':
+                    return 'Default description';
+                case 'meta_tags.keywords.default':
+                    return ['keyword1', 'keyword2'];
+                case 'meta_tags.charset':
+                    return 'utf-8';
+                case 'meta_tags.viewport':
+                    return Viewport::RESPONSIVE;
+                case 'meta_tags.robots':
+                    return 'noindex';
+                case 'meta_tags.csrf_token':
+                    return true;
+            }
+
+            return null;
+        });
+
+        $meta = $this->makeMetaTags(null, $config);
+        $meta->initialize();
+
+        $this->assertHtmlableContains([
+            '<title>Default title</title>',
+            '<meta name="description" content="Default description">',
+            '<meta name="keywords" content="keyword1, keyword2">',
+            '<meta charset="utf-8">',
+            '<meta name="viewport" content="width=device-width, initial-scale=1">',
+            '<meta name="robots" content="noindex">',
+            '<meta name="csrf-token" content="token">',
+        ], $meta);
+    }
+
+
     function test_multiple_webmaster_tags_can_be_set()
     {
         $meta = $this->makeMetaTags()
