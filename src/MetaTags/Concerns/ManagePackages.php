@@ -4,6 +4,7 @@ namespace Butschster\Head\MetaTags\Concerns;
 
 use Butschster\Head\Contracts\MetaTags\PlacementsInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
+use Butschster\Head\Contracts\WithDependencies;
 
 trait ManagePackages
 {
@@ -13,10 +14,29 @@ trait ManagePackages
     private $packages = [];
 
     /**
+     * @var array
+     */
+    private $registeredPackages = [];
+
+    /**
      * @inheritdoc
      */
     public function registerPackage(PackageInterface $package)
     {
+        $name = $package->getName();
+
+        if ($this->isRegisteredPackage($name)) {
+            return $this;
+        }
+
+        $this->registeredPackages[] = $name;
+
+        if ($package instanceof WithDependencies) {
+            $this->includePackages(
+                $package->getDependencies()
+            );
+        }
+
         if ($package instanceof PlacementsInterface) {
             foreach ($package->getPlacements() as $placement => $tags) {
                 $this->registerTags($tags, $placement);
@@ -26,6 +46,8 @@ trait ManagePackages
         $this->registerTags(
             $package->getTags()
         );
+
+        return $this;
     }
 
     /**
@@ -42,5 +64,15 @@ trait ManagePackages
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    protected function isRegisteredPackage(string $name): bool
+    {
+        return in_array($name, $this->registeredPackages);
     }
 }

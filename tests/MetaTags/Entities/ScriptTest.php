@@ -26,23 +26,6 @@ class ScriptTest extends TestCase
         );
     }
 
-    function test_in_can_have_dependencies()
-    {
-        $script = new Script('script_name', 'http://site.com', [], ['jquery', 'vuejs']);
-
-        $this->assertEquals(['jquery', 'vuejs'], $script->getDependencies());
-
-        $script = new Script('script_name', 'http://site.com');
-        $this->assertFalse($script->hasDependencies());
-
-        $script->with('jquery');
-        $this->assertEquals(['jquery'], $script->getDependencies());
-
-        $script->with(['jquery', 'vue']);
-        $this->assertEquals(['jquery', 'vue'], $script->getDependencies());
-        $this->assertTrue($script->hasDependencies());
-    }
-
     function test_it_has_footer_default_placement()
     {
         $script = new Script('script_name', 'http://site.com');
@@ -52,7 +35,7 @@ class ScriptTest extends TestCase
 
     function test_a_placement_can_be_set_through_constructor()
     {
-        $script = new Script('script_name', 'http://site.com', [], [], 'test');
+        $script = new Script('script_name', 'http://site.com', [], 'test');
 
         $this->assertEquals('test', $script->getPlacement());
     }

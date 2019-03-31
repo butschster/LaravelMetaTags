@@ -134,6 +134,7 @@ protected function packages()
    })
    
    PackageManager::create('calendar', function($package) {
+      $package->requires('jquery');
       $package->addScript(
          'fullcalendar.js', 
          'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js', 
@@ -160,7 +161,7 @@ class EventsController extends Controller {
     public function show(Event $event)
     {
         // Will include all tags from calendar package
-        Meta::includePackages(['jquery', 'calendar', ])
+        Meta::includePackages(['calendar', ...])
     }
 }
 ```
@@ -169,7 +170,7 @@ Or you can set packages, that can be included on every pages in `config/meta_tag
 ```php
 ...
 'packages' => [
-    'jquery', 'calendar',
+    'jquery', 'calendar', ...
 ],
 ...
 ```
@@ -378,7 +379,7 @@ Meta::addScript('script.js', 'http://site.com/script.js', ['async', 'defer', 'id
 // <script src="http://site.com/script.js" async defer id="hj2b3424iu2-dfsfsd"></script>
 
 // You can specify placement. By default, for scripts it's footer
-Meta::addScript('script.js', 'http://site.com/script.js', [], [], 'custom_placement');
+Meta::addScript('script.js', 'http://site.com/script.js', [], 'custom_placement');
 // <script src="http://site.com/script.js" async defer id="hj2b3424iu2-dfsfsd"></script>
 ```
 
@@ -574,7 +575,7 @@ $package->addScript('script.js', 'http://site.com/script.js', ['async', 'defer',
 // <script src="http://site.com/script.js" async defer id="hj2b3424iu2-dfsfsd"></script>
 
 // You can placement. By default it's footer
-$package->addScript('script.js', 'http://site.com/script.js', [], [], 'custom_placement');
+$package->addScript('script.js', 'http://site.com/script.js', [], 'custom_placement');
 // <script src="http://site.com/script.js" async defer id="hj2b3424iu2-dfsfsd"></script>
 
 Meta::includePackages('jquery')->placement('custom_placement')->toHtml();
@@ -781,6 +782,30 @@ PackageManager::getPackage('jquery');
 // Will return the registered pacakge or null;
 ```
 
+### Dependencies
+
+A package can have dependencies. 
+```php
+PackageManager::create('jquery', function($package) {
+    $package->addScript('jquery.js', 'http://site.com/jquery.min.js');
+});
+
+PackageManager::create('bootstrap4', function($package) {
+    $package->requires('jquery');
+    $package->addScript('bootstrap4.js', 'http://site.com/bootstrap4.min.js');
+    $package->addStyle('bootstrap4.css', 'http://site.com/bootstrap4.min.css');
+});
+
+Meta::includePackages('bootstrap4'); 
+// Will load jquery package also
+// Head
+// <link media="all" type="text/css" rel="stylesheet" href="http://site.com/bootstrap4.min.css" />
+
+// Footer
+// <script src="http://site.com/jquery.min.js"></script>
+// <script src="http://site.com/bootstrap4.min.js"></script>
+```
+
 
 ## Helper classes
 
@@ -927,7 +952,6 @@ Meta::addTag('favicon', $comment);
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
 <!-- /Favicon -->
-
 ```
 
 

@@ -45,21 +45,6 @@ class Meta implements MetaInterface
     }
 
     /**
-     * Add a custom tag
-     *
-     * @param string $name
-     * @param TagInterface $tag
-     *
-     * @return $this
-     */
-    public function addTag(string $name, TagInterface $tag)
-    {
-        $this->placements->getBag($tag->getPlacement())->put($name, $tag);
-
-        return $this;
-    }
-
-    /**
      * @inheritdoc
      */
     public function getTag(string $name): ?TagInterface
@@ -74,36 +59,49 @@ class Meta implements MetaInterface
     }
 
     /**
-     * @param TagsCollection $tags
-     * @param string|null $placement
+     * @inheritdoc
+     */
+    public function addTag(string $name, TagInterface $tag, string $placement = null)
+    {
+        $this->placement($placement ?: $tag->getPlacement())->put($name, $tag);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function registerTags(TagsCollection $tags, string $placement = null)
     {
         foreach ($tags as $name => $tag) {
-            $this->placement($placement ?: $tag->getPlacement())->put(
-                $name, $tag
-            );
+            $this->addTag($name, $tag, $placement);
         }
+
+        return $this;
     }
 
     /**
      * @inheritdoc
      */
-    public function removeTag(string $name): void
+    public function removeTag(string $name)
     {
         foreach ($this->getPlacements() as $placement) {
             $placement->forget($name);
         }
+
+        return $this;
     }
 
     /**
      * @inheritdoc
      */
-    public function reset(): void
+    public function reset()
     {
         foreach ($this->getPlacements() as $placement) {
             $placement->reset();
         }
+
+        return $this;
     }
 
     /**

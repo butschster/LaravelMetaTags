@@ -32,13 +32,6 @@ class PackageTest extends TestCase
             '<link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
             $package->getTag('style.css')
         );
-
-        $package->addStyle('style.css', 'http://site.com/style.css', [], ['jquery', 'vue']);
-
-        $this->assertEquals(
-            ['jquery', 'vue'],
-            $package->getTag('style.css')->getDependencies()
-        );
     }
 
     function test_a_script_can_be_set()
@@ -59,10 +52,10 @@ class PackageTest extends TestCase
 
         $this->assertFalse($package->hasDependencies());
 
-        $package->with('jquery');
+        $package->requires('jquery');
         $this->assertEquals(['jquery'], $package->getDependencies());
 
-        $package->with(['jquery', 'vue']);
+        $package->requires(['jquery', 'vue']);
         $this->assertEquals(['jquery', 'vue'], $package->getDependencies());
 
         $this->assertTrue($package->hasDependencies());

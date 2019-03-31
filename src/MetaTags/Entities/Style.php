@@ -2,11 +2,8 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
-use Butschster\Head\Packages\Concerns\Dependencies;
-
 class Style extends Tag
 {
-    use Dependencies;
 
     /**
      * @var string
@@ -22,13 +19,11 @@ class Style extends Tag
      * @param string $name
      * @param string $src
      * @param array $attributes
-     * @param array $dependency
      */
-    public function __construct(string $name, string $src, array $attributes = [], array $dependency = [])
+    public function __construct(string $name, string $src, array $attributes = [])
     {
         $this->name = $name;
         $this->src = $src;
-        $this->with($dependency);
 
         parent::__construct('link', $attributes, true);
     }

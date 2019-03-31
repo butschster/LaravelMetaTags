@@ -4,6 +4,7 @@ namespace Butschster\Head\Contracts\MetaTags;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
+use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\TagsCollection;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Htmlable;
@@ -301,16 +302,19 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      *
      * @param string $name
      * @param TagInterface $tag
+     * @param string|null $placement
      *
      * @return $this
      */
-    public function addTag(string $name, TagInterface $tag);
+    public function addTag(string $name, TagInterface $tag, string $placement = null);
 
     /**
      * Register tags from collection
      *
      * @param TagsCollection $tags
      * @param string|null $placement
+     *
+     * @return $this
      */
     public function registerTags(TagsCollection $tags, string $placement = null);
 
@@ -326,8 +330,10 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * Remove tag by name
      *
      * @param string $name
+     *
+     * @return $this
      */
-    public function removeTag(string $name): void;
+    public function removeTag(string $name);
 
     /**
      * Set a link to css file
@@ -335,11 +341,10 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * @param string $name
      * @param string $src
      * @param array $attributes
-     * @param array $dependency Required packages
      *
      * @return $this
      */
-    public function addStyle(string $name, string $src, array $attributes = [], array $dependency = []);
+    public function addStyle(string $name, string $src, array $attributes = []);
 
     /**
      * Set a link to script file
@@ -347,12 +352,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * @param string $name
      * @param string $src
      * @param array $attributes
-     * @param array $dependency Required packages
      * @param string $placement
      *
      * @return $this
      */
-    public function addScript(string $name, string $src, array $attributes = [], array $dependency = [], string $placement = Meta::PLACEMENT_FOOTER);
+    public function addScript(string $name, string $src, array $attributes = [], string $placement = Meta::PLACEMENT_FOOTER);
 
     /**
      * Add the CSRF token tag.
@@ -363,8 +367,10 @@ interface MetaInterface extends Htmlable, PlacementsInterface
 
     /**
      * Remove all tags
+     *
+     * @return $this
      */
-    public function reset(): void;
+    public function reset();
 
     /**
      * Get head meta tags placement bag

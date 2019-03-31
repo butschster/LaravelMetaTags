@@ -56,7 +56,7 @@ class PackagesMetaTagsTest extends TestCase
         $meta = $this->makeMetaTags();
 
         $package = new Package('jquery');
-        $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js', ['defer'], [], 'head');
+        $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js', ['defer'], 'head');
         $package->addScript('jquery.footer', 'http://cdn.jquery.com/jquery.footer.latest.js');
         $package->addStyle('jquery.css', 'http://cdn.jquery.com/jquery.latest.css');
 
@@ -82,7 +82,7 @@ class PackagesMetaTagsTest extends TestCase
     {
         $meta = $this->makeMetaTags();
         $package = new TestPackage([
-            new Script('jquery', 'http://cdn.jquery.com/jquery.latest.js', [], [], 'head'),
+            new Script('jquery', 'http://cdn.jquery.com/jquery.latest.js', [], 'head'),
             new Script('jquery.footer', 'http://cdn.jquery.com/jquery.footer.latest.js'),
             new Style('jquery.css', 'http://cdn.jquery.com/jquery.latest.css')
         ]);

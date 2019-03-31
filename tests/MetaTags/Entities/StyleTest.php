@@ -47,24 +47,4 @@ class StyleTest extends TestCase
             new Style('style_name', 'http://site.com')
         );
     }
-
-    function test_in_can_have_dependencies()
-    {
-        $style = new Style('style_name', 'http://site.com', [
-            'rel' => 'css'
-        ], ['jquery', 'vuejs']);
-
-        $this->assertEquals(['jquery', 'vuejs'], $style->getDependencies());
-
-        $style = new Style('style_name', 'http://site.com');
-        $this->assertFalse($style->hasDependencies());
-
-        $style->with('jquery');
-        $this->assertEquals(['jquery'], $style->getDependencies());
-
-        $style->with(['jquery', 'vue']);
-        $this->assertEquals(['jquery', 'vue'], $style->getDependencies());
-
-        $this->assertTrue($style->hasDependencies());
-    }
 }

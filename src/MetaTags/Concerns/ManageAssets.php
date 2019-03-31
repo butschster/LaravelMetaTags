@@ -11,32 +11,24 @@ trait ManageAssets
     /**
      * @inheritdoc
      */
-    public function addStyle(string $name, string $src, array $attributes = [], array $dependency = [])
+    public function addStyle(string $name, string $src, array $attributes = [])
     {
         $this->addTag(
             $name,
-            new Style($name, $src, $attributes, $dependency)
+            new Style($name, $src, $attributes)
         );
 
         return $this;
     }
 
     /**
-     * Set a link to script file
-     *
-     * @param string $name
-     * @param string $src
-     * @param array $attributes
-     * @param array $dependency Required packages
-     * @param string $placement
-     *
-     * @return $this
+     * @inheritdoc
      */
-    public function addScript(string $name, string $src, array $attributes = [], array $dependency = [], string $placement = Meta::PLACEMENT_FOOTER)
+    public function addScript(string $name, string $src, array $attributes = [], string $placement = Meta::PLACEMENT_FOOTER)
     {
         $this->addTag(
             $name,
-            new Script($name, $src, $attributes, $dependency, $placement)
+            new Script($name, $src, $attributes, $placement)
         );
 
         return $this;

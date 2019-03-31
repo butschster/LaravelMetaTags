@@ -14,7 +14,7 @@ trait Dependencies
      *
      * @return $this
      */
-    public function with($packages)
+    public function requires($packages)
     {
         $packages = is_array($packages) ? $packages : func_get_args();
 

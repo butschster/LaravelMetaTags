@@ -3,12 +3,9 @@
 namespace Butschster\Head\MetaTags\Entities;
 
 use Butschster\Head\MetaTags\Meta;
-use Butschster\Head\Packages\Concerns\Dependencies;
 
 class Script extends Tag
 {
-    use Dependencies;
-
     /**
      * @var string
      */
@@ -23,14 +20,12 @@ class Script extends Tag
      * @param string $name
      * @param string $src
      * @param array $attributes
-     * @param array $dependency
      * @param string|null $placement
      */
-    public function __construct(string $name, string $src, array $attributes = [], array $dependency = [], string $placement = null)
+    public function __construct(string $name, string $src, array $attributes = [], string $placement = null)
     {
         $this->name = $name;
         $this->src = $src;
-        $this->with($dependency);
         $this->placement = $placement ?: Meta::PLACEMENT_FOOTER;
 
         parent::__construct('script', $attributes, true);
