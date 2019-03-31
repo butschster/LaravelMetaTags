@@ -980,7 +980,8 @@ Meta::addTag('favicon', $comment);
 > Has footer placement!
 
 ```php
-$script = new \Butschster\Head\MetaTags\Entities\YandexMetrika('20925319');
+use \Butschster\Head\MetaTags\Entities\YandexMetrika;
+$script = new YandexMetrika('20925319');
 
 Meta::addTag('yandex.metrika', $script);
 ```
@@ -1001,6 +1002,59 @@ Will return
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/40925319" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 ```
+
+
+#### Javascript variables
+---
+
+```php
+use \Butschster\Head\MetaTags\Entities\JavascriptVariables;
+
+$variables = new JavascriptVariables([
+    'string' => 'Hello world',
+    'number' => 4815162342,
+    'bool' => true,
+    'nullable' => null
+]);
+
+// you can put new variable
+$variables->put('array', ['jquery', 'vuejs']);
+
+Meta::addTag('variables', $variables);
+```
+
+Will return 
+```html
+<script>
+window.array = ["jquery","vuejs"];
+window.string = 'Hello world';
+window.number = 4815162342;
+window.bool = true;
+window.nullable = null;
+</script>
+```
+
+You can change namespace
+
+```php
+use \Butschster\Head\MetaTags\Entities\JavascriptVariables;
+
+$variables = new JavascriptVariables([
+    'string' => 'Hello world',
+    'number' => 4815162342,
+], 'custom');
+```
+
+Will return
+```html
+<script>
+window.custom = window.custom || {};
+custom.string = 'Hello world';
+custom.number = 4815162342;
+</script>
+```
+
+
 
 # Use cases
 

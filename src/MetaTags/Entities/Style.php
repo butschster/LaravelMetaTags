@@ -4,7 +4,6 @@ namespace Butschster\Head\MetaTags\Entities;
 
 class Style extends Tag
 {
-
     /**
      * @var string
      */

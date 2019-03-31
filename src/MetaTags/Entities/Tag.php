@@ -7,6 +7,8 @@ use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 
 class Tag implements TagInterface
 {
+    use Concerns\ManagePlacements;
+
     /**
      * Make a new instance
      *
@@ -61,11 +63,6 @@ class Tag implements TagInterface
     protected $closeTag;
 
     /**
-     * @var string
-     */
-    protected $placement = Meta::PLACEMENT_HEAD;
-
-    /**
      * @param string $tagName
      * @param array $attributes
      * @param bool $closeTag
@@ -75,26 +72,6 @@ class Tag implements TagInterface
         $this->tagName = $tagName;
         $this->attributes = $attributes;
         $this->closeTag = $closeTag;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPlacement(): string
-    {
-        return $this->placement;
-    }
-
-    /**
-     * @param string $placement
-     *
-     * @return $this
-     */
-    public function setPlacement(string $placement)
-    {
-        $this->placement = $placement;
-
-        return $this;
     }
 
     /**
