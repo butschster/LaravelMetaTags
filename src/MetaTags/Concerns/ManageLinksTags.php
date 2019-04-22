@@ -12,8 +12,12 @@ trait ManageLinksTags
     /**
      * @inheritdoc
      */
-    public function setPrevHref(string $url)
+    public function setPrevHref(?string $url)
     {
+        if (!$url) {
+            return $this;
+        }
+
         return $this->addLink('prev_href', [
             'rel' => 'prev',
             'href' => $this->cleanString($url),
@@ -31,8 +35,12 @@ trait ManageLinksTags
     /**
      * @inheritdoc
      */
-    public function setNextHref(string $url)
+    public function setNextHref(?string $url)
     {
+        if (!$url) {
+            return $this;
+        }
+
         return $this->addLink('next_href', [
             'rel' => 'next',
             'href' => $this->cleanString($url),

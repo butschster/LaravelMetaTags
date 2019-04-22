@@ -109,6 +109,14 @@ class PaginatorMetaTagsTest extends TestCase
         );
     }
 
+    function test_prev_href_can_be_null()
+    {
+        $meta = $this->makeMetaTags()
+            ->setPrevHref(null);
+
+        $this->assertNull($meta->getPrevHref());
+    }
+
     function test_next_href_can_be_set()
     {
         $meta = $this->makeMetaTags()
@@ -130,6 +138,14 @@ class PaginatorMetaTagsTest extends TestCase
     function test_next_href_should_be_null_if_not_set()
     {
         $meta = $this->makeMetaTags();
+
+        $this->assertNull($meta->getNextHref());
+    }
+
+    function test_next_href_can_be_null()
+    {
+        $meta = $this->makeMetaTags()
+            ->setNextHref(null);
 
         $this->assertNull($meta->getNextHref());
     }

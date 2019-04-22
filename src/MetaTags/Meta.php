@@ -125,7 +125,7 @@ class Meta implements MetaInterface
      *
      * @return string
      */
-    protected function cleanString(string $string): string
+    protected function cleanString(?string $string): string
     {
         return e(strip_tags($string));
     }

@@ -14,6 +14,14 @@ class DescriptionMetaTagsTest extends TestCase
         );
     }
 
+    function test_description_can_be_null()
+    {
+        $this->assertHtmlableEquals(
+            '<meta name="description" content="">',
+            $this->makeMetaTags()->setDescription(null)->getDescription()
+        );
+    }
+
     function test_set_description_method_should_be_fluent()
     {
         $meta = $this->makeMetaTags();

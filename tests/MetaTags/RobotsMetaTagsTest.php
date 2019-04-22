@@ -16,6 +16,13 @@ class RobotsMetaTagsTest extends TestCase
             $meta->getRobots()
         );
     }
+    function test_robots_from_string_can_be_null()
+    {
+        $this->assertHtmlableEquals(
+            '<meta name="robots" content="">',
+            $this->makeMetaTags()->setRobots(null)->getRobots()
+        );
+    }
 
     function test_set_robots_method_should_be_fluent()
     {

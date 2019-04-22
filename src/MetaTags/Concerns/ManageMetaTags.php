@@ -15,7 +15,7 @@ trait ManageMetaTags
     /**
      * @inheritdoc
      */
-    public function setDescription(string $description, int $maxLength = null)
+    public function setDescription(?string $description, int $maxLength = null)
     {
         if (is_null($maxLength)) {
             $maxLength = $this->config('description.max_length');
@@ -66,7 +66,7 @@ trait ManageMetaTags
     /**
      * @inheritdoc
      */
-    public function setRobots(string $behavior)
+    public function setRobots(?string $behavior)
     {
         return $this->addMeta('robots', [
             'content' => $this->cleanString($behavior),

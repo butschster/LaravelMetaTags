@@ -26,6 +26,14 @@ class KeywordsMetaTagsTest extends TestCase
         );
     }
 
+    function test_keywords_from_string_can_be_null()
+    {
+        $this->assertHtmlableEquals(
+            '<meta name="keywords" content="">',
+            $this->makeMetaTags()->setKeywords(null)->getKeywords()
+        );
+    }
+
     function test_set_keywords_method_should_be_fluent()
     {
         $meta = $this->makeMetaTags();
