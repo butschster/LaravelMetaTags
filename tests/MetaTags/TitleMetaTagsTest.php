@@ -17,6 +17,17 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
+    function test_title_can_be_null()
+    {
+        $meta = $this->makeMetaTags()
+            ->setTitle(null);
+
+        $this->assertHtmlableEquals(
+            '<title></title>',
+            $meta->getTitle()
+        );
+    }
+
     function test_title_can_be_prepend()
     {
         $meta = $this->makeMetaTags()
@@ -25,6 +36,18 @@ class TitleMetaTagsTest extends TestCase
 
         $this->assertHtmlableEquals(
             '<title>prepend part | test title</title>',
+            $meta->getTitle()
+        );
+    }
+
+    function test_title_can_be_prepend_as_null_value()
+    {
+        $meta = $this->makeMetaTags()
+            ->setTitle('test title')
+            ->prependTitle(null);
+
+        $this->assertHtmlableEquals(
+            '<title>test title</title>',
             $meta->getTitle()
         );
     }
