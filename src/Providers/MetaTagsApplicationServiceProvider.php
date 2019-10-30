@@ -24,12 +24,10 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
 
     public function register()
     {
-        if (!$this->app->runningInConsole()) {
-            $this->registerPackageManager();
-            $this->registerMeta();
+        $this->registerPackageManager();
+        $this->registerMeta();
 
-            $this->packages();
-        }
+        $this->packages();
     }
 
     protected function packages()
