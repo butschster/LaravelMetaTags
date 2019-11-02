@@ -1,6 +1,6 @@
 ![Image](https://camo.githubusercontent.com/232b6e30a642047f3b1de99599e8f14f05198f6d/68747470733a2f2f686162726173746f726167652e6f72672f776562742f79762f74742f612d2f79767474612d36746e6d366170776373346d63736f6774777a626d2e6a706567)
 
-# SEO Meta Tags - Tools for Laravel
+# The most powerful and extendable tools for manage SEO Meta Tags in your Laravel project
 
 Laravel SEO Meta Tags is a beautiful tools for Laravel applications. Of course, the primary feature of this package is the ability to manage your header meta tags, CSS, JavaScript and other type of tags. It provides a simple and flexible API to manage search engine optimization (SEO) tags in your application.
 
