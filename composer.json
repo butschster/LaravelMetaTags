@@ -1,6 +1,6 @@
 {
   "name": "butschster/meta-tags",
-  "description": "SEO Meta Tags - Tools for Laravel",
+  "description": "The most powerful and extendable tools for manage SEO Meta Tags in your Laravel project",
   "keywords": [
     "laravel5",
     "lumen",
