@@ -162,9 +162,9 @@ class MetaTest extends TestCase
             ->setDescription('meta description')
             ->setKeywords(['keyword 1', 'keyword 2'])
             ->setRobots('no follow')
-            ->setNextHref('http://site.com')
-            ->setPrevHref('http://site.com')
-            ->setCanonical('http://site.com')
+            ->setNextHref('http://site.com?foo=bar&bar=baz')
+            ->setPrevHref('http://site.com?foo=bar&bar=baz')
+            ->setCanonical('http://site.com?foo=bar&bar=baz')
             ->setHrefLang('en', 'http://site.com/en')
             ->setHrefLang('ru', 'http://site.com/ru')
             ->setContentType('<h5>text/html</h5>')
@@ -184,9 +184,9 @@ class MetaTest extends TestCase
             '<meta name="keywords" content="keyword 1, keyword 2">',
             '<meta name="robots" content="no follow">',
             '<meta name="og::title" content="test og title">',
-            '<link rel="next" href="http://site.com" />',
-            '<link rel="prev" href="http://site.com" />',
-            '<link rel="canonical" href="http://site.com" />',
+            '<link rel="next" href="http://site.com?foo=bar&bar=baz" />',
+            '<link rel="prev" href="http://site.com?foo=bar&bar=baz" />',
+            '<link rel="canonical" href="http://site.com?foo=bar&bar=baz" />',
             '<link rel="alternate" hreflang="en" href="http://site.com/en" />',
             '<link rel="alternate" hreflang="ru" href="http://site.com/ru" />'
         ], $meta);

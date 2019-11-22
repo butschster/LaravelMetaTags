@@ -20,7 +20,7 @@ trait ManageLinksTags
 
         return $this->addLink('prev_href', [
             'rel' => 'prev',
-            'href' => $this->cleanString($url),
+            'href' => strip_tags($url),
         ]);
     }
 
@@ -43,7 +43,7 @@ trait ManageLinksTags
 
         return $this->addLink('next_href', [
             'rel' => 'next',
-            'href' => $this->cleanString($url),
+            'href' => strip_tags($url),
         ]);
     }
 
@@ -61,7 +61,7 @@ trait ManageLinksTags
     public function setCanonical(string $url)
     {
         return $this->addLink('canonical', [
-            'href' => $this->cleanString($url),
+            'href' => strip_tags($url),
         ]);
     }
 

@@ -118,11 +118,11 @@ class Tag implements TagInterface
         // as this will convert HTML attributes such as "required" to a correct
         // form like required="required" instead of using incorrect numerics.
         if (is_numeric($key)) {
-            return e($value);
+            return $value;
         }
 
         if (!is_null($value)) {
-            return $key . '="' . e($value) . '"';
+            return $key . '="' . $value . '"';
         }
     }
 
