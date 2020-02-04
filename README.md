@@ -993,16 +993,66 @@ Will return
    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(20925319, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
+   ym(20925319, "init", {clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/40925319" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="https://mc.yandex.ru/watch/20925319" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 ```
 
+**Change clickmap setting**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->clickmap(bool);
+```
+
+**Change webvisor setting**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->webvisor(bool);
+```
+
+**Change trackLinks setting**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->trackLinks(bool);
+```
+
+**Change accurateTrackBounce setting**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->accurateTrackBounce(bool);
+```
+
+**Change trackHash setting**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->trackHash(bool);
+```
+
+**Change eCommerce setting**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->eCommerce(string $containerName);
+```
+
+**Use alternate CDN**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->useCDN();
+```
+
+**Disable noscript tag**
+```php
+$script = new YandexMetrika('20925319');
+
+$script->disableNoScript();
+```
 
 #### Javascript variables
 ---
