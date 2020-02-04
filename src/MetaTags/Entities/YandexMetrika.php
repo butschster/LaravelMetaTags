@@ -5,6 +5,7 @@ namespace Butschster\Head\MetaTags\Entities;
 use BadMethodCallException;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Entities\Builders\YandexMetrikaCounterBuilder;
+use Butschster\Head\MetaTags\Meta;
 
 /**
  * @mixin YandexMetrikaCounterBuilder
@@ -29,7 +30,7 @@ class YandexMetrika implements TagInterface
      */
     public function getPlacement(): string
     {
-        return 'footer';
+        return Meta::PLACEMENT_FOOTER;
     }
 
     /**

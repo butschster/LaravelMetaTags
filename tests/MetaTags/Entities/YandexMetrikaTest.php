@@ -23,7 +23,7 @@ class YandexMetrikaTest extends TestCase
     function test_it_can_be_add_to_meta_class()
     {
         $meta = $this->makeMetaTags();
-        $meta->addTag('yande.metrika', new YandexMetrika(20925319));
+        $meta->addTag('yandex.metrika', new YandexMetrika(20925319));
 
         $this->assertHtmlableContains([
             '<script type="text/javascript">',
