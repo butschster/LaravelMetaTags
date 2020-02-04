@@ -11,11 +11,17 @@ class GoogleAnalyticsTest extends TestCase
     {
         $tag = new GoogleAnalytics('UA-12345678-1');
 
-        $this->assertHtmlableContains([
-            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12345678-1"></script>',
-            "gtag('config', 'UA-12345678-1');",
-            '</script>',
-        ], $tag);
+        $this->assertEquals(<<<TAG
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-12345678-1', 'auto');
+    ga('send', 'pageview');
+</script>
+TAG
+            , $tag->toHtml());
     }
 
     function test_it_can_be_add_to_meta_class()
@@ -24,13 +30,14 @@ class GoogleAnalyticsTest extends TestCase
         $meta->addTag('google.analytics', new GoogleAnalytics('UA-12345678-1'));
 
         $this->assertHtmlableContains([
-            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12345678-1"></script>',
-            "gtag('config', 'UA-12345678-1');",
+            '<script>',
+            'https://www.google-analytics.com/analytics.js',
+            "ga('create', 'UA-12345678-1', 'auto');",
             '</script>',
-        ], $meta->head());
+        ], $meta->footer());
 
         $this->assertHtmlableNotContains([
-            "gtag('config', 'UA-12345678-1');",
-        ], $meta->footer());
+            "ga('create', 'UA-12345678-1', 'auto');",
+        ], $meta->head());
     }
 }

@@ -5,7 +5,7 @@ namespace Butschster\Head\MetaTags\Entities;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Meta;
 
-class GoogleAnalytics implements TagInterface
+class GoogleTagManager implements TagInterface
 {
     /**
      * Google analytics identifier
@@ -28,16 +28,16 @@ class GoogleAnalytics implements TagInterface
     public function toHtml()
     {
         return sprintf(<<<TAG
+<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    ga('create', '%s', 'auto');
-    ga('send', 'pageview');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '%s');
 </script>
 TAG
-        , $this->counterId
+        , $this->counterId, $this->counterId
 );
     }
 
@@ -46,7 +46,7 @@ TAG
      */
     public function getPlacement(): string
     {
-        return Meta::PLACEMENT_FOOTER;
+        return Meta::PLACEMENT_HEAD;
     }
 
     /**
