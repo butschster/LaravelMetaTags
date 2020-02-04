@@ -179,7 +179,7 @@ TAG
             , $this->scriptUrl,
             $this->counterId,
             json_encode($this->filteredSettings()),
-            $this->forXML ? '<noscript><div><img src="https://mc.yandex.ru/watch/'.$this->counterId.'" style="position:absolute; left:-9999px;" alt="" /></div></noscript>' : ''
+            $this->getNoscriptHtml()
         );
     }
 
