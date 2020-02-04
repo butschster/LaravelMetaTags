@@ -973,7 +973,28 @@ Meta::addTag('favicon', $comment);
 <link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
 <![endif]-->
 ```
+#### Google Analytics
+---
+> Has header placement!
 
+```php
+use Butschster\Head\MetaTags\Entities\GoogleAnalytics;
+$script = new GoogleAnalytics('UA-12345678-1');
+
+Meta::addTag('google.analytics', $script);
+```
+Will return 
+
+```html
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12345678-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-12345678-1');
+</script>
+```
 
 #### Yandex Metrika
 ---
