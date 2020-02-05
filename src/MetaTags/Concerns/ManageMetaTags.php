@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Session;
 
 trait ManageMetaTags
 {
+
     /**
-     * @param object $object
-     * @return $this
+     * @inheritdoc
      */
     public function setMetaFrom($object)
     {
