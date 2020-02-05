@@ -4,6 +4,7 @@ namespace Butschster\Head\Contracts\MetaTags;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
+use Butschster\Head\MetaTags\Concerns\ManageMetaTags;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\TagsCollection;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -11,6 +12,14 @@ use Illuminate\Contracts\Support\Htmlable;
 
 interface MetaInterface extends Htmlable, PlacementsInterface
 {
+    /**
+     * Set meta information from object
+     *
+     * @param object $object
+     * @return $this
+     */
+    public function setMetaFrom($object);
+
     /**
      * Set the meta title
      *

@@ -468,6 +468,51 @@ $package->setTitle('New title');
 Meta::registerPackage($package);
 ```
 
+#### Using meta interfaces
+A package has different interfaces which help you set meta tags from your objects
+
+**Seo tags**
+```php
+namespace App;
+use Butschster\Head\Contracts\MetaTags\SeoMetaTagsInterface;
+use Butschster\Head\Contracts\MetaTags\RobotsTagsInterface;
+
+class Page extends Model implements SeoMetaTagsInterface, RobotsTagsInterface {
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    public function getRobots(): ?string
+    {
+        return 'noindex, nofollow';
+    }
+}
+
+// Controller
+use Butschster\Head\Facades\Meta;
+
+class PageController extends Controller {
+
+    public function show(\App\Page $page)
+    {
+        Meta::setMetaFrom($page);
+    }
+}
+```
+
+
 #### Meta extending
 Meta object contains `Macroable` trait and you can extend it! 
 

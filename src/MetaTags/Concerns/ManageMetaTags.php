@@ -4,6 +4,8 @@ namespace Butschster\Head\MetaTags\Concerns;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\MetaTags\GeoMetaInformationInterface;
+use Butschster\Head\Contracts\MetaTags\RobotsTagsInterface;
+use Butschster\Head\Contracts\MetaTags\SeoMetaTagsInterface;
 use Butschster\Head\MetaTags\Entities\Description;
 use Butschster\Head\MetaTags\Entities\Keywords;
 use Butschster\Head\MetaTags\Entities\Tag;
@@ -12,6 +14,29 @@ use Illuminate\Support\Facades\Session;
 
 trait ManageMetaTags
 {
+    /**
+     * @param object $object
+     * @return $this
+     */
+    public function setMetaFrom($object)
+    {
+        if ($object instanceof SeoMetaTagsInterface) {
+            $this->setTitle($object->getTitle())
+                ->setDescription($object->getDescription())
+                ->setKeywords($object->getKeywords());
+        }
+
+        if ($object instanceof RobotsTagsInterface) {
+            $this->setRobots($object->getRobots());
+        }
+
+        if ($object instanceof GeoMetaInformationInterface) {
+            $this->setGeo($object);
+        }
+
+        return $this;
+    }
+
     /**
      * @inheritdoc
      */
