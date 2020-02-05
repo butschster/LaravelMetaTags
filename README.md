@@ -9,11 +9,12 @@ Laravel SEO Meta Tags is a beautiful tools for Laravel applications. Of course, 
 ## Features
 - Manage meta tags, set titles, charset, pagination links, e.t.c.
 - Manage styles, scripts in different places of your HTML
+- Create custom tags
 - Open Graph & Twitter Cards are supported.
 - Google Analytics tracking code is supported.
+- Yandex Metrika tracking code is supported with code builder.
 - Webmaster tools site verifier tags are supported.
-- Build styles and scripts into packages and include by their names in Controllers
-- Create your own meta tags configuration packages
+- Group tags, styles and scripts into packages and include by their names everywhere
 - Well documented
 - Well tested
 
@@ -118,40 +119,53 @@ If you want to use meta tags not only in header, you can specify placements in y
 ```
 
 ### Packages
-I developed lots of web-sites and I solved lots of problems. One of them is code duplication and I decided I need a tool that allows me define groups of tags, assets, e.t.c in a package with name and use it wherever I want.
+If you want to avoid code duplication you can group your tags, assets, e.t.c. to a package with specific name.
 
-I can register a new package in `\Butschster\Head\Contracts\MetaTags\MetaInterface`
+You can register a new package in the Service provider `\App\Providers\MetaTagsServiceProvider`
 
 ```php
-protected function packages()
-{
-   PackageManager::create('jquery', function($package) {
-      $package->addScript(
-         'jquery.js', 
-         'https://code.jquery.com/jquery-3.3.1.min.js', 
-         ['defer']
-      );
-   })
-   
-   PackageManager::create('calendar', function($package) {
-      $package->requires('jquery');
-      $package->addScript(
-         'fullcalendar.js', 
-         'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js', 
-         ['defer']
-      )->addScript(
-         'fullcalendar.locales.js', 
-         'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/locales-all.min.js', 
-         ['defer']
-      )->addStyle(
-         'fullcalendar.css', 
-         'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css'
-      );
-   });
+namespace App\Providers;
+
+use Butschster\Head\Facades\PackageManager;
+use Butschster\Head\Packages\Package;
+use Illuminate\Support\ServiceProvider;
+
+class MetaTagsServiceProvider extends ServiceProvider {
+
+    ...
+    
+    protected function packages()
+    {
+       PackageManager::create('jquery', function(Package $package) {
+          $package->addScript(
+             'jquery.js', 
+             'https://code.jquery.com/jquery-3.3.1.min.js', 
+             ['defer']
+          );
+       });
+       
+       PackageManager::create('calendar', function(Package $package) {
+          $package->requires('jquery');
+          $package->addScript(
+             'fullcalendar.js', 
+             'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js', 
+             ['defer']
+          )->addScript(
+             'fullcalendar.locales.js', 
+             'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/locales-all.min.js', 
+             ['defer']
+          )->addStyle(
+             'fullcalendar.css', 
+             'https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css'
+          );
+       });
+    }
+
+    ...
 }
 ```
 
-And then if I need some package in one of my controllers I can do thing like this:
+And then if you need specific packages in one of controllers you can include them by package name:
 
 ```php
 use Butschster\Head\Facades\Meta;
@@ -161,7 +175,7 @@ class EventsController extends Controller {
     public function show(Event $event)
     {
         // Will include all tags from calendar package
-        Meta::includePackages(['calendar', ...])
+        Meta::includePackages(['calendar', ...]);
     }
 }
 ```
@@ -948,7 +962,9 @@ $title->toHtml(); // <title>Lorem Ipsum is simpl...</title>
 This class is responsible for script links generation
 
 ```php
-$script = new \Butschster\Head\MetaTags\Entities\Script('jquery.js', 'http://site.com/script.js', ['defer', 'async'])
+use Butschster\Head\MetaTags\Entities\Script;
+
+$script = new Script('jquery.js', 'http://site.com/script.js', ['defer', 'async']);
 
 $script->toHtml(); 
 // <script src="http://site.com/script.js" defer async></script>
@@ -963,7 +979,9 @@ Meta::addTag($script);
 This class is responsible for css links generation
 
 ```php
-$style = new \Butschster\Head\MetaTags\Entities\Style('style.css', 'http://site.com/style.css')
+use Butschster\Head\MetaTags\Entities\Style;
+
+$style = new Style('style.css', 'http://site.com/style.css');
 
 $style->toHtml(); 
 // <link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />
@@ -1007,7 +1025,7 @@ Meta::addTag('favicon', $comment);
 This class is a wrapper for tags, that allows to add conditional comments to your tags
 
 ```php
-use Butschster\Head\MetaTags\Entities\Comment;
+use Butschster\Head\MetaTags\Entities\ConditionalComment;
 use Butschster\Head\MetaTags\Entities\Favicon;
 
 $favicon = new Favicon('http://site.com/favicon.ico');
@@ -1192,8 +1210,6 @@ custom.number = 4815162342;
 </script>
 ```
 
-
-
 # Use cases
 
 ### Multiple favicons
@@ -1202,29 +1218,38 @@ You can use your own package for that.
 
 At first create your package in the MetaTagsServiceProvider `App\Providers\MetaTagsServiceProvider`
 ```php
+namespace App\Providers;
+
 use Butschster\Head\MetaTags\Entities\Favicon;
 use Butschster\Head\MetaTags\Entities\ConditionalComment;
+use Butschster\Head\Facades\PackageManager;
+use Butschster\Head\Packages\Package;
 
-protected function packages()
-{
+class MetaTagsServiceProvider extends ServiceProvider {
+
     ...
-
-    PackageManager::create('favicons', function($package) {
-        $sizes = ['16x16', '32x32', '64x64'];
-
-        foreach ($sizes as $size) {
-            $package->addTag(
-                'favicon.'.$size, 
-                new Favicon('http://site.com/favicon-'.$size.'.png', [
-                    'sizes' => $size
-                ])
-            );
-        }
-
-        $package->addTag('favicon.ie', new ConditionalComment(
-            new Favicon('http://site.com/favicon-ie.png'), 'IE gt 6'
-        ));
-    });
+    
+    protected function packages()
+    {
+        PackageManager::create('favicons', function(Package $package) {
+            $sizes = ['16x16', '32x32', '64x64'];
+    
+            foreach ($sizes as $size) {
+                $package->addTag(
+                    'favicon.'.$size, 
+                    new Favicon('http://site.com/favicon-'.$size.'.png', [
+                        'sizes' => $size
+                    ])
+                );
+            }
+    
+            $package->addTag('favicon.ie', new ConditionalComment(
+                new Favicon('http://site.com/favicon-ie.png'), 'IE gt 6'
+            ));
+        });
+    }
+    
+    ...
 }
 ```
 
@@ -1259,32 +1284,41 @@ And the every page you will see in the head seaction something like that:
 If you want to extend Meta class you can do it in the `App\Providers\MetaTagsServiceProvider`. Just override `registerMeta` method.
 
 ```php
+namespace App\Providers;
+
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\Contracts\MetaTags\MetaInterface;
 use Butschster\Head\Contracts\Packages\ManagerInterface;
 
-protected function registerMeta(): void
-{
-    $this->app->singleton(MetaInterface::class, function () {
-        $meta = new Meta(
-            $this->app[ManagerInterface::class],
-            $this->app['config']
-        );
+class MetaTagsServiceProvider {
 
+    ...
 
-        // It just an imagination, you can automatically 
-        // add favicon if it exists
-        if (file_exists(public_path('favicon.ico'))) {
-            $meta->setFavicon('/favicon.ico');
-        }
+    protected function registerMeta(): void
+    {
+        $this->app->singleton(MetaInterface::class, function () {
+            $meta = new Meta(
+                $this->app[ManagerInterface::class],
+                $this->app['config']
+            );
+    
+    
+            // It just an imagination, you can automatically 
+            // add favicon if it exists
+            if (file_exists(public_path('favicon.ico'))) {
+                $meta->setFavicon('/favicon.ico');
+            }
+    
+            $meta->includePackages('fonts', 'assets');
+            
+            // This method gets default values from config and creates tags
+            // If you don't want to use default values just remove it.
+            $meta->initialize();
+    
+            return $meta;
+        });
+    }
 
-        $meta->includePackages('fonts', 'assets');
-        
-        // This method gets default values from config and creates tags
-        // If you don't want to use default values just remove it.
-        $meta->initialize();
-
-        return $meta;
-    });
+    ...
 }
 ```
