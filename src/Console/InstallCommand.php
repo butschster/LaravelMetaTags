@@ -51,7 +51,7 @@ class InstallCommand extends Command
      */
     protected function registerServiceProvider()
     {
-        $namespace = Str::replaceLast('\\', '', $this->getAppNamespace());
+        $namespace = Str::replaceLast('\\', '', $this->getLaravel()->getNamespace());
 
         $config = file_get_contents(config_path('app.php'));
         $line = "{$namespace}\Providers\MetaTagsServiceProvider::class";
@@ -77,7 +77,7 @@ class InstallCommand extends Command
     {
         $this->setAppNamespaceOn(
             app_path('Providers/MetaTagsServiceProvider.php'),
-            $this->getAppNamespace()
+            $this->getLaravel()->getNamespace()
         );
     }
 
