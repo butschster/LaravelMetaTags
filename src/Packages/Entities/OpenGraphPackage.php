@@ -4,6 +4,7 @@ namespace Butschster\Head\Packages\Entities;
 
 use Butschster\Head\Contracts\Packages\PackageInterface;
 use Butschster\Head\MetaTags\Entities\Tag;
+use Butschster\Head\Packages\Entities\Concerns\ManageMeta;
 
 /**
  * @see http://ogp.me/
@@ -51,7 +52,7 @@ class OpenGraphPackage implements PackageInterface
      */
     public function setType(string $type)
     {
-        return $this->addMeta('type', $type);
+        return $this->addOgMeta('type', $type);
     }
 
     /**
@@ -63,7 +64,7 @@ class OpenGraphPackage implements PackageInterface
      */
     public function setTitle(string $title)
     {
-        return $this->addMeta('title', $title);
+        return $this->addOgMeta('title', $title);
     }
 
     /**
@@ -77,7 +78,7 @@ class OpenGraphPackage implements PackageInterface
      */
     public function setDescription(string $description)
     {
-        return $this->addMeta('description', $description);
+        return $this->addOgMeta('description', $description);
     }
 
     /**
@@ -90,7 +91,7 @@ class OpenGraphPackage implements PackageInterface
      */
     public function setSiteName(string $name)
     {
-        return $this->addMeta('site_name', $name);
+        return $this->addOgMeta('site_name', $name);
     }
 
     /**
@@ -103,10 +104,10 @@ class OpenGraphPackage implements PackageInterface
      */
     public function addImage(string $url, array $properties = [])
     {
-        $this->addMeta('image', $url);
+        $this->addOgMeta('image', $url);
 
         foreach ($properties as $property => $content) {
-            $this->addMeta('image:' . $property, $content);
+            $this->addOgMeta('image:' . $property, $content);
         }
 
         return $this;
@@ -122,10 +123,10 @@ class OpenGraphPackage implements PackageInterface
      */
     public function addVideo(string $url, array $properties = [])
     {
-        $this->addMeta('video', $url);
+        $this->addOgMeta('video', $url);
 
         foreach ($properties as $property => $content) {
-            $this->addMeta('video:' . $property, $content);
+            $this->addOgMeta('video:' . $property, $content);
         }
 
         return $this;
@@ -140,7 +141,7 @@ class OpenGraphPackage implements PackageInterface
      */
     public function setUrl(string $url)
     {
-        return $this->addMeta('url', $url);
+        return $this->addOgMeta('url', $url);
     }
 
     /**
@@ -152,7 +153,7 @@ class OpenGraphPackage implements PackageInterface
      */
     public function setLocale(string $locale)
     {
-        return $this->addMeta('locale', $locale);
+        return $this->addOgMeta('locale', $locale);
     }
 
     /**
@@ -168,10 +169,31 @@ class OpenGraphPackage implements PackageInterface
             $key = $this->prefix . 'locale:alternate';
 
             $this->tags->put($key . $locale, Tag::meta([
-                'name' => $key,
+                'property' => $key,
                 'content' => $locale,
             ]));
         }
+
+        return $this;
+    }
+
+    /**
+     * Add custom meta tag
+     *
+     * @param string $key
+     *
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function addOgMeta(string $key, string $content)
+    {
+        $key = $this->prefix.$key;
+
+        $this->tags->put($key, Tag::meta([
+            'property' => $key,
+            'content' => $content,
+        ]));
 
         return $this;
     }

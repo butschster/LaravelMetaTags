@@ -12,7 +12,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableEquals(
-            '<meta name="og:type" content="website">',
+            '<meta property="og:type" content="website">',
             $graph->setType('website')
         );
     }
@@ -22,7 +22,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:site_name" content="My awesome site">',
+            '<meta property="og:site_name" content="My awesome site">',
             $graph->setSiteName('My awesome site')
         );
     }
@@ -32,7 +32,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:title" content="Post title">',
+            '<meta property="og:title" content="Post title">',
             $graph->setTitle('Post title')
         );
     }
@@ -42,7 +42,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:description" content="View the album on Flickr.">',
+            '<meta property="og:description" content="View the album on Flickr.">',
             $graph->setDescription('View the album on Flickr.')
         );
     }
@@ -52,7 +52,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:image" content="https://site.com">',
+            '<meta property="og:image" content="https://site.com">',
             $graph->addImage('https://site.com')
         );
     }
@@ -66,9 +66,9 @@ class OpenGraphPackageTest extends TestCase
         ]);
 
         $this->assertHtmlableContains([
-            '<meta name="og:image" content="http://site.com">',
-            '<meta name="og:image:secure_url" content="https://site.com">',
-            '<meta name="og:image:type" content="image/png">'
+            '<meta property="og:image" content="http://site.com">',
+            '<meta property="og:image:secure_url" content="https://site.com">',
+            '<meta property="og:image:type" content="image/png">'
         ], $graph);
     }
 
@@ -77,7 +77,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:video" content="https://site.com">',
+            '<meta property="og:video" content="https://site.com">',
             $graph->addVideo('https://site.com')
         );
     }
@@ -91,9 +91,9 @@ class OpenGraphPackageTest extends TestCase
         ]);
 
         $this->assertHtmlableContains([
-            '<meta name="og:video" content="http://site.com">',
-            '<meta name="og:video:secure_url" content="https://site.com">',
-            '<meta name="og:video:type" content="application/x-shockwave-flash">',
+            '<meta property="og:video" content="http://site.com">',
+            '<meta property="og:video:secure_url" content="https://site.com">',
+            '<meta property="og:video:type" content="application/x-shockwave-flash">',
         ], $graph);
     }
 
@@ -102,7 +102,7 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:url" content="https://site.com">',
+            '<meta property="og:url" content="https://site.com">',
             $graph->setUrl('https://site.com')
         );
     }
@@ -112,16 +112,16 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:locale" content="en_US">',
+            '<meta property="og:locale" content="en_US">',
             $graph->setLocale('en_US')
         );
 
         $graph->addAlternateLocale('en_US', 'ru_RU');
 
         $this->assertHtmlableContains([
-            '<meta name="og:locale" content="en_US">',
-            '<meta name="og:locale:alternate" content="en_US">',
-            '<meta name="og:locale:alternate" content="ru_RU">',
+            '<meta property="og:locale" content="en_US">',
+            '<meta property="og:locale:alternate" content="en_US">',
+            '<meta property="og:locale:alternate" content="ru_RU">',
         ], $graph);
     }
 
@@ -130,8 +130,8 @@ class OpenGraphPackageTest extends TestCase
         $graph = new OpenGraphPackage('facebook');
 
         $this->assertHtmlableContains(
-            '<meta name="og:url" content="https://site.com">',
-            $graph->addMeta('url', 'https://site.com')
+            '<meta property="og:url" content="https://site.com">',
+            $graph->addOgMeta('url', 'https://site.com')
         );
     }
 
@@ -143,7 +143,7 @@ class OpenGraphPackageTest extends TestCase
 
         $graph = new OpenGraphPackage('facebook');
 
-        $graph->addMeta('url', 'https://site.com')
+        $graph->addOgMeta('url', 'https://site.com')
             ->addImage('https://site.com')
             ->setDescription('View the album on Flickr.')
             ->setTitle('Post title');
@@ -153,9 +153,9 @@ class OpenGraphPackageTest extends TestCase
         $this->assertHtmlableContains([
             '<title>Meta title</title>',
             '<meta name="description" content="Meta description">',
-            '<meta name="og:description" content="View the album on Flickr.">',
-            '<meta name="og:url" content="https://site.com">',
-            '<meta name="og:image" content="https://site.com">'
+            '<meta property="og:description" content="View the album on Flickr.">',
+            '<meta property="og:url" content="https://site.com">',
+            '<meta property="og:image" content="https://site.com">'
         ], $meta);
     }
 }
