@@ -184,11 +184,11 @@ class MetaTest extends TestCase
             '<meta name="keywords" content="keyword 1, keyword 2">',
             '<meta name="robots" content="no follow">',
             '<meta name="og::title" content="test og title">',
-            '<link rel="next" href="http://site.com?foo=bar&bar=baz" />',
-            '<link rel="prev" href="http://site.com?foo=bar&bar=baz" />',
-            '<link rel="canonical" href="http://site.com?foo=bar&bar=baz" />',
-            '<link rel="alternate" hreflang="en" href="http://site.com/en" />',
-            '<link rel="alternate" hreflang="ru" href="http://site.com/ru" />'
+            '<link rel="next" href="http://site.com?foo=bar&bar=baz">',
+            '<link rel="prev" href="http://site.com?foo=bar&bar=baz">',
+            '<link rel="canonical" href="http://site.com?foo=bar&bar=baz">',
+            '<link rel="alternate" hreflang="en" href="http://site.com/en">',
+            '<link rel="alternate" hreflang="ru" href="http://site.com/ru">'
         ], $meta);
     }
 }
