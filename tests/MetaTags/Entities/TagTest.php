@@ -35,11 +35,11 @@ class TagTest extends TestCase
     function test_tag_can_be_closed()
     {
         $this->assertHtmlableEquals(
-            '<link rel="prev" href="http://site.com" />',
+            '<link rel="prev" href="http://site.com">',
             new Tag('link', [
                 'rel' => 'prev',
                 'href' => 'http://site.com'
-            ], true)
+            ], false)
         );
     }
 
@@ -48,7 +48,7 @@ class TagTest extends TestCase
         $tag = new Tag('link', [
             'rel' => 'prev',
             'href' => 'http://site.com'
-        ], true);
+        ], false);
 
         $this->assertEquals(Meta::PLACEMENT_HEAD, $tag->getPlacement());
 
@@ -72,10 +72,10 @@ class TagTest extends TestCase
         $tag = Tag::make('meta', [
             'name' => 'description',
             'content' => 'Another cool description'
-        ], true);
+        ], false);
 
         $this->assertHtmlableEquals(
-            '<meta name="description" content="Another cool description" />',
+            '<meta name="description" content="Another cool description">',
             $tag
         );
     }
@@ -88,7 +88,7 @@ class TagTest extends TestCase
         ]);
 
         $this->assertHtmlableEquals(
-            '<link rel="prev" href="http://site.com" />',
+            '<link rel="prev" href="http://site.com">',
             $tag
         );
     }

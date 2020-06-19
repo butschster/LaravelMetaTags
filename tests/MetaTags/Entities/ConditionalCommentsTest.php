@@ -16,7 +16,7 @@ class ConditionalCommentsTest extends TestCase
 
         $this->assertHtmlableEquals(<<<COM
 <!--[if IE 6]>
-<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico">
 <![endif]-->
 COM
 , $comment);

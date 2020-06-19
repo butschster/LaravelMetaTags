@@ -22,17 +22,17 @@ class PaginatorMetaTagsTest extends TestCase
         $meta->setPaginationLinks($paginator);
 
         $this->assertHtmlableContains(
-            '<link rel="next" href="http://site.com/next" />',
+            '<link rel="next" href="http://site.com/next">',
             $meta->getNextHref()
         );
 
         $this->assertHtmlableContains(
-            '<link rel="prev" href="http://site.com/prev" />',
+            '<link rel="prev" href="http://site.com/prev">',
             $meta->getPrevHref()
         );
 
         $this->assertHtmlableContains(
-            '<link rel="canonical" href="http://site.com/1" />',
+            '<link rel="canonical" href="http://site.com/1">',
             $meta->getCanonical()
         );
     }
@@ -43,7 +43,7 @@ class PaginatorMetaTagsTest extends TestCase
             ->setCanonical('http://site.com');
 
         $this->assertHtmlableEquals(
-            '<link rel="canonical" href="http://site.com" />',
+            '<link rel="canonical" href="http://site.com">',
             $meta->getCanonical()
         );
     }
@@ -68,7 +68,7 @@ class PaginatorMetaTagsTest extends TestCase
             ->setCanonical('<h5>http://site.com</h5>');
 
         $this->assertHtmlableEquals(
-            '<link rel="canonical" href="http://site.com" />',
+            '<link rel="canonical" href="http://site.com">',
             $meta->getCanonical()
         );
     }
@@ -79,7 +79,7 @@ class PaginatorMetaTagsTest extends TestCase
             ->setPrevHref('http://site.com');
 
         $this->assertHtmlableEquals(
-            '<link rel="prev" href="http://site.com" />',
+            '<link rel="prev" href="http://site.com">',
             $meta->getPrevHref()
         );
     }
@@ -104,7 +104,7 @@ class PaginatorMetaTagsTest extends TestCase
             ->setPrevHref('<h5>http://site.com</h5>');
 
         $this->assertHtmlableEquals(
-            '<link rel="prev" href="http://site.com" />',
+            '<link rel="prev" href="http://site.com">',
             $meta->getPrevHref()
         );
     }
@@ -123,7 +123,7 @@ class PaginatorMetaTagsTest extends TestCase
             ->setNextHref('http://site.com');
 
         $this->assertHtmlableEquals(
-            '<link rel="next" href="http://site.com" />',
+            '<link rel="next" href="http://site.com">',
             $meta->getNextHref()
         );
     }
@@ -156,7 +156,7 @@ class PaginatorMetaTagsTest extends TestCase
             ->setNextHref('<h5>http://site.com</h5>');
 
         $this->assertHtmlableEquals(
-            '<link rel="next" href="http://site.com" />',
+            '<link rel="next" href="http://site.com">',
             $meta->getNextHref()
         );
     }

@@ -36,7 +36,7 @@ class PackagesMetaTagsTest extends TestCase
         );
 
         $this->assertHtmlableContains(
-            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
+            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css">',
             $meta
         );
 
@@ -46,7 +46,7 @@ class PackagesMetaTagsTest extends TestCase
         ], $meta);
 
         $this->assertHtmlableNotContains([
-            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
+            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css">',
             '<script src="http://cdn.vuejs.com/vuejs.latest.js"></script>',
         ], $meta->footer());
     }
@@ -64,7 +64,7 @@ class PackagesMetaTagsTest extends TestCase
 
         $this->assertHtmlableContains([
             '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
-            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
+            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css">',
         ], $meta);
 
         $this->assertHtmlableNotContains(
@@ -91,7 +91,7 @@ class PackagesMetaTagsTest extends TestCase
 
         $this->assertHtmlableContains([
             '<script src="http://cdn.jquery.com/jquery.latest.js"></script>',
-            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css" />',
+            '<link media="all" type="text/css" rel="stylesheet" href="http://cdn.jquery.com/jquery.latest.css">',
         ], $meta);
 
         $this->assertHtmlableNotContains(
