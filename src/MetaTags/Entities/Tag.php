@@ -44,7 +44,7 @@ class Tag implements TagInterface
      */
     public static function link(array $attributes)
     {
-        return new static('link', $attributes, false);
+        return new static('link', $attributes);
     }
 
     /**
