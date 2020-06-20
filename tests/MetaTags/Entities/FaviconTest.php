@@ -12,7 +12,7 @@ class FaviconTest extends TestCase
         $favicon = new Favicon('http://site.com/favicon.ico');
 
         $this->assertHtmlableEquals(
-            '<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />',
+            '<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico">',
             $favicon
         );
     }
@@ -20,17 +20,17 @@ class FaviconTest extends TestCase
     function test_in_can_change_type_based_on_file_extension()
     {
         $this->assertHtmlableEquals(
-            '<link rel="icon" type="image/png" href="http://site.com/favicon.png" />',
+            '<link rel="icon" type="image/png" href="http://site.com/favicon.png">',
             new Favicon('http://site.com/favicon.png')
         );
 
         $this->assertHtmlableEquals(
-            '<link rel="icon" type="image/gif" href="http://site.com/favicon.gif" />',
+            '<link rel="icon" type="image/gif" href="http://site.com/favicon.gif">',
             new Favicon('http://site.com/favicon.gif')
         );
 
         $this->assertHtmlableEquals(
-            '<link rel="icon" type="image/svg+xml" href="http://site.com/favicon.svg" />',
+            '<link rel="icon" type="image/svg+xml" href="http://site.com/favicon.svg">',
             new Favicon('http://site.com/favicon.svg')
         );
     }
@@ -38,7 +38,7 @@ class FaviconTest extends TestCase
     function test_it_can_have_custom_attributes()
     {
         $this->assertHtmlableEquals(
-            '<link rel="icon" type="image/png" href="http://site.com/favicon.png" sizes="16x16" />',
+            '<link rel="icon" type="image/png" href="http://site.com/favicon.png" sizes="16x16">',
             new Favicon('http://site.com/favicon.png', [
                 'sizes' => '16x16'
             ])

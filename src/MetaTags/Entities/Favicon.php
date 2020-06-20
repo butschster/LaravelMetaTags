@@ -17,7 +17,7 @@ class Favicon extends Tag
     {
         $this->href = $href;
 
-        parent::__construct('link', $attributes, true);
+        parent::__construct('link', $attributes, false);
     }
 
     /**

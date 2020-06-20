@@ -17,7 +17,7 @@ class CommentsTest extends TestCase
 
         $this->assertHtmlableEquals(<<<COM
 <!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico">
 <!-- /Favicon -->
 COM
 ,
@@ -34,7 +34,7 @@ COM
 
         $this->assertHtmlableEquals(<<<COM
 <!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico">
 <!-- /Close comment -->
 COM
             ,

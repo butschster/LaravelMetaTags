@@ -34,7 +34,7 @@ class DependencyInjectionTest extends TestCase
         ], $meta->footer());
 
         $this->assertHtmlableContains([
-            '<link media="all" type="text/css" rel="stylesheet" href="http://site.com/bootstrap4.min.css" />',
+            '<link media="all" type="text/css" rel="stylesheet" href="http://site.com/bootstrap4.min.css">',
             '<meta name="robots" content="noindex, nofollow">',
         ], $meta);
     }

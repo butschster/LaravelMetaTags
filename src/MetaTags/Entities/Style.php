@@ -24,7 +24,7 @@ class Style extends Tag
         $this->name = $name;
         $this->src = $src;
 
-        parent::__construct('link', $attributes, true);
+        parent::__construct('link', $attributes, false);
     }
 
     /**

@@ -20,7 +20,7 @@ class PackageTest extends TestCase
         $package->addStyle('style.css', 'http://site.com/style.css');
 
         $this->assertHtmlableEquals(
-            '<link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
+            '<link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css">',
             $package->getTag('style.css')
         );
 
@@ -29,7 +29,7 @@ class PackageTest extends TestCase
         ]);
 
         $this->assertHtmlableEquals(
-            '<link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css" />',
+            '<link media="custom" type="text/css" rel="stylesheet" href="http://site.com/style.css">',
             $package->getTag('style.css')
         );
     }
