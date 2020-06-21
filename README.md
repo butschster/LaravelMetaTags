@@ -19,7 +19,7 @@ Laravel SEO Meta Tags is a beautiful tools for Laravel applications. Of course, 
 - Well tested
 
 ### Requirements
-- Laravel 5.6 to 6.x
+- Laravel 5.6 to 7.x
 - PHP 7.1 and above
 
 ## Installation and Configuration
