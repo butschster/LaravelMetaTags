@@ -765,46 +765,54 @@ $card->toHtml();
 Meta::registerPackage($card);
 ```
 
-**setType** Set the type of the card
+**setType** Set the type of the card: [summary](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary), [summary_large_image](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image), [player](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/player-card), [app](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/app-card)
 ```php
-$og->setType('summary');
+$card->setType('summary');
 // <meta name="twitter:card" content="summary">
 ```
 
 **setSite** Set the @username for the website used in the card footer.
 ```php
-$og->setSite('@username');
+$card->setSite('@username');
 // <meta name="twitter:site" content="@username">
 ```
 
 **setCreator** Set the @username for the content creator / author.
 ```php
-$og->setCreator('@username');
+$card->setCreator('@username');
 // <meta name="twitter:creator" content="@username">
 ```
 
 **setTitle** Set the title
 ```php
-$og->setTitle('Post title');
+$card->setTitle('Post title');
 // <meta name="twitter:title" content="Post title">
 ```
 
 **setDescription** Set the description
 ```php
-$og->setDescription('View the album on Flickr.');
+$card->setDescription('View the album on Flickr.');
 // <meta name="twitter:title" content="View the album on Flickr.">
 ```
 
-**addImage** Set the description
+**setImage** Set an image for cards that are of type `summary` or `summary_large_image`
 ```php
-$og->addImage('https://site.com');
+$card->setImage('https://site.com');
 // <meta name="twitter:image" content="https://site.com">
 ```
 
-**addMeta** Set a custom meta tags
+**setVideo** Set a video to cards that are of type `player`
 ```php
-$og->addMeta('url', 'https://site.com');
-// <meta name="twitter:url" content="https://site.com">
+$card->setVideo('https://site.com/video.mp4', ['width' => 1920, 'height' => 1280]);
+// <meta name="twitter:player" content="https://site.com/video.mp4">
+// <meta name="twitter:player:width" content="1920">
+// <meta name="twitter:player:height" content="1280">
+```
+
+**addMeta** Set a custom meta tag
+```php
+$card->addMeta('image:alt', 'Picture of Pavel Buchnev');
+// <meta name="twitter:image:alt" content="Picture of Pavel Buchnev">
 ```
 
 

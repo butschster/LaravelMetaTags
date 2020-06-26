@@ -91,14 +91,51 @@ class TwitterCardPackage implements TwitterCardPackageInterface
      * in size. The image will be cropped to a square on all platforms. JPG, PNG, WEBP and GIF formats are supported.
      * Only the first frame of an animated GIF will be used. SVG is not supported.
      *
+     * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary
+     * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image
+     *
      * @param string $url
      *
      * @return $this
      */
-    public function addImage(string $url)
+    public function setImage(string $url)
     {
         return $this->addMeta('image', $url);
     }
+
+
+    /**
+     * Utility function for backwards compatibility
+     *
+     * @deprecated
+     */
+    public function addImage(string $url)
+    {
+        return $this->setImage($url);
+    }
+
+
+    /**
+     * Add a video URL
+     *
+     * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/player-card
+     *
+     * @param string $url
+     * @param array  $properties
+     *
+     * @return $this
+     */
+    public function setVideo(string $url, array $properties = [])
+    {
+        $this->addMeta('player', $url);
+
+        foreach ($properties as $property => $content) {
+            $this->addMeta('player:' . $property, $content);
+        }
+
+        return $this;
+    }
+
 
     /**
      * Set the title
