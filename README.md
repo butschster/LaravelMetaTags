@@ -898,6 +898,17 @@ $tag = new \Butschster\Head\MetaTags\Entities\Tag('link', [
 
 $tag->toHtml();
 // <link rel="favicon" href="http://site.com" />
+
+// Tag with anonymous function
+$tag = new \Butschster\Head\MetaTags\Entities\Tag('meta', [
+    'name' => 'csrf-token',
+    'content' => function () {
+        return Session::token();
+    }
+]);
+
+$tag->toHtml();
+// <meta name="csrf-token" content="8760b1d530d60d2cba6fe81cb12d67c0">
 ```
 
 **Set the placement**
