@@ -8,6 +8,19 @@ use Butschster\Tests\TestCase;
 
 class TagTest extends TestCase
 {
+    function test_attribute_value_can_be_callable()
+    {
+        $this->assertHtmlableEquals(
+            '<meta name="custom" content="test data">',
+            new Tag('meta', [
+                'name' => 'custom',
+                'content' => function () {
+                    return 'test data';
+                }
+            ])
+        );
+    }
+
     function test_it_can_be_rendered_to_string()
     {
         $this->assertHtmlableEquals(

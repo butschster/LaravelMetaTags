@@ -11,7 +11,7 @@ class MetaTest extends TestCase
 {
     function test_class_can_be_initialized_with_default_values()
     {
-        Session::shouldReceive('token')->once()->andReturn('token');
+        Session::shouldReceive('token')->andReturn('token');
         $manager = new Manager();
 
         $manager->create('jquery', function ($package) {
