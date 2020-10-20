@@ -933,6 +933,14 @@ $tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->getPlacement() // Will return specified placement;
 ```
 
+**Set visibility condition**
+```php
+$tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
+$tag->visibleWhen(function () {
+    return Request::ip() === '127.0.0.1';
+});
+```
+
 ### Title
 ---
 `\Butschster\Head\MetaTags\Entities\Title`
