@@ -34,9 +34,9 @@ class Title implements TitleInterface
 
     /**
      * @param string|null $title
-     * @param int $maxLength
+     * @param int|null $maxLength
      */
-    public function __construct(string $title = null, int $maxLength = self::DEFAULT_LENGTH)
+    public function __construct(?string $title = null, ?int $maxLength = self::DEFAULT_LENGTH)
     {
         $this->title = $title;
         $this->setMaxLength($maxLength);
@@ -53,7 +53,7 @@ class Title implements TitleInterface
     /**
      * @inheritdoc
      */
-    public function setTitle(?string $title, int $maxLength = null)
+    public function setTitle(?string $title, ?int $maxLength = null)
     {
         $this->title = $title;
         $this->setMaxLength($maxLength);

@@ -15,9 +15,9 @@ class Keywords extends Tag
 
     /**
      * @param string|array $keywords
-     * @param int $maxLength
+     * @param int|null $maxLength
      */
-    public function __construct($keywords, int $maxLength = self::DEFAULT_LENGTH)
+    public function __construct($keywords, ?int $maxLength = self::DEFAULT_LENGTH)
     {
         parent::__construct('meta', []);
 

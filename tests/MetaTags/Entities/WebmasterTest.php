@@ -4,6 +4,7 @@ namespace Butschster\Tests\MetaTags\Entities;
 
 use Butschster\Head\MetaTags\Entities\Webmaster;
 use Butschster\Tests\TestCase;
+use InvalidArgumentException;
 
 class WebmasterTest extends TestCase
 {
@@ -67,11 +68,9 @@ class WebmasterTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     function test_an_exception_should_be_thrown_if_service_is_not_suppoerted()
     {
+        $this->expectException(InvalidArgumentException::class);
         $tag = new Webmaster(
             'not_supported', 'long-hash-string'
         );
