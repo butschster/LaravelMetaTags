@@ -886,7 +886,11 @@ $tag = new \Butschster\Head\MetaTags\Entities\Tag('meta', [
     'name' => 'author',
     'content' => 'butschster'
 ]);
-
+// or
+$tag = \Butschster\Head\MetaTags\Entities\Tag::meta([
+    'name' => 'author',
+    'content' => 'butschster'
+]);
 $tag->toHtml();
 // <meta name="author" content="butschster">
 
@@ -895,6 +899,11 @@ $tag = new \Butschster\Head\MetaTags\Entities\Tag('link', [
     'rel' => 'favicon',
     'href' => 'http://site.com'
 ], true);
+// or
+$tag = \Butschster\Head\MetaTags\Entities\Tag::link([
+    'rel' => 'favicon',
+    'href' => 'http://site.com'
+]);
 
 $tag->toHtml();
 // <link rel="favicon" href="http://site.com" />
@@ -909,6 +918,7 @@ $tag = new \Butschster\Head\MetaTags\Entities\Tag('meta', [
 
 $tag->toHtml();
 // <meta name="csrf-token" content="8760b1d530d60d2cba6fe81cb12d67c0">
+
 ```
 
 **Set the placement**

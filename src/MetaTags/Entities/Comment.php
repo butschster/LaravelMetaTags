@@ -2,10 +2,14 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
+use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
+use Butschster\Head\MetaTags\Entities\Concerns\ManageVisibility;
 
-class Comment implements TagInterface
+class Comment implements TagInterface, HasVisibilityConditions
 {
+    use ManageVisibility;
+
     /**
      * @var string
      */

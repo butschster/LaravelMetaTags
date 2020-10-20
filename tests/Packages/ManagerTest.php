@@ -8,7 +8,7 @@ use Butschster\Tests\TestCase;
 
 class ManagerTest extends TestCase
 {
-    function test_a_pacakge_can_be_registered()
+    function test_a_package_can_be_registered()
     {
         $manager = new Manager();
         $package = new Package('jquery');

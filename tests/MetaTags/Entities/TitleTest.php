@@ -114,4 +114,22 @@ class TitleTest extends TestCase
 
         $this->assertHtmlableContains($text, $title);
     }
+
+    function test_by_default_title_is_visible()
+    {
+        $title = new Title('test');
+
+        $this->assertTrue($title->isVisible());
+    }
+
+    function test_visibility_condition_can_be_set()
+    {
+        $title = new Title('test');
+
+        // Make it invisible
+        $this->assertFalse($title->visibleWhen(function () {return false;})->isVisible());
+
+        // Make it visible
+        $this->assertTrue($title->visibleWhen(function () {return true;})->isVisible());
+    }
 }

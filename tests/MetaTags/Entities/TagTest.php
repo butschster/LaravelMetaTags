@@ -118,4 +118,28 @@ class TagTest extends TestCase
             $tag
         );
     }
+
+    function test_by_default_tag_is_visible()
+    {
+        $tag = Tag::meta([
+            'name' => 'description',
+            'content' => 'Another cool description'
+        ]);
+
+        $this->assertTrue($tag->isVisible());
+    }
+
+    function test_visibility_condition_can_be_set()
+    {
+        $tag = Tag::meta([
+            'name' => 'description',
+            'content' => 'Another cool description'
+        ]);
+
+        // Make it invisible
+        $this->assertFalse($tag->visibleWhen(function () {return false;})->isVisible());
+
+        // Make it visible
+        $this->assertTrue($tag->visibleWhen(function () {return true;})->isVisible());
+    }
 }

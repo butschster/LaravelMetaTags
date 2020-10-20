@@ -2,13 +2,14 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
-use Butschster\Head\MetaTags\Meta;
+use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Closure;
 
-class Tag implements TagInterface
+class Tag implements TagInterface, HasVisibilityConditions
 {
-    use Concerns\ManagePlacements;
+    use Concerns\ManagePlacements,
+        Concerns\ManageVisibility;
 
     /**
      * Make a new instance

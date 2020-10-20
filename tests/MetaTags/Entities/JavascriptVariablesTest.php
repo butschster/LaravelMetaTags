@@ -111,6 +111,24 @@ VAR
             , $meta);
 
     }
+
+    function test_by_default_variables_is_visible()
+    {
+        $container = new JavascriptVariables();
+
+        $this->assertTrue($container->isVisible());
+    }
+
+    function test_visibility_condition_can_be_set()
+    {
+        $container = new JavascriptVariables();
+
+        // Make it invisible
+        $this->assertFalse($container->visibleWhen(function () {return false;})->isVisible());
+
+        // Make it visible
+        $this->assertTrue($container->visibleWhen(function () {return true;})->isVisible());
+    }
 }
 
 class NonTransformable {

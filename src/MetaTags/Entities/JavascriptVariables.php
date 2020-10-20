@@ -2,14 +2,16 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
+use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use InvalidArgumentException;
 
-class JavascriptVariables implements TagInterface
+class JavascriptVariables implements TagInterface, HasVisibilityConditions
 {
-    use Concerns\ManagePlacements;
+    use Concerns\ManagePlacements,
+        Concerns\ManageVisibility;
 
     /**
      * @var array
