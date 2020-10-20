@@ -167,7 +167,9 @@ trait ManageMetaTags
     public function addCsrfToken()
     {
         return $this->addMeta('csrf-token', [
-            'content' => Session::token(),
+            'content' => function() {
+                return Session::token();
+            },
         ]);
     }
 
