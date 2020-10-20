@@ -6,6 +6,7 @@ use Butschster\Head\MetaTags\Entities\JavascriptVariables;
 use Butschster\Tests\TestCase;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use InvalidArgumentException;
 
 class JavascriptVariablesTest extends TestCase
 {
@@ -72,11 +73,9 @@ VAR
             , $container);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     function test_throw_an_exception_if_variable_can_not_transformable()
     {
+        $this->expectException(InvalidArgumentException::class);
         new JavascriptVariables([
             'object' => new NonTransformable(),
         ]);

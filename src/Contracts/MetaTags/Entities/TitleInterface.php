@@ -21,7 +21,7 @@ interface TitleInterface extends TagInterface
      *
      * @return $this
      */
-    public function setTitle(?string $title, int $maxLength = null);
+    public function setTitle(?string $title, ?int $maxLength = null);
 
     /**
      * Prepend next part of title

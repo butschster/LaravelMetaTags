@@ -15,9 +15,9 @@ class Description extends Tag
 
     /**
      * @param string $description
-     * @param int $maxLength
+     * @param int|null $maxLength
      */
-    public function __construct(string $description, int $maxLength = self::DEFAULT_LENGTH)
+    public function __construct(string $description, ?int $maxLength = self::DEFAULT_LENGTH)
     {
         parent::__construct('meta', []);
 

@@ -26,7 +26,7 @@ class Comment implements TagInterface
      * @param string $openComment
      * @param string|null $closeComment
      */
-    public function __construct(TagInterface $tag, string $openComment, string $closeComment = null)
+    public function __construct(TagInterface $tag, string $openComment, ?string $closeComment = null)
     {
         $this->tag = $tag;
         $this->openComment = $openComment;

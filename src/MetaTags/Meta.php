@@ -61,7 +61,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function addTag(string $name, TagInterface $tag, string $placement = null)
+    public function addTag(string $name, TagInterface $tag, ?string $placement = null)
     {
         $this->placement($placement ?: $tag->getPlacement())->put($name, $tag);
 
@@ -71,7 +71,7 @@ class Meta implements MetaInterface
     /**
      * @inheritdoc
      */
-    public function registerTags(TagsCollection $tags, string $placement = null)
+    public function registerTags(TagsCollection $tags, ?string $placement = null)
     {
         foreach ($tags as $name => $tag) {
             $this->addTag($name, $tag, $placement);

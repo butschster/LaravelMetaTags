@@ -69,7 +69,7 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      *
      * @return $this
      */
-    public function setDescription(string $description, int $maxLength = null);
+    public function setDescription(string $description, ?int $maxLength = null);
 
     /**
      * Get the meta description
@@ -86,7 +86,7 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      *
      * @return $this
      */
-    public function setKeywords($keywords, int $maxLength = null);
+    public function setKeywords($keywords, ?int $maxLength = null);
 
     /**
      * Get the meta keywords
@@ -315,7 +315,7 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      *
      * @return $this
      */
-    public function addTag(string $name, TagInterface $tag, string $placement = null);
+    public function addTag(string $name, TagInterface $tag, ?string $placement = null);
 
     /**
      * Register tags from collection
@@ -325,7 +325,7 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      *
      * @return $this
      */
-    public function registerTags(TagsCollection $tags, string $placement = null);
+    public function registerTags(TagsCollection $tags, ?string $placement = null);
 
     /**
      * Get the tag by name
