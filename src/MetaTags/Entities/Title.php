@@ -2,13 +2,13 @@
 
 namespace Butschster\Head\MetaTags\Entities;
 
+use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TitleInterface;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 
-class Title implements TitleInterface
+class Title implements TitleInterface, HasVisibilityConditions
 {
-    use Concerns\ManageMaxLength;
+    use Concerns\ManageMaxLength,
+        Concerns\ManageVisibility;
 
     const DEFAULT_LENGTH = null;
 

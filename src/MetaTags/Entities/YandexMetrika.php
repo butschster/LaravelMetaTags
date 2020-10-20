@@ -41,7 +41,7 @@ class YandexMetrika implements TagInterface
      */
     public function __call($method, $arguments)
     {
-        if (! method_exists($this->builder, $method)) {
+        if (!method_exists($this->builder, $method)) {
             throw new BadMethodCallException(sprintf(
                 'Method %s::%s does not exist.', get_class($this->builder), $method
             ));
@@ -59,7 +59,7 @@ class YandexMetrika implements TagInterface
      */
     public function toHtml()
     {
-        return (string) $this->builder;
+        return (string)$this->builder;
     }
 
     /**

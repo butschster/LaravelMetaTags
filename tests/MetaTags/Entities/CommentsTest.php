@@ -41,4 +41,24 @@ COM
             $comment
         );
     }
+
+    function test_by_default_comment_is_visible()
+    {
+        $favicon = new Favicon('http://site.com/favicon.ico');
+        $comment = new Comment($favicon, 'Favicon', 'Close comment');
+
+        $this->assertTrue($comment->isVisible());
+    }
+
+    function test_visibility_condition_can_be_set()
+    {
+        $favicon = new Favicon('http://site.com/favicon.ico');
+        $comment = new Comment($favicon, 'Favicon', 'Close comment');
+
+        // Make it invisible
+        $this->assertFalse($comment->visibleWhen(function () {return false;})->isVisible());
+
+        // Make it visible
+        $this->assertTrue($comment->visibleWhen(function () {return true;})->isVisible());
+    }
 }

@@ -21,13 +21,10 @@ class Placement extends TagsCollection implements PlacementInterface
      */
     public function toHtml()
     {
-        return $this->map(function ($tag) {
-            if ($tag instanceof Htmlable) {
-                return $tag->toHtml();
-            }
-
-            return (string) $tag;
-        })->implode(PHP_EOL);
+        return $this
+            ->onlyVisible()
+            ->stringifyEntities()
+            ->implode(PHP_EOL);
     }
 
     /**
