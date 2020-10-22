@@ -28,6 +28,8 @@ class MetaTest extends TestCase
             switch ($key) {
                 case 'meta_tags.title.default':
                     return 'Default title';
+                case 'meta_tags.title.separator':
+                    return '-';
                 case 'meta_tags.description.default':
                     return 'Default description';
                 case 'meta_tags.keywords.default':
@@ -72,7 +74,6 @@ class MetaTest extends TestCase
             '<script src="http://site.com/vuejs.js" defer></script>',
         ], $meta->footer());
     }
-
 
     function test_multiple_webmaster_tags_can_be_set()
     {

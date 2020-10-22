@@ -23,7 +23,9 @@ trait ManageMaxLength
             throw new InvalidArgumentException('The maximum length must be greater 0.');
         }
 
-        $this->maxLength = $maxLength;
+        if ($maxLength > 0) {
+            $this->maxLength = $maxLength;
+        }
 
         return $this;
     }
