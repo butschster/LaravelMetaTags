@@ -12,10 +12,6 @@ trait ManageTitle
      */
     public function setTitle(?string $title, int $maxLength = null)
     {
-        if (is_null($maxLength)) {
-            $maxLength = $this->config('title.max_length');
-        }
-
         $this->getTitle()->setTitle($this->cleanString($title), $maxLength);
 
         return $this;
@@ -56,6 +52,12 @@ trait ManageTitle
 
         if (!$title) {
             $this->addTag('title', $title = new Title());
+
+            if ($defaultSeparator = $this->config('title.separator')) {
+                $title->setSeparator($defaultSeparator);
+            }
+
+            $title->setMaxLength($this->config('title.max_length'));
         }
 
         return $title;

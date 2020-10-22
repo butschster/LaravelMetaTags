@@ -114,14 +114,33 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_gets_max_keywords_length_from_config_by_default()
+    function test_gets_max_title_length_from_config_by_default()
     {
         $config = $this->makeConfig();
         $config->shouldReceive('get')->once()->with('meta_tags.title.max_length', null)->andReturn(4);
+        $config->shouldReceive('get')->once()->with('meta_tags.title.separator', null)->andReturn('-');
 
         $this->assertHtmlableContains(
             '<title>test...</title>',
             $this->makeMetaTags(null, $config)->setTitle('test title')
+        );
+    }
+
+    function test_gets_default_title_separator_from_config_by_default()
+    {
+        $config = $this->makeConfig();
+        $config->shouldReceive('get')->twice()->with('meta_tags.title.max_length', null)->andReturn(null);
+        $config->shouldReceive('get')->once()->with('meta_tags.title.separator', null)->andReturn('-');
+        $config->shouldReceive('get')->once()->with('meta_tags.title.separator', null)->andReturn(null);
+
+        $this->assertHtmlableContains(
+            '<title>hello world - test title</title>',
+            $this->makeMetaTags(null, $config)->setTitle('test title')->prependTitle('hello world')
+        );
+
+        $this->assertHtmlableContains(
+            '<title>hello world | test title</title>',
+            $this->makeMetaTags(null, $config)->setTitle('test title')->prependTitle('hello world')
         );
     }
 }
