@@ -1,4 +1,4 @@
-![Image](https://camo.githubusercontent.com/232b6e30a642047f3b1de99599e8f14f05198f6d/68747470733a2f2f686162726173746f726167652e6f72672f776562742f79762f74742f612d2f79767474612d36746e6d366170776373346d63736f6774777a626d2e6a706567)
+![meta-tags](https://user-images.githubusercontent.com/773481/96843847-730eeb80-1457-11eb-9ee2-806c0650dea6.jpg)
 
 # The most powerful and extendable tools for managing SEO Meta Tags in your Laravel project
 
@@ -19,7 +19,7 @@ Laravel SEO Meta Tags is a beautiful tools for Laravel applications. Of course, 
 - Well tested
 
 ### Requirements
-- Laravel 5.6 to 7.x
+- Laravel 5.6 to 8.x
 - PHP 7.1 and above
 
 ## Installation and Configuration
