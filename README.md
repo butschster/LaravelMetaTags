@@ -482,6 +482,41 @@ $package->setTitle('New title');
 Meta::registerPackage($package);
 ```
 
+**Replace package with the same name**
+When you replace package with a new one, old tags will be removed
+```php
+$package = new \Butschster\Head\Packages\Package('custom_package');
+$package->setTitle('Custom title');
+
+$newPackage = new \Butschster\Head\Packages\Package('custom_package');
+$newPackage->setTitle('New title');
+
+// Will replace "Current title" to "New title" after package registration
+Meta::registerPackage($package);
+Meta::replacePackage($newPackage);
+```
+
+**Remove package by name**
+```php
+$package = new \Butschster\Head\Packages\Package('custom_package');
+$package->setTitle('Custom title');
+
+// Will replace "Current title" to "New title" after package registration
+Meta::registerPackage($package);
+Meta::removePackage('custom_package');
+```
+
+**Get package by name**
+```php
+$package = new \Butschster\Head\Packages\Package('custom_package');
+$package->setTitle('Custom title');
+
+// Will replace "Current title" to "New title" after package registration
+Meta::registerPackage($package);
+
+$package = Meta::getPackage('custom_package');
+```
+
 #### Using meta interfaces
 A package has different interfaces which help you set meta tags from your objects
 

@@ -43,7 +43,7 @@ class DependencyInjectionTest extends TestCase
     function test_registered_dependencies_should_not_register_twice()
     {
         $package = \Mockery::mock(Package::class);
-        $package->shouldReceive('getName')->times(3)->andReturn('jquery');
+        $package->shouldReceive('getName')->times(4)->andReturn('jquery');
         $package->shouldReceive('getDependencies')->once()->andReturn(['jquery']);
         $package->shouldReceive('getPlacements')->once()->andReturn([]);
         $package->shouldReceive('getTags')->once()->andReturn(new TagsCollection([

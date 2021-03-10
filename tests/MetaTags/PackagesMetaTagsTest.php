@@ -104,6 +104,86 @@ class PackagesMetaTagsTest extends TestCase
             $meta->placement('footer')
         );
     }
+
+    function test_registered_package_should_return_object_by_name()
+    {
+        $meta = $this->makeMetaTags();
+
+        $package = new Package('jquery');
+        $meta->registerPackage($package);
+
+        $this->assertSame($package, $meta->getPackage('jquery'));
+    }
+
+    function test_not_registered_package_should_return_null_by_name()
+    {
+        $meta = $this->makeMetaTags();
+        $this->assertNull($meta->getPackage('jquery'));
+    }
+
+    function test_replace_package()
+    {
+        $meta = $this->makeMetaTags();
+
+        $package = new Package('jquery');
+        $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js', ['defer'], 'head');
+        $package->addScript('jquery.footer', 'http://cdn.jquery.com/jquery.footer.latest.js');
+
+        $packageForReplace = new Package('jquery');
+        $packageForReplace->addScript('jquery', 'http://cdn.jquery.com/jquery.newest.js', ['defer'], 'head');
+
+        $meta->registerPackage($package);
+        $this->assertSame($package, $meta->getPackage('jquery'));
+        $this->assertHtmlableContains([
+            '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
+        ], $meta);
+        $this->assertHtmlableContains(
+            '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
+            $meta->placement('footer')
+        );
+
+        $meta->registerPackage($packageForReplace);
+        $this->assertNotSame($packageForReplace, $meta->getPackage('jquery'));
+        $this->assertHtmlableContains([
+            '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
+        ], $meta);
+        $this->assertHtmlableContains(
+            '<script src="http://cdn.jquery.com/jquery.footer.latest.js"></script>',
+            $meta->placement('footer')
+        );
+
+        $this->assertSame($meta, $meta->replacePackage($packageForReplace));
+        $this->assertSame($packageForReplace, $meta->getPackage('jquery'));
+        $this->assertHtmlableContains([
+            '<script src="http://cdn.jquery.com/jquery.newest.js" defer></script>',
+        ], $meta);
+        $this->assertHtmlableContains(
+            '',
+            $meta->placement('footer')
+        );
+    }
+
+    function test_registered_package_should_be_removed()
+    {
+        $meta = $this->makeMetaTags();
+
+        $package = new Package('jquery');
+        $package->addScript('jquery', 'http://cdn.jquery.com/jquery.latest.js', ['defer'], 'head');
+
+        $meta->registerPackage($package);
+        $this->assertHtmlableContains([
+            '<script src="http://cdn.jquery.com/jquery.latest.js" defer></script>',
+        ], $meta);
+
+        $this->assertSame($meta, $meta->removePackage('jquery'));
+        $this->assertHtmlableContains('', $meta);
+    }
+
+    function test_not_registered_package_should_be_avoid()
+    {
+        $meta = $this->makeMetaTags();
+        $this->assertSame($meta, $meta->removePackage('jquery'));
+    }
 }
 
 class TestPackage extends TagsCollection implements PackageInterface
