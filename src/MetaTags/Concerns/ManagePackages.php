@@ -30,6 +30,7 @@ trait ManagePackages
         }
 
         $this->registeredPackages[] = $name;
+        $this->packageManager->register($package);
 
         if ($package instanceof WithDependencies) {
             $this->includePackages(
@@ -48,6 +49,54 @@ trait ManagePackages
         );
 
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function replacePackage(PackageInterface $package)
+    {
+        $this->removePackage($package->getName());
+
+        return $this->registerPackage($package);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removePackage(string $name)
+    {
+        $package = $this->getPackage($name);
+
+        if (($index = array_search($name, $this->registeredPackages)) !== false) {
+            unset($this->registeredPackages[$index]);
+        }
+
+        if (!$package) {
+            return $this;
+        }
+
+        if ($package instanceof PlacementsInterface) {
+            foreach ($package->getPlacements() as $placement => $tags) {
+                foreach ($tags as $name => $tag) {
+                    $this->removeTag($name);
+                }
+            }
+        }
+
+        foreach ($package->getTags() as $name => $tag) {
+            $this->removeTag($name);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPackage(string $name): ?PackageInterface
+    {
+        return $this->packageManager->getPackage($name);
     }
 
     /**

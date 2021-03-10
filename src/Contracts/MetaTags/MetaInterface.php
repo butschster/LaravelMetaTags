@@ -412,4 +412,27 @@ interface MetaInterface extends Htmlable, PlacementsInterface
      * @return $this
      */
     public function registerPackage(PackageInterface $package);
+
+    /**
+     * Replace package with a new one with the same name
+     * @param PackageInterface $package
+     *
+     * @return $this
+     */
+    public function replacePackage(PackageInterface $package);
+
+    /**
+     * Remove package by name
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function removePackage(string $name);
+
+    /**
+     * Find package by name
+     * @param string $name Package name
+     * @return PackageInterface|null
+     */
+    public function getPackage(string $name): ?PackageInterface;
 }
