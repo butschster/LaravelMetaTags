@@ -44,43 +44,31 @@ class VueMetaHydratorTest extends TestCase
                 [
                     'name' => 'description',
                     'content' => 'meta description',
-                    'type' => 'tag',
-                    'tag' => 'meta',
                     'hid' => 'description',
                 ],
                 [
                     'name' => 'keywords',
                     'content' => 'keyword 1, keyword 2',
-                    'type' => 'tag',
-                    'tag' => 'meta',
                     'hid' => 'keywords',
                 ],
                 [
                     'name' => 'robots',
                     'content' => 'no follow',
-                    'type' => 'tag',
-                    'tag' => 'meta',
                     'hid' => 'robots',
                 ],
                 [
                     'http-equiv' => 'Content-Type',
                     'content' => 'text/html; charset=utf-8',
-                    'type' => 'tag',
-                    'tag' => 'meta',
-                    'hid' => '2e3efde431b45a5fe05766b501f069c3'
+                    'hid' => '3fe512a378a25993c5c0cba66099f2b4'
                 ],
                 [
                     'name' => 'viewport',
                     'content' => 'width=device-width, initial-scale=1',
-                    'type' => 'tag',
-                    'tag' => 'meta',
                     'hid' => 'viewport',
                 ],
                 [
                     'name' => 'og::title',
                     'content' => 'test og title',
-                    'type' => 'tag',
-                    'tag' => 'meta',
                     'hid' => 'og::title',
                 ],
             ],
@@ -88,44 +76,32 @@ class VueMetaHydratorTest extends TestCase
                 [
                     'rel' => 'next',
                     'href' => 'http://site.com',
-                    'type' => 'tag',
-                    'tag' => 'link',
                 ],
                 [
                     'rel' => 'prev',
                     'href' => 'http://site.com',
-                    'type' => 'tag',
-                    'tag' => 'link',
                 ],
                 [
                     'rel' => 'alternate',
                     'hreflang' => 'en',
                     'href' => 'http://site.com/en',
-                    'type' => 'tag',
-                    'tag' => 'link',
                 ],
                 [
                     'rel' => 'alternate',
                     'hreflang' => 'ru',
                     'href' => 'http://site.com/ru',
-                    'type' => 'tag',
-                    'tag' => 'link',
                 ],
                 [
                     'media' => 'all',
-                    'type' => 'text/css',
                     'rel' => 'stylesheet',
                     'href' => 'http://site.com/bootstrap.css',
                     'async' => true,
-                    'tag' => 'link',
                 ]
             ],
             'script' => [
                 [
                     'src' => 'http://site.com/jquery.js',
                     'defer' => true,
-                    'type' => 'tag',
-                    'tag' => 'script',
                 ]
             ],
         ], $hydrator->hydrate($meta));

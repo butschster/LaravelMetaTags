@@ -5,7 +5,6 @@ namespace Butschster\Head\Hydrator;
 
 use Butschster\Head\Contracts\Hydrator;
 use Butschster\Head\Contracts\MetaTags\MetaInterface;
-use Illuminate\Support\Str;
 
 class VueMetaHydrator implements Hydrator
 {
@@ -42,7 +41,10 @@ class VueMetaHydrator implements Hydrator
             return;
         }
 
-        switch ($item['tag']) {
+        $tag = $item['tag'];
+        unset($item['tag'], $item['type']);
+
+        switch ($tag) {
             case 'title':
                 return $this->formatTitle($item);
             case 'meta':

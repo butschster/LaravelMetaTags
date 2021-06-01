@@ -1395,3 +1395,63 @@ class MetaTagsServiceProvider {
     ...
 }
 ```
+
+# Using with inertiajs or vue-meta
+You can easily convert Meta object to array ant the use values in your Js project
+
+```php
+$meta = Meta::setTitle('Laravel')
+    ->setDescription('Awesome page')
+    ->setKeywords('php, laravel, ...');
+
+dd($meta->toArray());
+
+[
+    'title' => 'Laravel',
+    'meta' => [
+        [
+            'name' => 'description',
+            'content' => 'Awesome page',
+            'hid' => 'description',
+       ],
+       [
+            'name' => 'keywords',
+            'content' => 'php, laravel, ...',
+            'hid' => 'keywords',
+       ],
+    ],
+    ...
+]
+```
+
+Example for inertiaJs
+
+```php
+use Inertia\Inertia;
+use Butschster\Head\MetaTags\MetaInterface;
+use Butschster\Head\Hydrator\VueMetaHydrator;
+
+class EventsController extends Controller
+{
+    protected $meta;
+ 
+    public function __contruct(MetaInterface $meta)
+    {
+        $this->meta = $meta;
+    }
+    
+    public function show(Event $event, VueMetaHydrator $hydrator)
+    {
+        $this->meta->setTitle('Laravel')
+            ->setDescription('Awesome page')
+            ->setKeywords('php, laravel, ...');
+    
+        return Inertia::render('Event/Show', [
+            'event' => $event->only('id', 'title', 'start_date', 'description'),
+            
+            // this.$page.props.meta...
+            'meta' => $hydrator->hydrate($this->meta)
+        ]);
+    }
+}
+```
