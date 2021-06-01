@@ -39,4 +39,6 @@ class ScriptTest extends TestCase
 
         $this->assertEquals('test', $script->getPlacement());
     }
+
+
 }

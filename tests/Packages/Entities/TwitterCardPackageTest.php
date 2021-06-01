@@ -102,4 +102,79 @@ class TwitterCardPackageTest extends TestCase
             '<meta name="twitter:image" content="https://site.com">'
         ], $meta);
     }
+
+    function test_converts_to_array()
+    {
+        $meta = $this->makeMetaTags()
+            ->setDescription('Meta description')
+            ->setTitle('Meta title');
+
+        $card = new TwitterCardPackage('twitter');
+
+        $card->addMeta('url', 'https://site.com')
+            ->addImage('https://site.com')
+            ->setCreator('@username')
+            ->setDescription('View the album on Flickr.')
+            ->setTitle('Post title')
+            ->setSite('@username')
+            ->setType(TwitterCardPackage::CARD_SUMMARY);
+
+
+        $meta->registerPackage($card);
+
+        $this->assertEquals([
+            [
+                'name' => 'description',
+                'content' => 'Meta description',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'tag' => 'title',
+                'content' => 'Meta title',
+            ],
+            [
+                'name' => 'twitter:url',
+                'content' => 'https://site.com',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'twitter:image',
+                'content' => 'https://site.com',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'twitter:creator',
+                'content' => '@username',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'twitter:description',
+                'content' => 'View the album on Flickr.',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'twitter:title',
+                'content' => 'Post title',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'twitter:site',
+                'content' => '@username',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'twitter:card',
+                'content' => 'summary',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+        ], $meta->head()->toArray());
+    }
 }

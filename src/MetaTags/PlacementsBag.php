@@ -3,9 +3,11 @@
 namespace Butschster\Head\MetaTags;
 
 use Butschster\Head\Contracts\MetaTags\PlacementInterface;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
-class PlacementsBag
+class PlacementsBag implements Arrayable
 {
     /**
      * The array of the view error bags.
@@ -43,5 +45,12 @@ class PlacementsBag
     public function all(): array
     {
         return $this->bags;
+    }
+
+    public function toArray()
+    {
+        return array_map(function (Placement $placement) {
+            return $placement->toArray();
+        }, $this->bags);
     }
 }

@@ -37,4 +37,28 @@ class HrefLangMetaTagsTest extends TestCase
     {
         $this->assertNull($this->makeMetaTags()->getHrefLang('en'));
     }
+
+    function test_convert_to_array()
+    {
+        $meta = $this->makeMetaTags()
+            ->setHrefLang('en', 'http://site.com')
+            ->setHrefLang('ru', 'http://site.com/ru');
+
+        $this->assertEquals([
+            [
+                'rel' => 'alternate',
+                'hreflang' => 'en',
+                'href' => 'http://site.com',
+                'type' => 'tag',
+                'tag' => 'link',
+            ],
+            [
+                'rel' => 'alternate',
+                'hreflang' => 'ru',
+                'href' => 'http://site.com/ru',
+                'type' => 'tag',
+                'tag' => 'link',
+            ],
+        ], $meta->head()->toArray());
+    }
 }

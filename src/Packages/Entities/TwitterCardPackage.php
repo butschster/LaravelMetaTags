@@ -163,4 +163,9 @@ class TwitterCardPackage implements TwitterCardPackageInterface
     {
         return $this->addMeta('description', $description);
     }
+
+    public function toArray()
+    {
+        return $this->tags->toArray();
+    }
 }

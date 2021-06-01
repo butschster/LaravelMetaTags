@@ -56,4 +56,9 @@ class TagsCollection extends Collection
 
         parent::offsetSet($key, $value);
     }
+
+    public function toArray()
+    {
+        return array_values(parent::toArray());
+    }
 }

@@ -137,4 +137,12 @@ class Title implements TitleInterface, HasVisibilityConditions
     {
         return $this->toHtml();
     }
+
+    public function toArray()
+    {
+        return [
+            'tag' => 'title',
+            'content' => $this->makeTitle()
+        ];
+    }
 }

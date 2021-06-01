@@ -143,4 +143,15 @@ class TitleMetaTagsTest extends TestCase
             $this->makeMetaTags(null, $config)->setTitle('test title')->prependTitle('hello world')
         );
     }
+
+    function test_converts_to_array()
+    {
+        $this->assertEquals(
+            [
+                'content' => 'test title',
+                'tag' => 'title',
+            ],
+            $this->makeMetaTags()->setTitle('test title')->getTitle()->toArray()
+        );
+    }
 }

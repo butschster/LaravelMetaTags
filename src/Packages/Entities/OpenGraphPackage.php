@@ -197,4 +197,9 @@ class OpenGraphPackage implements PackageInterface
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return  $this->tags->toArray();
+    }
 }

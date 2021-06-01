@@ -154,4 +154,31 @@ class Tag implements TagInterface, HasVisibilityConditions
     {
         return $this->toHtml();
     }
+
+    public function toArray()
+    {
+        $attributes = [];
+
+        foreach ($this->getAttributes() as $key => $value) {
+            $element = $this->attributeElement($key, $value);
+
+            if ($value instanceof Closure) {
+                $value = $value();
+            }
+
+            if (is_numeric($key)) {
+                $key = $value;
+                $value = true;
+
+                $attributes[$key] = $value;
+            } else {
+                $attributes[$key] = (string) $value;
+            }
+        }
+
+        return $attributes + [
+            'type' => 'tag',
+            'tag' => $this->tagName
+        ];
+    }
 }

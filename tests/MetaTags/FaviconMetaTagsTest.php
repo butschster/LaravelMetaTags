@@ -24,4 +24,20 @@ class FaviconMetaTagsTest extends TestCase
                 ])
         );
     }
+
+    function test_convert_to_array()
+    {
+        $this->assertEquals([
+            [
+                'rel' => 'icon',
+                'type' => 'image/x-icon',
+                'href' => 'http://example.com/favicon.ico',
+                'sizes' => '16x16',
+                'tag' => 'link',
+            ]
+        ], $this->makeMetaTags()
+            ->setFavicon('http://example.com/favicon.ico', [
+                'sizes' => '16x16'
+            ])->head()->toArray());
+    }
 }

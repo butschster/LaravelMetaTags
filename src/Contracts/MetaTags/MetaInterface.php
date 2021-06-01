@@ -8,9 +8,10 @@ use Butschster\Head\MetaTags\Concerns\ManageMetaTags;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\TagsCollection;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 
-interface MetaInterface extends Htmlable, PlacementsInterface
+interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
 {
     /**
      * Set meta information from object

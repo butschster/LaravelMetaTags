@@ -2,9 +2,10 @@
 
 namespace Butschster\Head\MetaTags\Entities\Builders;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 
-class YandexMetrikaCounterBuilder implements Htmlable
+class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
 {
     /**
      * @var string
@@ -214,5 +215,13 @@ TAG
     private function filteredSettings(): array
     {
         return array_filter($this->settings);
+    }
+
+    public function toArray()
+    {
+        return [
+            'settings' => $this->settings,
+            'counter_id' => $this->counterId,
+        ];
     }
 }

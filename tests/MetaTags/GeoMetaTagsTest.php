@@ -67,4 +67,35 @@ class GeoMetaTagsTest extends TestCase
             $meta
         );
     }
+
+    function test_convert_to_array()
+    {
+
+        $metatags = m::mock(GeoMetaInformationInterface::class);
+        $metatags->shouldReceive('latitude')->once()->andReturn('latitude');
+        $metatags->shouldReceive('longitude')->once()->andReturn('longitude');
+        $metatags->shouldReceive('placename')->once()->andReturn('Moscow');
+        $metatags->shouldReceive('region')->once()->andReturn('Russia');
+
+        $this->assertEquals([
+            [
+                'name' => 'geo.position',
+                'content' => 'latitude; longitude',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'geo.placename',
+                'content' => 'Moscow',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'geo.region',
+                'content' => 'Russia',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+        ], $this->makeMetaTags()->setGeo($metatags)->head()->toArray());
+    }
 }

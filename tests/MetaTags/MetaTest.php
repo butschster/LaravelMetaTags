@@ -192,4 +192,120 @@ class MetaTest extends TestCase
             '<link rel="alternate" hreflang="ru" href="http://site.com/ru">'
         ], $meta);
     }
+
+    function test_converts_to_array()
+    {
+        $manager = new Manager();
+
+        $manager->create('jquery', function ($package) {
+            $package->addScript('jquery.js', 'http://site.com/jquery.js', ['defer']);
+            $package->addStyle('bootstrap.css', 'http://site.com/bootstrap.css', ['async']);
+        });
+
+        $meta = $this->makeMetaTags($manager)
+            ->setTitle('test title')
+            ->prependTitle('additional title')
+            ->setDescription('meta description')
+            ->setKeywords(['keyword 1', 'keyword 2'])
+            ->setRobots('no follow')
+            ->setNextHref('http://site.com')
+            ->setPrevHref('http://site.com')
+            ->setContentType('<h5>text/html</h5>')
+            ->setHrefLang('en', 'http://site.com/en')
+            ->setHrefLang('ru', 'http://site.com/ru')
+            ->setViewport('width=device-width, initial-scale=1')
+            ->addMeta('og::title', [
+                'content' => 'test og title'
+            ]);
+
+        $meta->includePackages('jquery');
+
+
+        $this->assertEquals([
+            'head' => [
+                [
+                    'tag' => 'title',
+                    'content' => 'additional title | test title',
+                ],
+                [
+                    'name' => 'description',
+                    'content' => 'meta description',
+                    'type' => 'tag',
+                    'tag' => 'meta',
+                ],
+                [
+                    'name' => 'keywords',
+                    'content' => 'keyword 1, keyword 2',
+                    'type' => 'tag',
+                    'tag' => 'meta',
+                ],
+                [
+                    'name' => 'robots',
+                    'content' => 'no follow',
+                    'type' => 'tag',
+                    'tag' => 'meta',
+                ],
+                [
+                    'rel' => 'next',
+                    'href' => 'http://site.com',
+                    'type' => 'tag',
+                    'tag' => 'link',
+                ],
+                [
+                    'rel' => 'prev',
+                    'href' => 'http://site.com',
+                    'type' => 'tag',
+                    'tag' => 'link',
+                ],
+                [
+                    'http-equiv' => 'Content-Type',
+                    'content' => 'text/html; charset=utf-8',
+                    'type' => 'tag',
+                    'tag' => 'meta',
+                ],
+                [
+                    'rel' => 'alternate',
+                    'hreflang' => 'en',
+                    'href' => 'http://site.com/en',
+                    'type' => 'tag',
+                    'tag' => 'link',
+                ],
+                [
+                    'rel' => 'alternate',
+                    'hreflang' => 'ru',
+                    'href' => 'http://site.com/ru',
+                    'type' => 'tag',
+                    'tag' => 'link',
+                ],
+                [
+                    'name' => 'viewport',
+                    'content' => 'width=device-width, initial-scale=1',
+                    'type' => 'tag',
+                    'tag' => 'meta',
+                ],
+                [
+                    'name' => 'og::title',
+                    'content' => 'test og title',
+                    'type' => 'tag',
+                    'tag' => 'meta',
+                ],
+                [
+                    'media' => 'all',
+                    'type' => 'text/css',
+                    'rel' => 'stylesheet',
+                    'href' => 'http://site.com/bootstrap.css',
+                    'tag' => 'link',
+                    'async' => true,
+                ]
+            ],
+            'footer' => [
+                [
+                    'src' => 'http://site.com/jquery.js',
+                    'defer' => true,
+                    'type' => 'tag',
+                    'tag' => 'script',
+                ]
+            ]
+        ], $meta->toArray());
+    }
 }

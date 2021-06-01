@@ -6,6 +6,7 @@ use Butschster\Head\MetaTags\Placement;
 use Butschster\Head\MetaTags\Entities\Tag;
 use Butschster\Head\MetaTags\TagsCollection;
 use Butschster\Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class PlacementTest extends TestCase
 {
@@ -55,6 +56,34 @@ class PlacementTest extends TestCase
         $this->assertHtmlableNotContains([
             '<meta attr="value1">',
         ], $placement);
+    }
+
+    function test_converts_to_array()
+    {
+        $placement = new Placement();
+
+        $placement->add(Tag::meta([
+            'attr' => 'value'
+        ]));
+
+        $placement->add(Tag::meta([
+            'attr' => 'value1'
+        ])->visibleWhen(function () {
+            return false;
+        }));
+
+        $this->assertEquals([
+            [
+                'attr' => 'value',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'attr' => 'value1',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ]
+        ], $placement->toArray());
     }
 
 }

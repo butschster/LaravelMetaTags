@@ -44,4 +44,17 @@ class ViewportMetaTagsTest extends TestCase
             $meta->getViewport()
         );
     }
+
+    function test_converts_to_array()
+    {
+        $this->assertEquals(
+            [
+                'content' => 'width=device-width, initial-scale=1',
+                'tag' => 'meta',
+                'name' => 'viewport',
+                'type' => 'tag',
+            ],
+            $this->makeMetaTags()->setViewport('width=device-width, initial-scale=1')->getViewport()->toArray()
+        );
+    }
 }

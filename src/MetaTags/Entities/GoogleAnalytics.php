@@ -56,4 +56,12 @@ TAG
     {
         return $this->toHtml();
     }
+
+    public function toArray()
+    {
+        return [
+            'type' => 'google_analytics',
+            'counter_id' => $this->counterId
+        ];
+    }
 }

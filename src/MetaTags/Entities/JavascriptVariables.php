@@ -242,4 +242,12 @@ VAR
     {
         return $this->toHtml();
     }
+
+    public function toArray()
+    {
+        return [
+            'type' => 'javascript_variables',
+            'variables' => $this->variables
+        ];
+    }
 }

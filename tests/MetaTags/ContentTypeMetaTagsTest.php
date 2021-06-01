@@ -48,4 +48,16 @@ class ContentTypeMetaTagsTest extends TestCase
                 ->getContentType()
         );
     }
+
+    function test_convert_to_array()
+    {
+        $meta = $this->makeMetaTags();
+
+        $this->assertEquals([
+            'http-equiv' => 'Content-Type',
+            'content' => 'text/html; charset=ISO-8859-1',
+            'type' => 'tag',
+            'tag' => 'meta',
+        ], $meta->setContentType('text/html', 'ISO-8859-1')->getContentType()->toArray());
+    }
 }

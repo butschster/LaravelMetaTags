@@ -147,4 +147,9 @@ class Meta implements MetaInterface
 
         return $this->config->get('meta_tags.'.$key, $default);
     }
+
+    public function toArray()
+    {
+        return $this->placements->toArray();
+    }
 }

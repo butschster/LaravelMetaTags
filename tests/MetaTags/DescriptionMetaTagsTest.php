@@ -68,4 +68,14 @@ class DescriptionMetaTagsTest extends TestCase
             $this->makeMetaTags(null, $config)->setDescription('test description')
         );
     }
+
+    function test_convert_to_array()
+    {
+        $this->assertEquals([
+            'content' => 'test description',
+            'type' => 'tag',
+            'tag' => 'meta',
+            'name' => 'description',
+        ], $this->makeMetaTags()->setDescription('test description')->getDescription()->toArray());
+    }
 }

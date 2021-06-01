@@ -67,4 +67,13 @@ COM
     {
         return $this->tag->getPlacement();
     }
+
+    public function toArray()
+    {
+        return [
+            'type' => 'comment',
+            'tag' => $this->tag->toArray(),
+            'content' => $this->toHtml()
+        ];
+    }
 }

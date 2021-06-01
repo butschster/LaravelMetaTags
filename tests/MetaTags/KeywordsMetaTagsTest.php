@@ -70,7 +70,7 @@ class KeywordsMetaTagsTest extends TestCase
         $text = 'quête de performance, grâce à ses solutions d’amélioration de la qualité de vie et de fidélisation des salariés';
 
         $this->assertHtmlableEquals(
-            '<meta name="keywords" content="'.$text.'">',
+            '<meta name="keywords" content="' . $text . '">',
             $this->makeMetaTags()->setKeywords($text)
         );
     }
@@ -92,5 +92,15 @@ class KeywordsMetaTagsTest extends TestCase
             '<meta name="keywords" content="test...">',
             $this->makeMetaTags(null, $config)->setKeywords('test keywords')
         );
+    }
+
+    function test_convert_to_array()
+    {
+        $this->assertEquals([
+            'content' => 'test keywords',
+            'type' => 'tag',
+            'tag' => 'meta',
+            'name' => 'keywords',
+        ], $this->makeMetaTags()->setKeywords('test keywords')->getKeywords()->toArray());
     }
 }

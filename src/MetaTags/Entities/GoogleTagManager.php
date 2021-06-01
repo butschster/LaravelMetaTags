@@ -37,8 +37,8 @@ class GoogleTagManager implements TagInterface
   gtag('config', '%s');
 </script>
 TAG
-        , $this->counterId, $this->counterId
-);
+            , $this->counterId, $this->counterId
+        );
     }
 
     /**
@@ -55,5 +55,13 @@ TAG
     public function __toString()
     {
         return $this->toHtml();
+    }
+
+    public function toArray()
+    {
+        return [
+            'type' => 'google_tag_manager',
+            'counter_id' => $this->counterId
+        ];
     }
 }

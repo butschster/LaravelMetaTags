@@ -56,7 +56,7 @@ class OpenGraphPackageTest extends TestCase
             $graph->addImage('https://site.com')
         );
     }
-    
+
     function test_an_image_can_have_properties()
     {
         $graph = new OpenGraphPackage('facebook');
@@ -157,5 +157,46 @@ class OpenGraphPackageTest extends TestCase
             '<meta property="og:url" content="https://site.com">',
             '<meta property="og:image" content="https://site.com">'
         ], $meta);
+    }
+
+    function test_converts_to_array()
+    {
+        $meta = $this->makeMetaTags()
+            ->setDescription('Meta description')
+            ->setTitle('Meta title');
+
+        $graph = new OpenGraphPackage('facebook');
+
+        $graph->addOgMeta('url', 'https://site.com')
+            ->addImage('https://site.com')
+            ->setDescription('View the album on Flickr.')
+            ->setTitle('Post title');
+
+        $this->assertEquals([
+            [
+                'property' => 'og:url',
+                'content' => 'https://site.com',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'property' => 'og:image',
+                'content' => 'https://site.com',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'property' => 'og:description',
+                'content' => 'View the album on Flickr.',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'property' => 'og:title',
+                'content' => 'Post title',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+        ], $graph->toArray());
     }
 }

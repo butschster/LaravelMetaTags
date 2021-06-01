@@ -69,4 +69,11 @@ class YandexMetrika implements TagInterface
     {
         return $this->toHtml();
     }
+
+    public function toArray()
+    {
+        return [
+            'type' => 'yandex_metrika',
+        ] + $this->builder->toArray();
+    }
 }

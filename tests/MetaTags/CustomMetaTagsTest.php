@@ -5,6 +5,7 @@ namespace Butschster\Tests\MetaTags;
 use Butschster\Head\MetaTags\Entities\Tag;
 use Butschster\Head\MetaTags\TagsCollection;
 use Butschster\Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class CustomMetaTagsTest extends TestCase
 {
@@ -73,5 +74,30 @@ class CustomMetaTagsTest extends TestCase
         $this->assertHtmlableNotContains('<meta name="tag2">', $meta->placement('footer'));
         $this->assertHtmlableContains('<meta name="tag1">', $meta->placement('test'));
         $this->assertHtmlableContains('<meta name="tag2">', $meta->placement('test'));
+    }
+
+    function test_convert_to_array()
+    {
+        $meta = $this->makeMetaTags();
+
+        $tag1 = Tag::meta(['name' => 'tag1']);
+        $tag2 = Tag::meta(['name' => 'tag2']);
+
+        $meta->registerTags(new TagsCollection([
+            $tag1, $tag2->setPlacement('footer')
+        ]), 'test');
+
+        $this->assertEquals([
+            [
+                'name' => 'tag1',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ],
+            [
+                'name' => 'tag2',
+                'type' => 'tag',
+                'tag' => 'meta',
+            ]
+        ], $meta->placement('test')->toArray());
     }
 }
