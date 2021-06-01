@@ -6,6 +6,8 @@ Laravel SEO Meta Tags is a beautiful tools for Laravel applications. Of course, 
 
 **It can be used with [Inertiajs](https://inertiajs.com/), [VueJS](https://nuxtjs.org/docs/2.x/features/meta-tags-seo) or other JS framework.**
 
+If you have any questions feel free to ask in official [telegram group](https://t.me/joinchat/bLS_hGWcFxo0MDEy)
+
 [![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dbutschster%26type%3Dpatrons&style=flat)](https://patreon.com/butschster)
 [![Build Status](https://travis-ci.org/butschster/LaravelMetaTags.svg)](https://travis-ci.org/butschster/LaravelMetaTags) [![Latest Stable Version](https://poser.pugx.org/butschster/meta-tags/v/stable)](https://packagist.org/packages/butschster/meta-tags) [![Total Downloads](https://poser.pugx.org/butschster/meta-tags/downloads)](https://packagist.org/packages/butschster/meta-tags) [![License](https://poser.pugx.org/butschster/meta-tags/license)](https://packagist.org/packages/butschster/meta-tags)
 
