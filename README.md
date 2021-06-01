@@ -1409,20 +1409,24 @@ $meta = Meta::setTitle('Laravel')
 dd($meta->toArray());
 
 [
-    'title' => 'Laravel',
-    'meta' => [
+    'head' => [
+        [
+            'tag' => 'title',
+            'content' => 'Laravel',
+        ],
         [
             'name' => 'description',
             'content' => 'Awesome page',
-            'hid' => 'description',
-       ],
-       [
+            'type' => 'tag',
+            'tag' => 'meta',
+        ],
+        [
             'name' => 'keywords',
             'content' => 'php, laravel, ...',
-            'hid' => 'keywords',
-       ],
-    ],
-    ...
+            'type' => 'tag',
+            'tag' => 'meta',
+        ],
+    ]
 ]
 ```
 
