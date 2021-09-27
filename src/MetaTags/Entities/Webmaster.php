@@ -9,6 +9,7 @@ class Webmaster extends Tag
     const PINTEREST = 'pinterest';
     const ALEXA = 'alexa';
     const BING = 'bing';
+    const FACEBOOK = 'facebook';
 
     /**
      * The supported webmasters.
@@ -21,6 +22,7 @@ class Webmaster extends Tag
         Webmaster::PINTEREST => 'p:domain_verify',
         Webmaster::ALEXA => 'alexaVerifyID',
         Webmaster::BING => 'msvalidate.01',
+        Webmaster::FACEBOOK => 'facebook-domain-verification',
     ];
 
     /**
