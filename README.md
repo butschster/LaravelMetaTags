@@ -408,14 +408,24 @@ Our package has a lot of ways of extending. One of them is creating new tags. Yo
 ```php
 class FacebookPixelTag implements \Butschster\Head\Contracts\MetaTags\Entities\TagInterface {
 
+    private $pixel_id;
+
     public function __construct(string $id)
     {
-        ...
+        $this->pixel_id = $id
     }
    
-    public function placement(): string
+    public function getPlacement(): string
     {
         return 'footer'
+    }
+
+    public function toArray()
+    {
+        return [
+            'type' => 'facebook_pixel_tag',
+            'pixel_id' => $this->pixel_id
+        ];
     }
     
     public function toHtml()
