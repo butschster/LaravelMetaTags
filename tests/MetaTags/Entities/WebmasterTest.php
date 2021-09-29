@@ -68,6 +68,18 @@ class WebmasterTest extends TestCase
         );
     }
 
+    function test_facebook_webmaster_can_be_set()
+    {
+        $tag = new Webmaster(
+            Webmaster::FACEBOOK, 'long-hash-string'
+        );
+
+        $this->assertHtmlableEquals(
+            '<meta name="facebook-domain-verification" content="long-hash-string">',
+            $tag
+        );
+    }
+
     function test_an_exception_should_be_thrown_if_service_is_not_suppoerted()
     {
         $this->expectException(InvalidArgumentException::class);
