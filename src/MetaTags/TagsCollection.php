@@ -46,7 +46,7 @@ class TagsCollection extends Collection
      * @param TagInterface $value
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         if (!$value instanceof TagInterface) {
             throw new \InvalidArgumentException(
