@@ -24,7 +24,7 @@ If you have any questions feel free to ask in official [telegram group](https://
 - Well tested
 
 ### Requirements
-- Laravel 5.6 to 8.x
+- Laravel 5.6 to 9.x
 - PHP 7.1 and above
 
 ## Installation and Configuration
