@@ -1,53 +1,53 @@
 {
-  "name": "butschster/meta-tags",
-  "description": "The most powerful and extendable tools for managing SEO Meta Tags in your Laravel project",
-  "keywords": [
-    "laravel5",
-    "lumen",
-    "seo",
-    "webmaster",
-    "metatags",
-    "opengraph"
-  ],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Pavel Buchnev",
-      "email": "butschster@gmail.com"
-    }
-  ],
-  "require": {
-    "php": ">=7.1",
-    "illuminate/config": "^5.6|^6.0|^7.0|^8.0|^9.0",
-    "illuminate/support": "^5.6|^6.0|^7.0|^8.0|^9.0",
-    "illuminate/contracts": "^5.6|^6.0|^7.0|^8.0|^9.0",
-    "illuminate/console": "^5.6|^6.0|^7.0|^8.0|^9.0"
-  },
-  "require-dev": {
-    "mockery/mockery": "^1.0",
-    "phpunit/phpunit": "^7.0|^9.3"
-  },
-  "autoload": {
-    "psr-4": {
-      "Butschster\\Head\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Butschster\\Tests\\": "tests/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Butschster\\Head\\Providers\\MetaTagsServiceProvider"
-      ],
-      "aliases": {
-        "Meta": "Butschster\\Head\\Facades\\Meta",
-        "PackageManager": "Butschster\\Head\\Facades\\PackageManager"
-      }
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "butschster/meta-tags",
+    "description": "The most powerful and extendable tools for managing SEO Meta Tags in your Laravel project",
+    "keywords": [
+        "laravel5",
+        "lumen",
+        "seo",
+        "webmaster",
+        "metatags",
+        "opengraph"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pavel Buchnev",
+            "email": "butschster@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "illuminate/config": "^5.6|^6.0|^7.0|^8.0|^9.0|^10.0",
+        "illuminate/support": "^5.6|^6.0|^7.0|^8.0|^9.0|^10.0",
+        "illuminate/contracts": "^5.6|^6.0|^7.0|^8.0|^9.0|^10.0",
+        "illuminate/console": "^5.6|^6.0|^7.0|^8.0|^9.0|^10.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "phpunit/phpunit": "^7.0|^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Butschster\\Head\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Butschster\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Butschster\\Head\\Providers\\MetaTagsServiceProvider"
+            ],
+            "aliases": {
+                "Meta": "Butschster\\Head\\Facades\\Meta",
+                "PackageManager": "Butschster\\Head\\Facades\\PackageManager"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
