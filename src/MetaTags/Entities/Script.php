@@ -6,34 +6,27 @@ use Butschster\Head\MetaTags\Meta;
 
 class Script extends Tag
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $src;
-
-    /**
-     * @param string $name
-     * @param string $src
-     * @param array $attributes
-     * @param string|null $placement
-     */
-    public function __construct(string $name, string $src, array $attributes = [], string $placement = null)
-    {
-        $this->name = $name;
-        $this->src = $src;
+    public function __construct(
+        protected string $name,
+        protected string $src,
+        array $attributes = [],
+        string $placement = null
+    ) {
         $this->placement = $placement ?: Meta::PLACEMENT_FOOTER;
 
         parent::__construct('script', $attributes, true);
     }
 
-    /**
-     * @return array
-     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getSrc(): string
+    {
+        return $this->src;
+    }
+
     protected function getAttributes(): array
     {
         return array_merge([
@@ -41,12 +34,7 @@ class Script extends Tag
         ], parent::getAttributes());
     }
 
-    /**
-     * Get content as a string of HTML.
-     *
-     * @return string
-     */
-    public function toHtml()
+    public function toHtml(): string
     {
         return sprintf(
             '<%s %s></%s>',

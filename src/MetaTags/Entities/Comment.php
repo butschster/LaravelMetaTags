@@ -6,74 +6,56 @@ use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Entities\Concerns\ManageVisibility;
 
-class Comment implements TagInterface, HasVisibilityConditions
+class Comment implements TagInterface, HasVisibilityConditions, \Stringable
 {
     use ManageVisibility;
 
-    /**
-     * @var string
-     */
-    protected $openComment;
+    protected string $closeComment;
 
-    /**
-     * @var string
-     */
-    protected $closeComment;
-
-    /**
-     * @var TagInterface
-     */
-    protected $tag;
-
-    /**
-     * @param TagInterface $tag
-     * @param string $openComment
-     * @param string|null $closeComment
-     */
-    public function __construct(TagInterface $tag, string $openComment, ?string $closeComment = null)
-    {
-        $this->tag = $tag;
-        $this->openComment = $openComment;
+    public function __construct(
+        protected TagInterface $tag,
+        protected string $openComment,
+        ?string $closeComment = null,
+    ) {
         $this->closeComment = $closeComment ?: $openComment;
     }
 
-    /**
-     * Get content as a string of HTML.
-     *
-     * @return string
-     */
-    public function toHtml()
+    public function getTag(): TagInterface
     {
-        return sprintf(<<<COM
+        return $this->tag;
+    }
+
+    public function toHtml(): string
+    {
+        return sprintf(
+            <<<COM
 <!-- %s -->
 %s
 <!-- /%s -->
 COM
-, $this->openComment, $this->tag->toHtml(), $this->closeComment);
+            ,
+            $this->openComment,
+            $this->tag->toHtml(),
+            $this->closeComment,
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    /**
-     * @return string
-     */
     public function getPlacement(): string
     {
         return $this->tag->getPlacement();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'type' => 'comment',
             'tag' => $this->tag->toArray(),
-            'content' => $this->toHtml()
+            'content' => $this->toHtml(),
         ];
     }
 }

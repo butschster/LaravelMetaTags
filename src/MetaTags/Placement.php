@@ -5,7 +5,7 @@ namespace Butschster\Head\MetaTags;
 use Butschster\Head\Contracts\MetaTags\PlacementInterface;
 use Illuminate\Contracts\Support\Htmlable;
 
-class Placement extends TagsCollection implements PlacementInterface
+class Placement extends TagsCollection implements PlacementInterface, \Stringable
 {
     /**
      * Clear bag
@@ -17,9 +17,8 @@ class Placement extends TagsCollection implements PlacementInterface
 
     /**
      * Get content as a string of HTML.
-     * @return string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this
             ->onlyVisible()
@@ -27,10 +26,7 @@ class Placement extends TagsCollection implements PlacementInterface
             ->implode(PHP_EOL);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }

@@ -11,18 +11,14 @@ use Illuminate\Support\ServiceProvider;
 
 class MetaTagsApplicationServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->bound('blade.compiler')) {
             $this->registerBladeDirectives();
         }
     }
 
-    public function register()
+    public function register(): void
     {
         $this->registerPackageManager();
         $this->registerMeta();
@@ -38,30 +34,32 @@ class MetaTagsApplicationServiceProvider extends ServiceProvider
     protected function registerMeta(): void
     {
         $this->app->singleton(MetaInterface::class, function () {
+            $manager = $this->app->get(ManagerInterface::class);
+            \assert($manager instanceof ManagerInterface);
+
+            $config = $this->app->get('config');
+
             $meta = new Meta(
-                $this->app[ManagerInterface::class],
-                $this->app['config']
+                $manager,
+                $config
             );
 
             return $meta->initialize();
         });
     }
 
-    protected function registerPackageManager()
+    protected function registerPackageManager(): void
     {
-        $this->app->singleton(ManagerInterface::class, function () {
-            return new Manager();
-        });
+        $this->app->singleton(ManagerInterface::class, static fn() => new Manager());
     }
 
-    protected function registerBladeDirectives()
+    protected function registerBladeDirectives(): void
     {
-        Blade::directive('meta_tags', function($expression) {
+        Blade::directive('meta_tags', static function ($expression) {
             if (empty($expression)) {
-                return "<?php echo \Butschster\Head\Facades\Meta::toHtml(); ?>";
+                return '<?php echo ' . \Butschster\Head\Facades\Meta::class . '::toHtml(); ?>';
             }
-
-            return "<?php echo \Butschster\Head\Facades\Meta::placement($expression)->toHtml(); ?>";
+            return sprintf('<?php echo ' . \Butschster\Head\Facades\Meta::class . '::placement(%s)->toHtml(); ?>', $expression);
         });
     }
 }

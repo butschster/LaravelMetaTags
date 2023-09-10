@@ -8,25 +8,23 @@ use Butschster\Head\MetaTags\Meta;
 
 trait ManageAssets
 {
-    /**
-     * @inheritdoc
-     */
-    public function addStyle(string $name, string $src, array $attributes = [])
+    public function addStyle(string $name, string $src, array $attributes = []): self
     {
         return $this->addTag(
             $name,
-            new Style($name, $src, $attributes)
+            new Style($name, $src, $attributes),
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addScript(string $name, string $src, array $attributes = [], string $placement = Meta::PLACEMENT_FOOTER)
-    {
+    public function addScript(
+        string $name,
+        string $src,
+        array $attributes = [],
+        string $placement = Meta::PLACEMENT_FOOTER,
+    ): self {
         return $this->addTag(
             $name,
-            new Script($name, $src, $attributes, $placement)
+            new Script($name, $src, $attributes, $placement),
         );
     }
 }

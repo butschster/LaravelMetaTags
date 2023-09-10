@@ -7,30 +7,21 @@ use Butschster\Head\MetaTags\Entities\Title;
 
 trait ManageTitle
 {
-    /**
-     * @inheritdoc
-     */
-    public function setTitle(?string $title, int $maxLength = null)
+    public function setTitle(?string $title, int $maxLength = null): self
     {
         $this->getTitle()->setTitle($this->cleanString($title), $maxLength);
 
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setTitleSeparator(string $separator)
+    public function setTitleSeparator(string $separator): self
     {
         $this->getTitle()->setSeparator($separator);
 
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function prependTitle(?string $text)
+    public function prependTitle(?string $text): self
     {
         $title = $this->getTitle();
 
@@ -43,9 +34,6 @@ trait ManageTitle
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTitle(): ?TitleInterface
     {
         $title = $this->getTag('title');

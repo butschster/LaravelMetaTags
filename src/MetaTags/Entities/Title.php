@@ -5,55 +5,32 @@ namespace Butschster\Head\MetaTags\Entities;
 use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TitleInterface;
 
-class Title implements TitleInterface, HasVisibilityConditions
+class Title implements TitleInterface, HasVisibilityConditions, \Stringable
 {
-    use Concerns\ManageMaxLength,
-        Concerns\ManageVisibility;
+    use Concerns\ManageMaxLength;
+    use Concerns\ManageVisibility;
 
-    const DEFAULT_LENGTH = null;
+    public const DEFAULT_LENGTH = null;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $separator = '|';
 
-    /**
-     * @var string
-     */
-    protected $separator = '|';
+    protected array $prepend = [];
 
-    /**
-     * @var array
-     */
-    protected $prepend = [];
+    protected bool $rtl = false;
 
-    /**
-     * @var bool
-     */
-    protected $rtl = false;
-
-    /**
-     * @param string|null $title
-     * @param int|null $maxLength
-     */
-    public function __construct(?string $title = null, ?int $maxLength = self::DEFAULT_LENGTH)
-    {
-        $this->title = $title;
+    public function __construct(
+        protected ?string $title = null,
+        ?int $maxLength = self::DEFAULT_LENGTH
+    ) {
         $this->setMaxLength($maxLength);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPlacement(): string
     {
         return 'head';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setTitle(?string $title, ?int $maxLength = null)
+    public function setTitle(?string $title, ?int $maxLength = null): self
     {
         $this->title = $title;
         $this->setMaxLength($maxLength);
@@ -61,10 +38,7 @@ class Title implements TitleInterface, HasVisibilityConditions
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function prepend(string $text)
+    public function prepend(string $text): self
     {
         $this->prepend[] = $text;
 
@@ -73,34 +47,24 @@ class Title implements TitleInterface, HasVisibilityConditions
 
     /**
      * Toggle RTL mode
-     *
-     * @param bool $status
-     *
-     * @return $this
      */
-    public function rtl(bool $status = true)
+    public function rtl(bool $status = true): self
     {
         $this->rtl = $status;
 
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setSeparator(string $separator)
+    public function setSeparator(string $separator): self
     {
         $this->separator = trim($separator);
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     protected function makeTitle(): string
     {
-        $separator = " {$this->separator} ";
+        $separator = sprintf(' %s ', $this->separator);
         $title = '';
 
         if (!empty($this->prepend)) {
@@ -122,27 +86,26 @@ class Title implements TitleInterface, HasVisibilityConditions
         return $this->limitString($title);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function toHtml()
+    public function toHtml(): string
     {
         return sprintf('<title>%s</title>', $this->makeTitle());
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'tag' => 'title',
             'content' => $this->makeTitle()
         ];
+    }
+
+    public function getTitle(): string
+    {
+        return $this->makeTitle();
     }
 }

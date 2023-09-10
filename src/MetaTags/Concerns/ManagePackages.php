@@ -8,20 +8,11 @@ use Butschster\Head\Contracts\WithDependencies;
 
 trait ManagePackages
 {
-    /**
-     * @var array
-     */
-    private $packages = [];
+    private array $packages = [];
+    
+    private array $registeredPackages = [];
 
-    /**
-     * @var array
-     */
-    private $registeredPackages = [];
-
-    /**
-     * @inheritdoc
-     */
-    public function registerPackage(PackageInterface $package)
+    public function registerPackage(PackageInterface $package): self
     {
         $name = $package->getName();
 
@@ -51,24 +42,18 @@ trait ManagePackages
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function replacePackage(PackageInterface $package)
+    public function replacePackage(PackageInterface $package): self
     {
         $this->removePackage($package->getName());
 
         return $this->registerPackage($package);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function removePackage(string $name)
+    public function removePackage(string $name): self
     {
         $package = $this->getPackage($name);
 
-        if (($index = array_search($name, $this->registeredPackages)) !== false) {
+        if (($index = array_search($name, $this->registeredPackages, true)) !== false) {
             unset($this->registeredPackages[$index]);
         }
 
@@ -77,7 +62,7 @@ trait ManagePackages
         }
 
         if ($package instanceof PlacementsInterface) {
-            foreach ($package->getPlacements() as $placement => $tags) {
+            foreach ($package->getPlacements() as $tags) {
                 foreach ($tags as $name => $tag) {
                     $this->removeTag($name);
                 }
@@ -91,18 +76,12 @@ trait ManagePackages
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPackage(string $name): ?PackageInterface
     {
         return $this->packageManager->getPackage($name);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function includePackages($packages)
+    public function includePackages($packages): self
     {
         $packages = is_array($packages) ? $packages : func_get_args();
 
@@ -115,11 +94,6 @@ trait ManagePackages
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     protected function isRegisteredPackage(string $name): bool
     {
         return in_array($name, $this->registeredPackages);

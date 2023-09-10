@@ -5,49 +5,29 @@ namespace Butschster\Head\MetaTags\Entities\Builders;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 
-class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
+class YandexMetrikaCounterBuilder implements Htmlable, Arrayable, \Stringable
 {
     /**
-     * @var string
-     */
-    private $counterId;
-
-    /**
      * Counter settings
-     *
-     * @var array
      */
-    private $settings = [
+    private array $settings = [
         'clickmap' => true,
         'trackLinks' => true,
         'accurateTrackBounce' => true,
         'webvisor' => true,
     ];
 
-    /**
-     * @var string
-     */
-    private $scriptUrl = 'https://mc.yandex.ru/metrika/tag.js';
+    private string $scriptUrl = 'https://mc.yandex.ru/metrika/tag.js';
 
-    /**
-     * @var bool
-     */
-    private $forXML = true;
+    private bool $forXML = true;
 
-    /**
-     * @param string $counterId
-     */
-    public function __construct(string $counterId)
-    {
-        $this->counterId = $counterId;
+    public function __construct(
+        private string $counterId
+    ) {
     }
 
     /**
      * @see https://yandex.ru/support/metrica/behavior/click-map.html#click-map
-     *
-     * @param bool $state
-     *
-     * @return $this
      */
     public function clickmap(bool $state = true): self
     {
@@ -62,10 +42,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
      * Подробные записи действий посетителей на сайте: движения мышью, прокручивание страницы и клики.
      *
      * @see https://yandex.ru/support/metrica/webvisor/settings.html
-     *
-     * @param bool $state
-     *
-     * @return $this
      */
     public function webvisor(bool $state = true): self
     {
@@ -78,10 +54,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
      * Собирается ли статистика на внешние ресурсы, данные о загрузке файлов и данные о нажатии на кнопку "Поделиться".
      *
      * @see https://yandex.ru/support/metrica/behavior/link-map.html
-     *
-     * @param bool $state
-     *
-     * @return $this
      */
     public function trackLinks(bool $state = true): self
     {
@@ -92,10 +64,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
 
     /**
      * Точный показатель отказов
-     *
-     * @param bool $state
-     *
-     * @return $this
      */
     public function accurateTrackBounce(bool $state = true): self
     {
@@ -106,10 +74,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
 
     /**
      * Опция применима для AJAX-сайтов.
-     *
-     * @param bool $state
-     *
-     * @return $this
      */
     public function trackHash(bool $state = true): self
     {
@@ -123,10 +87,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
      * Чтобы статистика начала собираться, настройте на сайте передачу данных.
      *
      * @see https://yandex.ru/support/metrica/data/e-commerce.html
-     *
-     * @param string $containerName
-     *
-     * @return $this
      */
     public function eCommerce(string $containerName): self
     {
@@ -138,8 +98,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
     /**
      * Позволяет корректно учитывать посещения из регионов, в которых ограничен доступ к ресурсам Яндекса.
      * Использование этой опции может снизить скорость загрузки кода счётчика.
-     *
-     * @return $this
      */
     public function useCDN(): self
     {
@@ -150,8 +108,6 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
 
     /**
      * Элемент noscript не должен использоваться в XML-документах (Content‑Type:application/xhtml+xml).
-     *
-     * @return $this
      */
     public function disableNoScript(): self
     {
@@ -162,10 +118,8 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
 
     /**
      * Generate HTML script for Yandex counter
-     *
-     * @inheritDoc
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return sprintf(<<<TAG
 <script type="text/javascript">
@@ -179,14 +133,11 @@ class YandexMetrikaCounterBuilder implements Htmlable, Arrayable
 TAG
             , $this->scriptUrl,
             $this->counterId,
-            json_encode($this->filteredSettings()),
+            json_encode($this->filteredSettings(), JSON_THROW_ON_ERROR),
             $this->getNoscriptHtml()
         );
     }
 
-    /**
-     * @return string
-     */
     private function getNoscriptHtml(): string
     {
         if (!$this->forXML) {
@@ -199,25 +150,20 @@ TAG
         );
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
     /**
      * Get settings without false values
-     *
-     * @return array
      */
     private function filteredSettings(): array
     {
         return array_filter($this->settings);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'settings' => $this->settings,

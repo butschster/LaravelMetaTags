@@ -7,38 +7,23 @@ use Butschster\Head\MetaTags\PlacementsBag;
 
 trait ManagePlacements
 {
-    /**
-     * @var PlacementsBag
-     */
-    protected $placements;
+    protected PlacementsBag $placements;
 
-    /**
-     * @inheritdoc
-     */
     public function head(): PlacementInterface
     {
         return $this->placement(static::PLACEMENT_HEAD);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function footer(): PlacementInterface
     {
         return $this->placement(static::PLACEMENT_FOOTER);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function placement(string $name): PlacementInterface
     {
         return $this->placements->getBag($name);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPlacements(): array
     {
         return $this->placements->all();

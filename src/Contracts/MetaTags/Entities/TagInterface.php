@@ -9,7 +9,6 @@ interface TagInterface extends Htmlable, Arrayable
 {
     /**
      * Get tag placement (footer, head, ...)
-     * @return string
      */
     public function getPlacement(): string;
 }

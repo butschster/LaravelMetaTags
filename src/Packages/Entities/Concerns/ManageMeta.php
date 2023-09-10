@@ -7,10 +7,7 @@ use Butschster\Head\MetaTags\TagsCollection;
 
 trait ManageMeta
 {
-    /**
-     * @var TagsCollection
-     */
-    protected $tags;
+    protected TagsCollection $tags;
 
     protected function initTags(): void
     {
@@ -19,8 +16,6 @@ trait ManageMeta
 
     /**
      * Get the collection of tags
-     *
-     * @return TagsCollection
      */
     public function getTags(): TagsCollection
     {
@@ -29,14 +24,8 @@ trait ManageMeta
 
     /**
      * Add custom meta tag
-     *
-     * @param string $key
-     *
-     * @param string $content
-     *
-     * @return $this
      */
-    public function addMeta(string $key, string $content)
+    public function addMeta(string $key, string $content): self
     {
         $key = $this->prefix.$key;
 
@@ -50,22 +39,15 @@ trait ManageMeta
 
     /**
      * Get content as a string of HTML.
-     *
-     * @return string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->tags
-            ->map(function ($tag) {
-                return $tag->toHtml();
-            })
+            ->map(static fn($tag) => $tag->toHtml())
             ->implode(PHP_EOL);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }

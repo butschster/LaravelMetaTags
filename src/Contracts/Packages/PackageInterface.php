@@ -10,15 +10,11 @@ interface PackageInterface extends Htmlable, Arrayable
 {
     /**
      * Get the package name
-     *
-     * @return string
      */
     public function getName(): string;
 
     /**
      * Get the collection of tags
-     *
-     * @return TagsCollection
      */
     public function getTags(): TagsCollection;
 }

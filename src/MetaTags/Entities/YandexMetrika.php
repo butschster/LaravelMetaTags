@@ -10,41 +10,30 @@ use Butschster\Head\MetaTags\Meta;
 /**
  * @mixin YandexMetrikaCounterBuilder
  */
-class YandexMetrika implements TagInterface
+class YandexMetrika implements TagInterface, \Stringable
 {
-    /**
-     * @var YandexMetrikaCounterBuilder
-     */
-    protected $builder;
+    protected YandexMetrikaCounterBuilder $builder;
 
-    /**
-     * @param string $counterId
-     */
     public function __construct(string $counterId)
     {
         $this->builder = new YandexMetrikaCounterBuilder($counterId);
     }
 
-    /**
-     * @return string
-     */
     public function getPlacement(): string
     {
         return Meta::PLACEMENT_FOOTER;
     }
 
-    /**
-     * @param string $method
-     * @param array $arguments
-     *
-     * @return YandexMetrika
-     */
-    public function __call($method, $arguments)
+    public function __call(string $method, array $arguments): YandexMetrika
     {
         if (!method_exists($this->builder, $method)) {
-            throw new BadMethodCallException(sprintf(
-                'Method %s::%s does not exist.', get_class($this->builder), $method
-            ));
+            throw new BadMethodCallException(
+                sprintf(
+                    'Method %s::%s does not exist.',
+                    $this->builder::class,
+                    $method,
+                ),
+            );
         }
 
         call_user_func_array([$this->builder, $method], $arguments);
@@ -52,28 +41,20 @@ class YandexMetrika implements TagInterface
         return $this;
     }
 
-    /**
-     * Get content as a string of HTML.
-     *
-     * @return string
-     */
-    public function toHtml()
+    public function toHtml(): string
     {
         return (string)$this->builder;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
-            'type' => 'yandex_metrika',
-        ] + $this->builder->toArray();
+                'type' => 'yandex_metrika',
+            ] + $this->builder->toArray();
     }
 }

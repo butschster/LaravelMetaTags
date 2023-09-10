@@ -4,7 +4,6 @@ namespace Butschster\Head\Contracts\MetaTags;
 
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\Contracts\Packages\PackageInterface;
-use Butschster\Head\MetaTags\Concerns\ManageMetaTags;
 use Butschster\Head\MetaTags\Meta;
 use Butschster\Head\MetaTags\TagsCollection;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -15,11 +14,8 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
 {
     /**
      * Set meta information from object
-     *
-     * @param object $object
-     * @return $this
      */
-    public function setMetaFrom($object);
+    public function setMetaFrom(object $object): self;
 
     /**
      * Set the meta title
@@ -31,30 +27,19 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      * titles under 60 characters, our research suggests that you can expect about 90% of your titles to display
      * properly.
      *
-     * @param string $title
-     * @param int|null $maxLength
-     *
-     * @return $this
+     * @param positive-int|null $maxLength
      */
-    public function setTitle(string $title, int $maxLength = null);
+    public function setTitle(string $title, int $maxLength = null): self;
 
     /**
      * Prepend title part to default title
-     *
-     * @param string $text
-     *
-     * @return $this
      */
-    public function prependTitle(string $text);
+    public function prependTitle(string $text): self;
 
     /**
      * Set the title separator
-     *
-     * @param string $separator
-     *
-     * @return $this
      */
-    public function setTitleSeparator(string $separator);
+    public function setTitleSeparator(string $separator): self;
 
     /**
      * Set the meta description
@@ -65,17 +50,12 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      * the user's attention. Sell the page — get them to click on the result. Here's a great article on meta
      * descriptions that goes into more detail.
      *
-     * @param string $description
-     * @param int|null $maxLength
-     *
-     * @return $this
+     * @param positive-int|null $maxLength
      */
-    public function setDescription(string $description, ?int $maxLength = null);
+    public function setDescription(string $description, ?int $maxLength = null): self;
 
     /**
      * Get the meta description
-     *
-     * @return TagInterface|null
      */
     public function getDescription(): ?TagInterface;
 
@@ -83,16 +63,12 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      * Set the meta keywords
      *
      * @param string|array $keywords
-     * @param int|null $maxLength
-     *
-     * @return $this
+     * @param positive-int|null $maxLength
      */
-    public function setKeywords($keywords, ?int $maxLength = null);
+    public function setKeywords($keywords, ?int $maxLength = null): self;
 
     /**
      * Get the meta keywords
-     *
-     * @return TagInterface|null
      */
     public function getKeywords(): ?TagInterface;
 
@@ -104,17 +80,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      * you want to change one of those two commands that you need to add meta robots. Therefore, if you want to noindex
      * but follow the links on the page, you would add the following tag with only the noindex, as the follow is
      * implied. Only change what you want to be different from the norm.
-     *
-     * @param string $behavior
-     *
-     * @return $this
      */
-    public function setRobots(string $behavior);
+    public function setRobots(string $behavior): self;
 
     /**
      * Get the meta robots
-     *
-     * @return TagInterface|null
      */
     public function getRobots(): ?TagInterface;
 
@@ -124,17 +94,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      * This tag is necessary to declare your character set for the page and should be present on every page. Leaving
      * this out could impact how your page renders in the browser. A few options are listed below, but your web
      * designer should know what's best for your site.
-     *
-     * @param string $type
-     * @param string $charset
-     * @return $this
      */
-    public function setContentType(string $type, string $charset = 'utf-8');
+    public function setContentType(string $type, string $charset = 'utf-8'): self;
 
     /**
      * Get Meta content type
-     *
-     * @return TagInterface|null
      */
     public function getContentType(): ?TagInterface;
 
@@ -143,17 +107,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      *
      * In this mobile world, you should be specifying the viewport. If you don’t, you run the risk of having a
      * poor mobile experience
-     *
-     * @param string $viewport
-     *
-     * @return $this
      */
-    public function setViewport(string $viewport);
+    public function setViewport(string $viewport): self;
 
     /**
      * Get Viewport
-     *
-     * @return TagInterface|null
      */
     public function getViewport(): ?TagInterface;
 
@@ -162,17 +120,11 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      *
      * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
      * to search engines.
-     *
-     * @param string $url
-     *
-     * @return $this
      */
-    public function setPrevHref(string $url);
+    public function setPrevHref(string $url): self;
 
     /**
      * Get the prev link tag
-     *
-     * @return TagInterface|null
      */
     public function getPrevHref(): ?TagInterface;
 
@@ -181,44 +133,28 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      *
      * The rel="next" and rel="prev" link attributes are used to indicate the relations between a sequence of pages
      * to search engines.
-     *
-     * @param string $url
-     *
-     * @return $this
      */
-    public function setNextHref(string $url);
+    public function setNextHref(string $url): self;
 
     /**
      * Get the next link tag
-     *
-     * @return TagInterface|null
      */
     public function getNextHref(): ?TagInterface;
 
     /**
      * Set the canonical link
-     *
-     * @param string $url
-     *
-     * @return $this
      */
-    public function setCanonical(string $url);
+    public function setCanonical(string $url): self;
 
     /**
      * Get the canonical link tag
-     *
-     * @return TagInterface|null
      */
     public function getCanonical(): ?TagInterface;
 
     /**
      * Set canonical link, prev and next from paginator object
-     *
-     * @param Paginator $paginator
-     *
-     * @return $this
      */
-    public function setPaginationLinks(Paginator $paginator);
+    public function setPaginationLinks(Paginator $paginator): self;
 
     /**
      * Set a hreflang link
@@ -226,214 +162,120 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      * If you've got a website that's available in multiple languages, you want search engines to show your content
      * to the right audiences. In order to help search engines do so, you should use the hreflang attribute to indicate
      * the language that content is in, and optionally also what region it's meant for.
-     *
-     * @param string $lang
-     * @param string $url
-     *
-     * @return $this
      */
-    public function setHrefLang(string $lang, string $url);
+    public function setHrefLang(string $lang, string $url): self;
 
     /**
      * Get the hreflang link tag
-     *
-     * @param string $lang
-     *
-     * @return TagInterface|null
      */
     public function getHrefLang(string $lang): ?TagInterface;
 
-    /**
-     * @param GeoMetaInformationInterface $geo
-     *
-     * @return $this
-     */
-    public function setGeo(GeoMetaInformationInterface $geo);
+    public function setGeo(GeoMetaInformationInterface $geo): self;
 
     /**
      * Specify the character encoding for the HTML document
-     *
-     * @param string $charset
-     *
-     * @return $this
      */
-    public function setCharset(string $charset = 'utf-8');
+    public function setCharset(string $charset = 'utf-8'): self;
 
     /**
      * Get the character encoding tag
-     *
-     * @return TagInterface|null
      */
     public function getCharset(): ?TagInterface;
 
     /**
      * Add a favicon tag
-     *
-     * @param string $href
-     * @param array $attributes
-     *
-     * @return $this
      */
-    public function setFavicon(string $href, array $attributes = []);
+    public function setFavicon(string $href, array $attributes = []): self;
 
     /**
      * Add webmaster tag.
      *
      * @param string $service Supported services [google, yandex, pinterest, alexa, bing]
-     * @param string $content
-     *
-     * @return $this
      */
-    public function addWebmaster(string $service, string $content);
+    public function addWebmaster(string $service, string $content): self;
 
     /**
      * Create a custom link tag
-     *
-     * @param string $name
-     * @param array $attributes
-     *
-     * @return $this
      */
-    public function addLink(string $name, array $attributes);
+    public function addLink(string $name, array $attributes): self;
 
     /**
      * Create a custom meta tag
-     *
-     * @param string $name
-     * @param array $attributes
-     * @param bool $checkNameAttribute
-     *
-     * @return $this
      */
-    public function addMeta(string $name, array $attributes, bool $checkNameAttribute = true);
+    public function addMeta(string $name, array $attributes, bool $checkNameAttribute = true): self;
 
     /**
      * Add a custom tag
-     *
-     * @param string $name
-     * @param TagInterface $tag
-     * @param string|null $placement
-     *
-     * @return $this
      */
-    public function addTag(string $name, TagInterface $tag, ?string $placement = null);
+    public function addTag(string $name, TagInterface $tag, ?string $placement = null): self;
 
     /**
      * Register tags from collection
-     *
-     * @param TagsCollection $tags
-     * @param string|null $placement
-     *
-     * @return $this
      */
-    public function registerTags(TagsCollection $tags, ?string $placement = null);
+    public function registerTags(TagsCollection $tags, ?string $placement = null): self;
 
     /**
      * Get the tag by name
-     *
-     * @param string $name
-     * @return TagInterface|null
      */
     public function getTag(string $name): ?TagInterface;
 
     /**
      * Remove tag by name
-     *
-     * @param string $name
-     *
-     * @return $this
      */
-    public function removeTag(string $name);
+    public function removeTag(string $name): self;
 
     /**
      * Set a link to css file
-     *
-     * @param string $name
-     * @param string $src
-     * @param array $attributes
-     *
-     * @return $this
      */
-    public function addStyle(string $name, string $src, array $attributes = []);
+    public function addStyle(string $name, string $src, array $attributes = []): self;
 
     /**
      * Set a link to script file
-     *
-     * @param string $name
-     * @param string $src
-     * @param array $attributes
-     * @param string $placement
-     *
-     * @return $this
      */
-    public function addScript(string $name, string $src, array $attributes = [], string $placement = Meta::PLACEMENT_FOOTER);
+    public function addScript(string $name, string $src, array $attributes = [], string $placement = Meta::PLACEMENT_FOOTER): self;
 
     /**
      * Add the CSRF token tag.
-     *
-     * @return $this
      */
-    public function addCsrfToken();
+    public function addCsrfToken(): self;
 
     /**
      * Remove all tags
-     *
-     * @return $this
      */
-    public function reset();
+    public function reset(): self;
 
     /**
      * Get head meta tags placement bag
-     *
-     * @return PlacementInterface
      */
     public function head(): PlacementInterface;
 
     /**
      * Get footer meta tags placement bag
-     *
-     * @return PlacementInterface
      */
     public function footer(): PlacementInterface;
 
     /**
      * Include required packages
-     *
-     * @param array|string $packages
-     *
-     * @return $this
      */
-    public function includePackages($packages);
+    public function includePackages($packages): self;
 
     /**
      * Register a new package and register all tags from this package
-     *
-     * @param PackageInterface $package
-     *
-     * @return $this
      */
-    public function registerPackage(PackageInterface $package);
+    public function registerPackage(PackageInterface $package): self;
 
     /**
      * Replace package with a new one with the same name
-     * @param PackageInterface $package
-     *
-     * @return $this
      */
-    public function replacePackage(PackageInterface $package);
+    public function replacePackage(PackageInterface $package): self;
 
     /**
      * Remove package by name
-     * @param string $name
-     *
-     * @return $this
      */
-    public function removePackage(string $name);
+    public function removePackage(string $name): self;
 
     /**
      * Find package by name
-     * @param string $name Package name
-     * @return PackageInterface|null
      */
     public function getPackage(string $name): ?PackageInterface;
 }

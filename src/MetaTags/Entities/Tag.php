@@ -6,80 +6,40 @@ use Butschster\Head\Contracts\MetaTags\Entities\HasVisibilityConditions;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Closure;
 
-class Tag implements TagInterface, HasVisibilityConditions
+class Tag implements TagInterface, HasVisibilityConditions, \Stringable
 {
-    use Concerns\ManagePlacements,
-        Concerns\ManageVisibility;
-
-    /**
-     * Make a new instance
-     *
-     * @param string $tagName
-     * @param array $attributes
-     * @param bool $closeTag
-     *
-     * @return static
-     */
-    public static function make(string $tagName, array $attributes, bool $closeTag = false)
+    use Concerns\ManagePlacements;
+    use Concerns\ManageVisibility;
+    public static function make(string $tagName, array $attributes, bool $closeTag = false): self
     {
         return new static($tagName, $attributes, $closeTag);
     }
 
     /**
      * Make a new meta tag
-     *
-     * @param array $attributes
-     *
-     * @return static
      */
-    public static function meta(array $attributes)
+    public static function meta(array $attributes): self
     {
         return new static('meta', $attributes);
     }
 
     /**
      * Make a new link tag
-     *
-     * @param array $attributes
-     *
-     * @return static
      */
-    public static function link(array $attributes)
+    public static function link(array $attributes): self
     {
         return new static('link', $attributes);
     }
 
-    /**
-     * @var string
-     */
-    protected $tagName;
-
-    /**
-     * @var array
-     */
-    protected $attributes;
-
-    /**
-     * @var bool
-     */
-    protected $closeTag;
-
-    /**
-     * @param string $tagName
-     * @param array $attributes
-     * @param bool $closeTag
-     */
-    public function __construct(string $tagName, array $attributes, bool $closeTag = false)
-    {
-        $this->tagName = $tagName;
-        $this->attributes = $attributes;
-        $this->closeTag = $closeTag;
+    public function __construct(
+        protected string $tagName,
+        protected array $attributes,
+        protected bool $closeTag = false,
+    ) {
     }
 
     /**
      * Build an HTML attribute string from an array.
-     *
-     * @return string
      */
     public function compiledAttributes(): string
     {
@@ -93,14 +53,11 @@ class Tag implements TagInterface, HasVisibilityConditions
             }
         }
 
-        return count($html) > 0
+        return $html !== []
             ? implode(' ', $html)
             : '';
     }
 
-    /**
-     * @return array
-     */
     protected function getAttributes(): array
     {
         return $this->attributes;
@@ -108,13 +65,8 @@ class Tag implements TagInterface, HasVisibilityConditions
 
     /**
      * Build a single attribute element.
-     *
-     * @param string $key
-     * @param string $value
-     *
-     * @return string
      */
-    protected function attributeElement($key, $value)
+    protected function attributeElement(mixed $key, mixed $value): mixed
     {
         // For numeric keys we will assume that the key and the value are the same
         // as this will convert HTML attributes such as "required" to a correct
@@ -134,28 +86,23 @@ class Tag implements TagInterface, HasVisibilityConditions
 
     /**
      * Get content as a string of HTML.
-     *
-     * @return string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return sprintf(
             '<%s %s%s>',
             $this->tagName,
             $this->compiledAttributes(),
-            $this->closeTag ? ' /' : ''
+            $this->closeTag ? ' /' : '',
         );
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $attributes = [];
 
@@ -172,13 +119,13 @@ class Tag implements TagInterface, HasVisibilityConditions
 
                 $attributes[$key] = $value;
             } else {
-                $attributes[$key] = (string) $value;
+                $attributes[$key] = (string)$value;
             }
         }
 
         return $attributes + [
-            'type' => 'tag',
-            'tag' => $this->tagName
-        ];
+                'type' => 'tag',
+                'tag' => $this->tagName,
+            ];
     }
 }

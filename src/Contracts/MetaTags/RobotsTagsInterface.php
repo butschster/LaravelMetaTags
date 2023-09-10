@@ -6,8 +6,6 @@ interface RobotsTagsInterface
 {
     /**
      * Get the meta robots
-     *
-     * @return string|null
      */
     public function getRobots(): ?string;
 }

@@ -7,34 +7,33 @@ use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
+/**
+ * @template T of TagInterface
+ */
 class TagsCollection extends Collection
 {
     /**
      * Filter only visible tags
-     * @return TagsCollection
      */
-    public function onlyVisible()
+    public function onlyVisible(): self
     {
-        return $this->filter(function (TagInterface $tag) {
+        return $this->filter(static function (TagInterface $tag) {
             if ($tag instanceof HasVisibilityConditions) {
                 return $tag->isVisible();
             }
-
             return true;
         });
     }
 
     /**
      * Convert to string entities
-     * @return TagsCollection
      */
-    public function stringifyEntities()
+    public function stringifyEntities(): self
     {
-        return $this->map(function ($tag) {
+        return $this->map(static function ($tag) {
             if ($tag instanceof Htmlable) {
                 return $tag->toHtml();
             }
-
             return (string)$tag;
         });
     }
@@ -42,22 +41,20 @@ class TagsCollection extends Collection
     /**
      * Set the item at a given offset.
      *
-     * @param mixed $key
      * @param TagInterface $value
-     * @return void
      */
-    public function offsetSet($key, $value): void
+    public function offsetSet(mixed $key, mixed $value): void
     {
         if (!$value instanceof TagInterface) {
             throw new \InvalidArgumentException(
-                'Tge tag nust implement of Butschster\Head\Contracts\MetaTags\Entities\TagInterface interface.'
+                'The tag must implement of Butschster\Head\Contracts\MetaTags\Entities\TagInterface interface.',
             );
         }
 
         parent::offsetSet($key, $value);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return array_values(parent::toArray());
     }

@@ -4,10 +4,7 @@ namespace Butschster\Head\MetaTags\Concerns;
 
 trait InitializeDefaults
 {
-    /**
-     * @return $this
-     */
-    public function initialize()
+    public function initialize(): self
     {
         if (!empty($charset = $this->config('charset'))) {
             $this->setCharset($charset);
@@ -16,7 +13,7 @@ trait InitializeDefaults
         if (!empty($viewport = $this->config('viewport'))) {
             $this->setViewport($viewport);
         }
-        
+
         if (!empty($title = $this->config('title.default'))) {
             $this->setTitle($title);
         }

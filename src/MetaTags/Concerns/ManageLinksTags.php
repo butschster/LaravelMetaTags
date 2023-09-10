@@ -9,10 +9,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 trait ManageLinksTags
 {
-    /**
-     * @inheritdoc
-     */
-    public function setPrevHref(?string $url)
+    public function setPrevHref(?string $url): self
     {
         if (!$url) {
             return $this;
@@ -24,18 +21,12 @@ trait ManageLinksTags
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPrevHref(): ?TagInterface
     {
         return $this->getTag('prev_href');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setNextHref(?string $url)
+    public function setNextHref(?string $url): self
     {
         if (!$url) {
             return $this;
@@ -47,40 +38,24 @@ trait ManageLinksTags
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getNextHref(): ?TagInterface
     {
         return $this->getTag('next_href');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setCanonical(string $url)
+    public function setCanonical(string $url): self
     {
         return $this->addLink('canonical', [
             'href' => strip_tags($url),
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getCanonical(): ?TagInterface
     {
         return $this->getTag('canonical');
     }
 
-    /**
-     * Set canonical link, prev and next from paginator object
-     *
-     * @param Paginator $paginator
-     *
-     * @return $this
-     */
-    public function setPaginationLinks(Paginator $paginator)
+    public function setPaginationLinks(Paginator $paginator): self
     {
         $this->setCanonical($paginator->url($paginator->currentPage()));
 
@@ -90,10 +65,7 @@ trait ManageLinksTags
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setHrefLang(string $lang, string $url)
+    public function setHrefLang(string $lang, string $url): self
     {
         return $this->addLink('alternate_' . $lang, [
             'rel' => 'alternate',
@@ -102,26 +74,17 @@ trait ManageLinksTags
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getHrefLang(string $lang): ?TagInterface
     {
         return $this->getTag('alternate_' . $lang);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setFavicon(string $href, array $attributes = [])
+    public function setFavicon(string $href, array $attributes = []): self
     {
         return $this->addTag('favicon', new Favicon($href, $attributes));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addLink(string $name, array $attributes)
+    public function addLink(string $name, array $attributes): self
     {
         if (!isset($attributes['rel'])) {
             $attributes = array_merge(['rel' => $name], $attributes);

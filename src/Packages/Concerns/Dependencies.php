@@ -4,37 +4,23 @@ namespace Butschster\Head\Packages\Concerns;
 
 trait Dependencies
 {
-    /**
-     * @var array
-     */
-    protected $dependencies = [];
+    protected array $dependencies = [];
 
-    /**
-     * @param array|string $packages
-     *
-     * @return $this
-     */
-    public function requires($packages)
+    public function requires(array|string $packages): self
     {
         $packages = is_array($packages) ? $packages : func_get_args();
 
-        $this->dependencies = (array) $packages;
+        $this->dependencies = $packages;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getDependencies(): array
     {
         return array_unique($this->dependencies);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasDependencies()
+    public function hasDependencies(): bool
     {
         return count($this->dependencies) > 0;
     }

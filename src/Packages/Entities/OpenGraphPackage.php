@@ -4,7 +4,6 @@ namespace Butschster\Head\Packages\Entities;
 
 use Butschster\Head\Contracts\Packages\PackageInterface;
 use Butschster\Head\MetaTags\Entities\Tag;
-use Butschster\Head\Packages\Entities\Concerns\ManageMeta;
 
 /**
  * @see http://ogp.me/
@@ -12,30 +11,15 @@ use Butschster\Head\Packages\Entities\Concerns\ManageMeta;
 class OpenGraphPackage implements PackageInterface
 {
     use Concerns\ManageMeta;
+    protected string $prefix = 'og:';
 
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $prefix = 'og:';
-
-    /**
-     * @param string $name
-     */
-    public function __construct(string $name)
+    public function __construct(protected string $name)
     {
-        $this->name = $name;
         $this->initTags();
     }
 
     /**
      * Get the package name
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -45,24 +29,16 @@ class OpenGraphPackage implements PackageInterface
     /**
      * Set the type of your object, e.g., "video.movie". Depending on the type you specify, other properties may
      * also be required.
-     *
-     * @param string $type
-     *
-     * @return $this
      */
-    public function setType(string $type)
+    public function setType(string $type): self
     {
         return $this->addOgMeta('type', $type);
     }
 
     /**
      * Set the title of your object as it should appear within the graph, e.g., "The Rock".
-     *
-     * @param string $title
-     *
-     * @return $this
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): self
     {
         return $this->addOgMeta('title', $title);
     }
@@ -71,12 +47,8 @@ class OpenGraphPackage implements PackageInterface
      * Set the description
      *
      * A one to two sentence description of your object.
-     *
-     * @param string $description
-     *
-     * @return $this
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): self
     {
         return $this->addOgMeta('description', $description);
     }
@@ -84,25 +56,16 @@ class OpenGraphPackage implements PackageInterface
     /**
      * Set the site name
      * If your object is part of a larger web site, the name which should be displayed for the overall site. e.g., "IMDb".
-     *
-     * @param string $name
-     *
-     * @return $this
      */
-    public function setSiteName(string $name)
+    public function setSiteName(string $name): self
     {
         return $this->addOgMeta('site_name', $name);
     }
 
     /**
      * Add an image URL which should represent your object within the graph.
-     *
-     * @param string $url
-     * @param array $properties
-     *
-     * @return $this
      */
-    public function addImage(string $url, array $properties = [])
+    public function addImage(string $url, array $properties = []): self
     {
         $this->addOgMeta('image', $url);
 
@@ -114,14 +77,9 @@ class OpenGraphPackage implements PackageInterface
     }
 
     /**
-     * Add an video URL
-     *
-     * @param string $url
-     * @param array $properties
-     *
-     * @return $this
+     * Add a video URL
      */
-    public function addVideo(string $url, array $properties = [])
+    public function addVideo(string $url, array $properties = []): self
     {
         $this->addOgMeta('video', $url);
 
@@ -134,44 +92,35 @@ class OpenGraphPackage implements PackageInterface
 
     /**
      * Set the canonical URL of your object that will be used as its permanent ID in the graph.
-     *
-     * @param string $url
-     *
-     * @return $this
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): self
     {
         return $this->addOgMeta('url', $url);
     }
 
     /**
      * Set the locale these tags are marked up in. Of the format language_TERRITORY
-     *
-     * @param string $locale
-     *
-     * @return $this
      */
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): self
     {
         return $this->addOgMeta('locale', $locale);
     }
 
     /**
      * Set other locales this page are available in.
-     *
-     * @param string[] $locales
-     *
-     * @return $this
      */
-    public function addAlternateLocale(string ...$locales)
+    public function addAlternateLocale(string ...$locales): self
     {
         foreach ($locales as $locale) {
             $key = $this->prefix . 'locale:alternate';
 
-            $this->tags->put($key . $locale, Tag::meta([
-                'property' => $key,
-                'content' => $locale,
-            ]));
+            $this->tags->put(
+                $key . $locale,
+                Tag::meta([
+                    'property' => $key,
+                    'content' => $locale,
+                ]),
+            );
         }
 
         return $this;
@@ -179,27 +128,24 @@ class OpenGraphPackage implements PackageInterface
 
     /**
      * Add custom meta tag
-     *
-     * @param string $key
-     *
-     * @param string $content
-     *
-     * @return $this
      */
-    public function addOgMeta(string $key, string $content)
+    public function addOgMeta(string $key, string $content): self
     {
-        $key = $this->prefix.$key;
+        $key = $this->prefix . $key;
 
-        $this->tags->put($key, Tag::meta([
-            'property' => $key,
-            'content' => $content,
-        ]));
+        $this->tags->put(
+            $key,
+            Tag::meta([
+                'property' => $key,
+                'content' => $content,
+            ]),
+        );
 
         return $this;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
-        return  $this->tags->toArray();
+        return $this->tags->toArray();
     }
 }

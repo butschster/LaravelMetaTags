@@ -8,23 +8,16 @@ trait ManageVisibility
 {
     /**
      * Visibility condition
-     * @var Closure
      */
-    protected $visibilityCondition = null;
+    protected ?Closure $visibilityCondition = null;
 
-    /**
-     * @inheritDoc
-     */
-    public function visibleWhen(Closure $condition)
+    public function visibleWhen(Closure $condition): self
     {
         $this->visibilityCondition = $condition;
 
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isVisible(): bool
     {
         if ($this->visibilityCondition instanceof Closure) {

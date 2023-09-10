@@ -11,34 +11,23 @@ class TwitterCardPackage implements TwitterCardPackageInterface
 {
     use Concerns\ManageMeta;
 
-    const CARD_SUMMARY = 'summary';
-    const CARD_SUMMARY_LARGE_IMAGE = 'summary_large_image';
-    const CARD_APP = 'app';
-    const CARD_PLAYER = 'player';
+    public const CARD_SUMMARY = 'summary';
+    
+    public const CARD_SUMMARY_LARGE_IMAGE = 'summary_large_image';
+    
+    public const CARD_APP = 'app';
+    
+    public const CARD_PLAYER = 'player';
+    
+    protected string $prefix = 'twitter:';
 
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $prefix = 'twitter:';
-
-    /**
-     * @param string $name
-     */
-    public function __construct(string $name)
+    public function __construct(protected string $name)
     {
-        $this->name = $name;
         $this->initTags();
     }
 
     /**
      * Get the package name
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -48,36 +37,24 @@ class TwitterCardPackage implements TwitterCardPackageInterface
     /**
      * Set the type of the card
      * The card type, which will be one of “summary”, “summary_large_image”, “app”, or “player”.
-     *
-     * @param string $type
-     *
-     * @return $this
      */
-    public function setType(string $type)
+    public function setType(string $type): self
     {
         return $this->addMeta('card', $type);
     }
 
     /**
      * Set the @username for the content creator / author.
-     *
-     * @param string $username
-     *
-     * @return $this
      */
-    public function setCreator(string $username)
+    public function setCreator(string $username): self
     {
         return $this->addMeta('creator', $username);
     }
 
     /**
      * Set the @username for the website used in the card footer.
-     *
-     * @param string $site
-     *
-     * @return $this
      */
-    public function setSite(string $site)
+    public function setSite(string $site): self
     {
         return $this->addMeta('site', $site);
     }
@@ -93,12 +70,8 @@ class TwitterCardPackage implements TwitterCardPackageInterface
      *
      * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary
      * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image
-     *
-     * @param string $url
-     *
-     * @return $this
      */
-    public function setImage(string $url)
+    public function setImage(string $url): self
     {
         return $this->addMeta('image', $url);
     }
@@ -109,7 +82,7 @@ class TwitterCardPackage implements TwitterCardPackageInterface
      *
      * @deprecated
      */
-    public function addImage(string $url)
+    public function addImage(string $url): self
     {
         return $this->setImage($url);
     }
@@ -119,13 +92,8 @@ class TwitterCardPackage implements TwitterCardPackageInterface
      * Add a video URL
      *
      * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/player-card
-     *
-     * @param string $url
-     * @param array  $properties
-     *
-     * @return $this
      */
-    public function setVideo(string $url, array $properties = [])
+    public function setVideo(string $url, array $properties = []): self
     {
         $this->addMeta('player', $url);
 
@@ -139,12 +107,8 @@ class TwitterCardPackage implements TwitterCardPackageInterface
 
     /**
      * Set the title
-     *
-     * @param string $title
-     *
-     * @return $this
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): self
     {
         return $this->addMeta('title', $title);
     }
@@ -154,17 +118,13 @@ class TwitterCardPackage implements TwitterCardPackageInterface
      *
      * A description that concisely summarizes the content as appropriate for presentation within a Tweet. You should
      * not re-use the title as the description or use this field to describe the general services provided by the website.
-     *
-     * @param string $description
-     *
-     * @return $this
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): self
     {
         return $this->addMeta('description', $description);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->tags->toArray();
     }
