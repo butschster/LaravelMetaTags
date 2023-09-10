@@ -14,6 +14,14 @@ class DescriptionMetaTagsTest extends TestCase
         );
     }
 
+    function test_get_description()
+    {
+        $this->assertSame(
+            'test description',
+            $this->makeMetaTags()->setDescription('test description')->getDescription()->getDescription()
+        );
+    }
+
     function test_description_can_be_null()
     {
         $this->assertHtmlableEquals(

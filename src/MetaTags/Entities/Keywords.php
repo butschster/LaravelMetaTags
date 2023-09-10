@@ -6,18 +6,11 @@ class Keywords extends Tag
 {
     use Concerns\ManageMaxLength;
 
-    const DEFAULT_LENGTH = null;
+    public const DEFAULT_LENGTH = null;
 
-    /**
-     * @var string
-     */
-    protected $keywords = [];
+    protected array $keywords = [];
 
-    /**
-     * @param string|array $keywords
-     * @param int|null $maxLength
-     */
-    public function __construct($keywords, ?int $maxLength = self::DEFAULT_LENGTH)
+    public function __construct(string|array $keywords, ?int $maxLength = self::DEFAULT_LENGTH)
     {
         parent::__construct('meta', []);
 
@@ -25,9 +18,11 @@ class Keywords extends Tag
         $this->setMaxLength($maxLength);
     }
 
-    /**
-     * @return array
-     */
+    public function getKeywords(): array
+    {
+        return $this->keywords;
+    }
+
     protected function getAttributes(): array
     {
         return array_merge([
@@ -36,10 +31,6 @@ class Keywords extends Tag
         ], parent::getAttributes());
     }
 
-    /**
-     * @param array $keywords
-     * @return string
-     */
     protected function makeString(array $keywords): string
     {
         return $this->limitString(implode(', ', $keywords));

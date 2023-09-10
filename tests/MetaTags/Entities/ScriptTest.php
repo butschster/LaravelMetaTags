@@ -16,6 +16,16 @@ class ScriptTest extends TestCase
         );
     }
 
+    function test_get_name()
+    {
+        $this->assertEquals('script_name', (new Script('script_name', 'http://site.com'))->getName());
+    }
+
+    function test_get_src()
+    {
+        $this->assertEquals('http://site.com', (new Script('script_name', 'http://site.com'))->getSrc());
+    }
+
     function test_it_can_has_attributes()
     {
         $this->assertHtmlableEquals(

@@ -2,6 +2,7 @@
 
 namespace Butschster\Tests\MetaTags;
 
+use Butschster\Head\MetaTags\Entities\Favicon;
 use Butschster\Tests\TestCase;
 
 class FaviconMetaTagsTest extends TestCase
@@ -11,6 +12,14 @@ class FaviconMetaTagsTest extends TestCase
         $this->assertHtmlableContains(
             '<link rel="icon" type="image/x-icon" href="http://example.com/favicon.ico">',
             $this->makeMetaTags()->setFavicon('http://example.com/favicon.ico')
+        );
+    }
+
+    function test_get_href()
+    {
+        $this->assertSame(
+            'http://example.com/favicon.ico',
+            (new Favicon('http://example.com/favicon.ico'))->getHref()
         );
     }
 

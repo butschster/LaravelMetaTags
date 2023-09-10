@@ -6,28 +6,22 @@ class Description extends Tag
 {
     use Concerns\ManageMaxLength;
 
-    const DEFAULT_LENGTH = null;
+    public const DEFAULT_LENGTH = null;
 
-    /**
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @param string $description
-     * @param int|null $maxLength
-     */
-    public function __construct(string $description, ?int $maxLength = self::DEFAULT_LENGTH)
-    {
+    public function __construct(
+        protected string $description,
+        ?int $maxLength = self::DEFAULT_LENGTH
+    ) {
         parent::__construct('meta', []);
 
-        $this->description = $description;
         $this->setMaxLength($maxLength);
     }
 
-    /**
-     * @return array
-     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
     protected function getAttributes(): array
     {
         return array_merge([

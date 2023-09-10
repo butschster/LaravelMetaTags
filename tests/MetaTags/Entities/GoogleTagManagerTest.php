@@ -18,6 +18,13 @@ class GoogleTagManagerTest extends TestCase
         ], $tag);
     }
 
+    public function test_get_id(): void
+    {
+        $tag = new GoogleTagManager('UA-12345678-1');
+
+        $this->assertSame('UA-12345678-1', $tag->getCounterId());
+    }
+
     function test_it_can_be_add_to_meta_class()
     {
         $meta = $this->makeMetaTags();

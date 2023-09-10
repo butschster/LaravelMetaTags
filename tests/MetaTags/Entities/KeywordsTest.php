@@ -15,6 +15,14 @@ class KeywordsTest extends TestCase
         );
     }
 
+    public function test_get_keywords(): void
+    {
+        $this->assertSame(
+            ['tag, another-tag'],
+            (new Keywords('tag, another-tag'))->getKeywords()
+        );
+    }
+
     function test_keywords_can_be_set_from_array_be_rendered_to_html()
     {
         $this->assertHtmlableEquals(
@@ -45,9 +53,9 @@ class KeywordsTest extends TestCase
 
     function test_if_max_length_is_null_then_text_should_not_cut()
     {
-        $text = 'Lorem ipsum dolor sit amet, ei omnium accommodare definitionem sed, cum ut esse nihil fabellas. 
-        Ne eam autem nihil eloquentiam, eius ornatus no ius. Sint oportere scripserit vel cu, eu nec debitis 
-        mediocrem gubergren. Vim sonet sensibus ea, est justo adipisci constituam ex. Percipitur voluptatibus 
+        $text = 'Lorem ipsum dolor sit amet, ei omnium accommodare definitionem sed, cum ut esse nihil fabellas.
+        Ne eam autem nihil eloquentiam, eius ornatus no ius. Sint oportere scripserit vel cu, eu nec debitis
+        mediocrem gubergren. Vim sonet sensibus ea, est justo adipisci constituam ex. Percipitur voluptatibus
         usu ad. Ea audiam ornatus eum, eros homero ridens et vim.';
         $keywords = new Keywords($text);
 

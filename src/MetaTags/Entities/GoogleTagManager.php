@@ -5,27 +5,20 @@ namespace Butschster\Head\MetaTags\Entities;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Meta;
 
-class GoogleTagManager implements TagInterface
+class GoogleTagManager implements TagInterface, \Stringable
 {
-    /**
-     * Google analytics identifier
-     *
-     * @var string
-     */
-    private $counterId;
-
-    /**
-     * @param string $counterId Google analytics identifier
-     */
-    public function __construct(string $counterId)
-    {
-        $this->counterId = $counterId;
+    public function __construct(
+        /** Google analytics identifier */
+        private string $counterId
+    ) {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toHtml()
+    public function getCounterId(): string
+    {
+        return $this->counterId;
+    }
+
+    public function toHtml(): string
     {
         return sprintf(<<<TAG
 <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
@@ -41,23 +34,17 @@ TAG
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getPlacement(): string
     {
         return Meta::PLACEMENT_HEAD;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'type' => 'google_tag_manager',

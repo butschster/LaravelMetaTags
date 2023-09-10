@@ -4,25 +4,18 @@ namespace Butschster\Head\MetaTags\Entities;
 
 class Favicon extends Tag
 {
-    /**
-     * @var string
-     */
-    protected $href;
-
-    /**
-     * @param string $href
-     * @param array $attributes
-     */
-    public function __construct(string $href, array $attributes = [])
-    {
-        $this->href = $href;
-
-        parent::__construct('link', $attributes, false);
+    public function __construct(
+        protected string $href,
+        array $attributes = [],
+    ) {
+        parent::__construct(tagName: 'link', attributes: $attributes, closeTag: false);
     }
 
-    /**
-     * @return array
-     */
+    public function getHref(): string
+    {
+        return $this->href;
+    }
+
     protected function getAttributes(): array
     {
         return array_merge([
@@ -32,22 +25,14 @@ class Favicon extends Tag
         ], parent::getAttributes());
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         $ext = pathinfo($this->href, PATHINFO_EXTENSION);
-
-        switch ($ext) {
-            case 'png':
-                return 'image/png';
-            case 'gif':
-                return 'image/gif';
-            case 'svg':
-                return 'image/svg+xml';
-        }
-
-        return 'image/x-icon';
+        return match ($ext) {
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'svg' => 'image/svg+xml',
+            default => 'image/x-icon',
+        };
     }
 }

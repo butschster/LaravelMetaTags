@@ -9,51 +9,36 @@ use Illuminate\Support\Collection;
 
 class Manager implements ManagerInterface
 {
-    /**
-     * @var Collection
-     */
-    protected $packages;
+    protected Collection $packages;
 
     public function __construct()
     {
         $this->packages = new Collection();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function register(PackageInterface $package)
+    public function register(PackageInterface $package): self
     {
         $this->packages->put($package->getName(), $package);
 
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function create(string $name, Closure $callback = null)
+    public function create(string $name, Closure $callback = null): self
     {
         $this->register($package = new Package($name));
 
-        if ($callback) {
+        if ($callback !== null) {
             $callback->__invoke($package);
         }
 
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPackages(): array
     {
         return $this->packages->all();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPackage(string $name): ?PackageInterface
     {
         return $this->packages->get($name);

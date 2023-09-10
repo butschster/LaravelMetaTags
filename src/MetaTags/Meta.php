@@ -8,45 +8,28 @@ use Butschster\Head\Packages\Manager;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Traits\Macroable;
 
-class Meta implements MetaInterface
+class Meta implements MetaInterface, \Stringable
 {
-    use Macroable,
-        Concerns\ManageTitle,
-        Concerns\ManageMetaTags,
-        Concerns\ManageLinksTags,
-        Concerns\ManagePlacements,
-        Concerns\ManagePackages,
-        Concerns\ManageAssets,
-        Concerns\InitializeDefaults;
+    use Macroable;
+    use Concerns\ManageTitle;
+    use Concerns\ManageMetaTags;
+    use Concerns\ManageLinksTags;
+    use Concerns\ManagePlacements;
+    use Concerns\ManagePackages;
+    use Concerns\ManageAssets;
+    use Concerns\InitializeDefaults;
 
-    const PLACEMENT_HEAD   = 'head';
-    const PLACEMENT_FOOTER = 'footer';
+    public const PLACEMENT_HEAD = 'head';
 
-    /**
-     * @var Manager
-     */
-    protected $packageManager;
+    public const PLACEMENT_FOOTER = 'footer';
 
-    /**
-     * @var Repository|null
-     */
-    private $config;
-
-    /**
-     * @param Manager $packageManager
-     * @param Repository|null $config
-     */
-    public function __construct(Manager $packageManager, Repository $config = null)
-    {
-        $this->config = $config;
-        $this->packageManager = $packageManager;
-
+    public function __construct(
+        protected Manager $packageManager,
+        private ?Repository $config = null,
+    ) {
         $this->initPlacements();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTag(string $name): ?TagInterface
     {
         foreach ($this->getPlacements() as $placement) {
@@ -58,20 +41,14 @@ class Meta implements MetaInterface
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addTag(string $name, TagInterface $tag, ?string $placement = null)
+    public function addTag(string $name, TagInterface $tag, ?string $placement = null): self
     {
         $this->placement($placement ?: $tag->getPlacement())->put($name, $tag);
 
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function registerTags(TagsCollection $tags, ?string $placement = null)
+    public function registerTags(TagsCollection $tags, ?string $placement = null): self
     {
         foreach ($tags as $name => $tag) {
             $this->addTag($name, $tag, $placement);
@@ -80,10 +57,7 @@ class Meta implements MetaInterface
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function removeTag(string $name)
+    public function removeTag(string $name): self
     {
         foreach ($this->getPlacements() as $placement) {
             $placement->forget($name);
@@ -92,10 +66,7 @@ class Meta implements MetaInterface
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function reset()
+    public function reset(): self
     {
         foreach ($this->getPlacements() as $placement) {
             $placement->reset();
@@ -106,24 +77,19 @@ class Meta implements MetaInterface
 
     /**
      * Get content as a string of HTML.
-     * @return string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->head()->toHtml();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
     /**
      * Remove HTML tags
-     *
-     * @param string $string
-     *
-     * @return string
      */
     protected function cleanString(?string $string): string
     {
@@ -133,22 +99,17 @@ class Meta implements MetaInterface
     /**
      * Get value from config repository
      * If config repository is not set, it returns default value
-     *
-     * @param string $key
-     * @param mixed|null $default
-     *
-     * @return mixed|null
      */
-    protected function config(string $key, $default = null)
+    protected function config(string $key, mixed $default = null): mixed
     {
-        if (!$this->config) {
+        if ($this->config === null) {
             return $default;
         }
 
-        return $this->config->get('meta_tags.'.$key, $default);
+        return $this->config->get('meta_tags.' . $key, $default);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->placements->toArray();
     }

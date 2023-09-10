@@ -7,46 +7,34 @@ interface TitleInterface extends TagInterface
     /**
      * Specify max length of the title
      *
-     * @param int $maxLength
-     *
-     * @return $this
+     * @param positive-int $maxLength
      */
-    public function setMaxLength(int $maxLength);
+    public function setMaxLength(int $maxLength): self;
 
     /**
      * Set the main title
      *
-     * @param string|null $title
-     * @param int|null $maxLength
-     *
-     * @return $this
+     * @param positive-int|null $maxLength
      */
-    public function setTitle(?string $title, ?int $maxLength = null);
+    public function setTitle(?string $title, ?int $maxLength = null): self;
 
     /**
      * Prepend next part of title
-     *
-     * @param string $text
-     *
-     * @return $this
      */
-    public function prepend(string $text);
+    public function prepend(string $text): self;
 
     /**
      * Toggle RTL mode
-     *
-     * @param bool $status
-     *
-     * @return $this
      */
-    public function rtl(bool $status = true);
+    public function rtl(bool $status = true): self;
 
     /**
      * Determine separator among title parts
-     *
-     * @param string $separator
-     *
-     * @return $this
      */
-    public function setSeparator(string $separator);
+    public function setSeparator(string $separator): self;
+
+    /**
+     * Get the title
+     */
+    public function getTitle(): string;
 }

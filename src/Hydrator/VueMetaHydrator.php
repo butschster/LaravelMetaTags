@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Butschster\Head\Hydrator;
@@ -8,22 +9,17 @@ use Butschster\Head\Contracts\MetaTags\MetaInterface;
 
 class VueMetaHydrator implements Hydrator
 {
-    /**
-     * @var VueMetaResource
-     */
-    private $resource;
+    private VueMetaResource $resource;
 
-    /**
-     * @var string
-     */
-    private $idKey;
-
-    public function __construct(string $idKey = 'hid')
-    {
-        $this->idKey = $idKey;
+    public function __construct(
+        private string $idKey = 'hid',
+    ) {
         $this->resource = new VueMetaResource();
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function hydrate(MetaInterface $meta): array
     {
         $array = $meta->head()->toArray();
@@ -35,7 +31,10 @@ class VueMetaHydrator implements Hydrator
         return $this->resource->toArray();
     }
 
-    private function format(array $item)
+    /**
+     * @throws \JsonException
+     */
+    private function format(array $item): void
     {
         if (!isset($item['tag'])) {
             return;
@@ -46,33 +45,40 @@ class VueMetaHydrator implements Hydrator
 
         switch ($tag) {
             case 'title':
-                return $this->formatTitle($item);
+                $this->formatTitle($item);
+                break;
             case 'meta':
-                return $this->formatMeta($item);
+                $this->formatMeta($item);
+                break;
             case 'link':
-                return $this->formatLink($item);
+                $this->formatLink($item);
+                break;
             case 'script':
-                return $this->formatScript($item);
+                $this->formatScript($item);
+                break;
         }
     }
 
-    private function formatTitle(array $item)
+    private function formatTitle(array $item): void
     {
         $this->resource->setTitle($item['content']);
     }
 
-    private function formatMeta(array $item)
+    /**
+     * @throws \JsonException
+     */
+    private function formatMeta(array $item): void
     {
-        $item[$this->idKey] = $item['name'] ?? md5(json_encode($item));
+        $item[$this->idKey] = $item['name'] ?? md5(json_encode($item, JSON_THROW_ON_ERROR));
         $this->resource->appendMeta($item);
     }
 
-    private function formatLink(array $item)
+    private function formatLink(array $item): void
     {
         $this->resource->appendLink($item);
     }
 
-    private function formatScript(array $item)
+    private function formatScript(array $item): void
     {
         $this->resource->appendScript($item);
     }

@@ -5,29 +5,23 @@ namespace Butschster\Head\MetaTags\Entities;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Meta;
 
-class GoogleAnalytics implements TagInterface
+class GoogleAnalytics implements TagInterface, \Stringable
 {
-    /**
-     * Google analytics identifier
-     *
-     * @var string
-     */
-    private $counterId;
-
-    /**
-     * @param string $counterId Google analytics identifier
-     */
-    public function __construct(string $counterId)
-    {
-        $this->counterId = $counterId;
+    public function __construct(
+        /** Google analytics identifier */
+        private string $counterId,
+    ) {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toHtml()
+    public function getCounterId(): string
     {
-        return sprintf(<<<TAG
+        return $this->counterId;
+    }
+
+    public function toHtml(): string
+    {
+        return sprintf(
+            <<<TAG
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -37,31 +31,26 @@ class GoogleAnalytics implements TagInterface
     ga('send', 'pageview');
 </script>
 TAG
-        , $this->counterId
-);
+            ,
+            $this->counterId,
+        );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getPlacement(): string
     {
         return Meta::PLACEMENT_FOOTER;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'type' => 'google_analytics',
-            'counter_id' => $this->counterId
+            'counter_id' => $this->counterId,
         ];
     }
 }

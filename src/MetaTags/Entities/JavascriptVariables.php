@@ -8,40 +8,21 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use InvalidArgumentException;
 
-class JavascriptVariables implements TagInterface, HasVisibilityConditions
+class JavascriptVariables implements TagInterface, HasVisibilityConditions, \Stringable
 {
-    use Concerns\ManagePlacements,
-        Concerns\ManageVisibility;
+    use Concerns\ManagePlacements;
+    use Concerns\ManageVisibility;
+    protected array $variables = [];
 
-    /**
-     * @var array
-     */
-    protected $variables = [];
-
-    /**
+    public function __construct(array $variables = [], /**
      * The namespace to nest JS vars under.
-     *
-     * @var string
      */
-    protected $namespace;
-
-    /**
-     * @param array $variables
-     * @param string $namespace
-     */
-    public function __construct(array $variables = [], string $namespace = 'window')
+    protected string $namespace = 'window')
     {
-        $this->namespace = $namespace;
         $this->buildJavaScriptSyntax($variables);
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function put(string $key, $value)
+    public function put(string $key, mixed $value): self
     {
         // First, we have to translate the variables
         // to something JS-friendly.
@@ -53,10 +34,8 @@ class JavascriptVariables implements TagInterface, HasVisibilityConditions
     /**
      * Translate the array of PHP vars to
      * the expected JavaScript syntax.
-     *
-     * @param array $variables
      */
-    protected function buildJavaScriptSyntax(array $variables)
+    protected function buildJavaScriptSyntax(array $variables): void
     {
         foreach ($variables as $key => $value) {
             $this->variables[] = $this->buildVariableInitialization($key, $value);
@@ -66,21 +45,15 @@ class JavascriptVariables implements TagInterface, HasVisibilityConditions
     /**
      * Translate a single PHP var to JS.
      *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return string
      * @throws InvalidArgumentException
      */
-    protected function buildVariableInitialization(string $key, $value): string
+    protected function buildVariableInitialization(string $key, mixed $value): string
     {
-        return "{$this->namespace}.{$key} = {$this->optimizeValueForJavaScript($value)};";
+        return sprintf('%s.%s = %s;', $this->namespace, $key, $this->optimizeValueForJavaScript($value));
     }
 
     /**
      * Create the namespace to which all vars are nested.
-     *
-     * @return string
      */
     protected function buildNamespaceDeclaration(): string
     {
@@ -88,26 +61,23 @@ class JavascriptVariables implements TagInterface, HasVisibilityConditions
             return '';
         }
 
-        return "window.{$this->namespace} = window.{$this->namespace} || {};" . PHP_EOL;
+        return sprintf('window.%s = window.%s || {};', $this->namespace, $this->namespace) . PHP_EOL;
     }
 
     /**
      * Format a value for JavaScript.
      *
-     * @param string $value
-     *
-     * @return string
      * @throws \Exception
      *
      */
-    protected function optimizeValueForJavaScript($value)
+    protected function optimizeValueForJavaScript(mixed $value): mixed
     {
         // For every transformable type, let's see if
         // it needs to be transformed for JS-use.
         $types = ['String', 'Array', 'Object', 'Numeric', 'Boolean', 'Null'];
 
         foreach ($types as $transformer) {
-            $js = $this->{"transform{$transformer}"}($value);
+            $js = $this->{'transform' . $transformer}($value);
 
             if (!is_null($js)) {
                 return $js;
@@ -117,69 +87,54 @@ class JavascriptVariables implements TagInterface, HasVisibilityConditions
 
     /**
      * Transform a string.
-     *
-     * @param string $value
-     *
-     * @return string
      */
-    protected function transformString($value)
+    protected function transformString(mixed $value): ?string
     {
         if (is_string($value)) {
             $value = str_replace(['\\', "'"], ['\\\\', "\'"], $value);
-            return "'{$value}'";
+            return sprintf('\'%s\'', $value);
         }
+
+        return null;
     }
 
     /**
      * Transform an array.
-     *
-     * @param array $value
-     *
-     * @return string
      */
-    protected function transformArray($value)
+    protected function transformArray(mixed $value): ?string
     {
         if (is_array($value)) {
-            return json_encode($value);
+            return json_encode($value, JSON_THROW_ON_ERROR);
         }
+
+        return null;
     }
 
     /**
      * Transform a numeric value.
-     *
-     * @param mixed $value
-     *
-     * @return mixed
      */
-    protected function transformNumeric($value)
+    protected function transformNumeric(mixed $value)
     {
         if (is_numeric($value)) {
             return $value;
         }
+
+        return null;
     }
 
     /**
      * Transform a boolean.
-     *
-     * @param bool $value
-     *
-     * @return string
      */
-    protected function transformBoolean($value)
+    protected function transformBoolean($value): ?string
     {
         if (is_bool($value)) {
             return $value ? 'true' : 'false';
         }
+
+        return null;
     }
 
-    /**
-     * @param object $value
-     *
-     * @return string
-     * @throws InvalidArgumentException
-     *
-     */
-    protected function transformObject($value): ?string
+    protected function transformObject(mixed $value): ?string
     {
         if (!is_object($value)) {
             return null;
@@ -190,7 +145,7 @@ class JavascriptVariables implements TagInterface, HasVisibilityConditions
         }
 
         if ($value instanceof Arrayable) {
-            return json_encode($value->toArray());
+            return json_encode($value->toArray(), JSON_THROW_ON_ERROR);
         }
 
         // Otherwise, if the object doesn't even have a
@@ -199,55 +154,47 @@ class JavascriptVariables implements TagInterface, HasVisibilityConditions
             throw new InvalidArgumentException('Cannot transform this object to JavaScript.');
         }
 
-        return "'{$value}'";
+        return sprintf('\'%s\'', $value);
     }
 
     /**
      * Transform "null.".
-     *
-     * @param mixed $value
-     *
-     * @return string
      */
-    protected function transformNull($value)
+    protected function transformNull(mixed $value): ?string
     {
         if (is_null($value)) {
             return 'null';
         }
+
+        return null;
     }
 
-
-    /**
-     * Get content as a string of HTML.
-     *
-     * @return string
-     */
-    public function toHtml()
+    public function toHtml(): string
     {
         $string = implode(PHP_EOL, $this->variables);
         $namespaceDeclaration = $this->buildNamespaceDeclaration();
 
-        return sprintf(<<<VAR
+        return sprintf(
+            <<<VAR
 <script>
 %s
 </script>
 VAR
-            , $namespaceDeclaration . $string);
+            ,
+            $namespaceDeclaration . $string,
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'type' => 'javascript_variables',
-            'variables' => $this->variables
+            'variables' => $this->variables,
         ];
     }
 }

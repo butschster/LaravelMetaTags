@@ -11,16 +11,11 @@ class PlacementsBag implements Arrayable
 {
     /**
      * The array of the view error bags.
-     *
-     * @var array
      */
-    protected $bags = [];
+    protected array $bags = [];
 
     /**
      * Get a Placement instance from the bags.
-     *
-     * @param  string $key
-     * @return PlacementInterface
      */
     public function getBag(string $key): PlacementInterface
     {
@@ -29,28 +24,19 @@ class PlacementsBag implements Arrayable
 
     /**
      * Create a new Placement
-     *
-     * @param string $key
-     *
-     * @return Placement
      */
-    public function makeBug(string $key)
+    public function makeBug(string $key): PlacementInterface
     {
         return $this->bags[$key] = new Placement();
     }
 
-    /**
-     * @return array
-     */
     public function all(): array
     {
         return $this->bags;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
-        return array_map(function (Placement $placement) {
-            return $placement->toArray();
-        }, $this->bags);
+        return array_map(static fn(Placement $placement) => $placement->toArray(), $this->bags);
     }
 }

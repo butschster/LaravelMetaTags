@@ -6,26 +6,14 @@ use Butschster\Head\MetaTags\Meta;
 
 trait ManagePlacements
 {
-    /**
-     * @var string
-     */
-    protected $placement = Meta::PLACEMENT_HEAD;
+    protected string $placement = Meta::PLACEMENT_HEAD;
 
-
-    /**
-     * @return string
-     */
     public function getPlacement(): string
     {
         return $this->placement;
     }
 
-    /**
-     * @param string $placement
-     *
-     * @return $this
-     */
-    public function setPlacement(string $placement)
+    public function setPlacement(string $placement): self
     {
         $this->placement = $placement;
 

@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Session;
 
 trait ManageMetaTags
 {
-
-    /**
-     * @inheritdoc
-     */
-    public function setMetaFrom($object)
+    public function setMetaFrom($object): self
     {
         if ($object instanceof SeoMetaTagsInterface) {
             $this->setTitle($object->getTitle())
@@ -37,10 +33,7 @@ trait ManageMetaTags
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setDescription(?string $description, ?int $maxLength = null)
+    public function setDescription(?string $description, ?int $maxLength = null): self
     {
         if (is_null($maxLength)) {
             $maxLength = $this->config('description.max_length');
@@ -52,18 +45,12 @@ trait ManageMetaTags
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDescription(): ?TagInterface
     {
         return $this->getTag('description');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setKeywords($keywords, ?int $maxLength = null)
+    public function setKeywords($keywords, ?int $maxLength = null): self
     {
         if (!is_array($keywords)) {
             $keywords = [$keywords];
@@ -73,43 +60,29 @@ trait ManageMetaTags
             $maxLength = $this->config('keywords.max_length');
         }
 
-        $keywords = array_map(function ($keyword) {
-            return $this->cleanString($keyword);
-        }, $keywords);
+        $keywords = array_map(fn($keyword) => $this->cleanString($keyword), $keywords);
 
         return $this->addTag('keywords', new Keywords($keywords, $maxLength));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getKeywords(): ?TagInterface
     {
         return $this->getTag('keywords');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setRobots(?string $behavior)
+    public function setRobots(?string $behavior): self
     {
         return $this->addMeta('robots', [
             'content' => $this->cleanString($behavior),
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getRobots(): ?TagInterface
     {
         return $this->getTag('robots');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setContentType(string $type, string $charset = 'utf-8')
+    public function setContentType(string $type, string $charset = 'utf-8'): self
     {
         return $this->addMeta('content_type', [
             'http-equiv' => 'Content-Type',
@@ -117,76 +90,50 @@ trait ManageMetaTags
         ], false);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getContentType(): ?TagInterface
     {
         return $this->getTag('content_type');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setCharset(string $charset = 'utf-8')
+    public function setCharset(string $charset = 'utf-8'): self
     {
         return $this->addMeta('charset', [
             'charset' => $charset,
         ], false);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getCharset(): ?TagInterface
     {
         return $this->getTag('charset');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setViewport(string $viewport)
+    public function setViewport(string $viewport): self
     {
         return $this->addMeta('viewport', [
             'content' => $this->cleanString($viewport),
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getViewport(): ?TagInterface
     {
         return $this->getTag('viewport');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addCsrfToken()
+    public function addCsrfToken(): self
     {
         return $this->addMeta('csrf-token', [
-            'content' => function() {
-                return Session::token();
-            },
+            'content' => static fn() => Session::token(),
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addWebmaster(string $service, string $content)
+    public function addWebmaster(string $service, string $content): self
     {
         return $this->addTag('webmaster.'.$service, new Webmaster(
             $service, $content
         ));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setGeo(GeoMetaInformationInterface $geo)
+    public function setGeo(GeoMetaInformationInterface $geo): self
     {
         $this->addMeta('geo.position', [
             'content' => $this->cleanString($geo->latitude() . '; ' . $geo->longitude()),
@@ -207,10 +154,7 @@ trait ManageMetaTags
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addMeta(string $name, array $attributes, bool $checkNameAttribute = true)
+    public function addMeta(string $name, array $attributes, bool $checkNameAttribute = true): self
     {
         if ($checkNameAttribute && !isset($attributes['name'])) {
             $attributes = array_merge(['name' => $name], $attributes);

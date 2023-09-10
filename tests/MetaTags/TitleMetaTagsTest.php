@@ -17,6 +17,17 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
+    function test_get_title()
+    {
+        $meta = $this->makeMetaTags()
+            ->setTitle('test title');
+
+        $this->assertSame(
+            'test title',
+            $meta->getTitle()->getTitle()
+        );
+    }
+
     function test_title_can_be_null()
     {
         $meta = $this->makeMetaTags()

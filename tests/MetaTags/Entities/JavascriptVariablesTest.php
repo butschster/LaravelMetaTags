@@ -23,7 +23,8 @@ class JavascriptVariablesTest extends TestCase
             'object_to_string' => new ToStringTransformable(),
         ]);
 
-        $this->assertHtmlableEquals(<<<VAR
+        $this->assertHtmlableEquals(
+            <<<VAR
 <script>
 window.array = ["jquery","vuejs"];
 window.string = 'Hello world';
@@ -35,7 +36,9 @@ window.json_from_array = {"hello":"world"};
 window.object_to_string = 'Hello world';
 </script>
 VAR
-, $container);
+            ,
+            $container
+        );
     }
 
     function test_a_variable_can_be_put()
@@ -46,14 +49,16 @@ VAR
             ->put('string', 'Hello world')
             ->put('json', new JsonSerilizable());
 
-        $this->assertHtmlableEquals(<<<VAR
+        $this->assertHtmlableEquals(
+            <<<VAR
 <script>
 window.string = 'Hello world';
 window.json = {"hello":"world"};
 </script>
 VAR
-            , $container);
-
+            ,
+            $container
+        );
     }
 
     function test_a_namespace_can_be_set_by_constructor()
@@ -63,14 +68,17 @@ VAR
             'number' => 4815162342,
         ], 'custom');
 
-        $this->assertHtmlableEquals(<<<VAR
+        $this->assertHtmlableEquals(
+            <<<VAR
 <script>
 window.custom = window.custom || {};
 custom.string = 'Hello world';
 custom.number = 4815162342;
 </script>
 VAR
-            , $container);
+            ,
+            $container
+        );
     }
 
     function test_throw_an_exception_if_variable_can_not_transformable()
@@ -101,15 +109,17 @@ VAR
 
         $meta->addTag('variables', $container);
 
-        $this->assertHtmlableEquals(<<<VAR
+        $this->assertHtmlableEquals(
+            <<<VAR
 <script>
 window.custom = window.custom || {};
 custom.string = 'Hello world';
 custom.number = 4815162342;
 </script>
 VAR
-            , $meta);
-
+            ,
+            $meta
+        );
     }
 
     function test_by_default_variables_is_visible()
@@ -124,14 +134,23 @@ VAR
         $container = new JavascriptVariables();
 
         // Make it invisible
-        $this->assertFalse($container->visibleWhen(function () {return false;})->isVisible());
+        $this->assertFalse(
+            $container->visibleWhen(function () {
+                return false;
+            })->isVisible()
+        );
 
         // Make it visible
-        $this->assertTrue($container->visibleWhen(function () {return true;})->isVisible());
+        $this->assertTrue(
+            $container->visibleWhen(function () {
+                return true;
+            })->isVisible()
+        );
     }
 }
 
-class NonTransformable {
+class NonTransformable
+{
 
 }
 
@@ -140,7 +159,7 @@ class JsonSerilizable implements Jsonable
     public function toJson($options = 0)
     {
         return json_encode([
-            'hello' => 'world'
+            'hello' => 'world',
         ]);
     }
 }
@@ -150,7 +169,7 @@ class ArraySerializable implements Arrayable
     public function toArray()
     {
         return [
-            'hello' => 'world'
+            'hello' => 'world',
         ];
     }
 }

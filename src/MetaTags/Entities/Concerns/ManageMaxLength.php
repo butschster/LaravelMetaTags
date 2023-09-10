@@ -7,17 +7,9 @@ use InvalidArgumentException;
 
 trait ManageMaxLength
 {
-    /**
-     * @var int
-     */
-    protected $maxLength = self::DEFAULT_LENGTH;
+    protected ?int $maxLength = self::DEFAULT_LENGTH;
 
-    /**
-     * @param int|null $maxLength
-     *
-     * @return $this
-     */
-    public function setMaxLength(?int $maxLength)
+    public function setMaxLength(?int $maxLength): self
     {
         if (!is_null($maxLength) && $maxLength < 1) {
             throw new InvalidArgumentException('The maximum length must be greater 0.');
@@ -30,11 +22,6 @@ trait ManageMaxLength
         return $this;
     }
 
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
     protected function limitString(string $string): string
     {
         if ($this->maxLength) {

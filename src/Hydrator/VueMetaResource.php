@@ -1,48 +1,37 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Butschster\Head\Hydrator;
 
 use Illuminate\Contracts\Support\Arrayable;
 
-class VueMetaResource implements Arrayable
+class VueMetaResource implements Arrayable, \JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $title;
+    private ?string $title = null;
+    
+    private array $meta = [];
+    
+    private array $link = [];
+    
+    private array $script = [];
 
-    /**
-     * @var array
-     */
-    private $meta = [];
-
-    /**
-     * @var array
-     */
-    private $link = [];
-
-    /**
-     * @var array
-     */
-    private $script = [];
-
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function appendLink(array $link)
+    public function appendLink(array $link): void
     {
         $this->link[] = $link;
     }
 
-    public function appendScript(array $script)
+    public function appendScript(array $script): void
     {
         $this->script[] = $script;
     }
 
-    public function appendMeta(array $meta)
+    public function appendMeta(array $meta): void
     {
         $this->meta[] = $meta;
     }
@@ -53,7 +42,12 @@ class VueMetaResource implements Arrayable
             'title' => $this->title,
             'meta' => $this->meta,
             'link' => $this->link,
-            'script' => $this->script
+            'script' => $this->script,
         ];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }
