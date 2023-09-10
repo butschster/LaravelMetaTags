@@ -38,6 +38,17 @@ class HrefLangMetaTagsTest extends TestCase
         $this->assertNull($this->makeMetaTags()->getHrefLang('en'));
     }
 
+    function test_query_string()
+    {
+        $meta = $this->makeMetaTags()
+            ->setHrefLang('zh-hans', 'https://example.com/?foo=bar&lang=zh-hans');
+
+        $this->assertHtmlableEquals(
+            '<link rel="alternate" hreflang="zh-hans" href="https://example.com/?foo=bar&lang=zh-hans">',
+            $meta->getHrefLang('zh-hans')
+        );
+    }
+
     function test_convert_to_array()
     {
         $meta = $this->makeMetaTags()

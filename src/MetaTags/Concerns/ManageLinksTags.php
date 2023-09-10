@@ -98,7 +98,7 @@ trait ManageLinksTags
         return $this->addLink('alternate_' . $lang, [
             'rel' => 'alternate',
             'hreflang' => $this->cleanString($lang),
-            'href' => $this->cleanString($url),
+            'href' => $url,
         ]);
     }
 
