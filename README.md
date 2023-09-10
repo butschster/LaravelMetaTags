@@ -2,64 +2,91 @@
 
 # The most powerful and extendable tools for managing SEO Meta Tags in your Laravel project
 
-Laravel SEO Meta Tags is a beautiful tools for Laravel applications. Of course, the primary feature of this package is the ability to manage your header meta tags, CSS, JavaScript and other type of tags. It provides a simple and flexible API to manage search engine optimization (SEO) tags in your application.
+Laravel SEO Meta Tags offers a sophisticated solution for Laravel applications, allowing developers to seamlessly manage
+header meta tags, CSS, JavaScript, and other relevant tags. Its primary objective is to simplify the process of managing
+search engine optimization (SEO) tags within your application.
 
-**It can be used with [Inertiajs](https://inertiajs.com/), [VueJS](https://nuxtjs.org/docs/2.x/features/meta-tags-seo) or other JS framework.**
+**Moreover, its versatile API makes it compatible with frameworks
+like [Inertiajs](https://inertiajs.com/), [VueJS](https://nuxtjs.org/docs/2.x/features/meta-tags-seo)
+and other JavaScript frameworks.**
 
-If you have any questions feel free to ask in official [telegram group](https://t.me/joinchat/bLS_hGWcFxo0MDEy)
+For any questions or further assistance, please join our
+official [telegram group](https://t.me/joinchat/bLS_hGWcFxo0MDEy)
+
+## Contributing
+
+We enthusiastically invite you to contribute to the package! Whether you've uncovered a bug, have innovative feature
+suggestions, or wish to contribute in any other capacity, we warmly welcome your participation. Simply open an issue or
+submit a pull request on our GitHub repository to get started.
+
+Remember, every great developer was once a beginner. Contributing to open source projects is a step in your journey to
+becoming a better developer. So, don't hesitate to jump in and start contributing!
+
+**We appreciate any contributions to help make the package better!**
 
 [![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dbutschster%26type%3Dpatrons&style=flat)](https://patreon.com/butschster)
+
 [![Build Status](https://travis-ci.org/butschster/LaravelMetaTags.svg)](https://travis-ci.org/butschster/LaravelMetaTags) [![Latest Stable Version](https://poser.pugx.org/butschster/meta-tags/v/stable)](https://packagist.org/packages/butschster/meta-tags) [![Total Downloads](https://poser.pugx.org/butschster/meta-tags/downloads)](https://packagist.org/packages/butschster/meta-tags) [![License](https://poser.pugx.org/butschster/meta-tags/license)](https://packagist.org/packages/butschster/meta-tags)
 
 ## Features
-- Manage meta tags, set titles, charset, pagination links, e.t.c.
-- Manage styles, scripts in different places of your HTML
-- Create custom tags
-- Open Graph & Twitter Cards are supported.
-- Google Analytics tracking code is supported.
-- Yandex Metrika tracking code is supported with code builder.
-- Webmaster tools site verifier tags are supported.
-- Group tags, styles and scripts into packages and include by their names everywhere
-- Well documented
-- Well tested
+
+- **Meta Management:** Effortlessly set titles, charset, pagination links, and more.
+- **Styles & Scripts:** Organize and place styles and scripts anywhere in your HTML.
+- **Custom Tags:** Make your own tags to suit specific needs.
+- **Rich Media Integration:** Supports both Open Graph & Twitter Cards.
+- **Analytics Ready:** Comes with Google Analytics and Yandex Metrika tracking code support, including a code builder
+  for the latter.
+- **Site Verification:** Supports webmaster tools site verifier tags.
+- **Package System:** Group tags, styles, and scripts into named packages for easy inclusion anywhere.
+- **Robust Documentation:** Clear instructions and guidelines for a seamless setup.
+- **Thoroughly Tested:** Built to ensure reliability and stability.
 
 ### Requirements
-- Laravel 5.6 to 9.x
-- PHP 7.1 and above
+
+- Laravel version: 9.x to 10.x
+- PHP version: 8.0 or higher
 
 ## Installation and Configuration
 
-From the command line run
+1. **Install the package:** Use the following command to install the Meta Tags package in your awesome application.
+
 ```shell
 composer require butschster/meta-tags
 ```
 
-Once Meta Tags is installed you need to register the service provider. Just run artisan command
+2. **Register the Service Provider:** After installing the package, you must register its service provider.
+
+You can do it using the following artisan command:
+
 ```shell
 php artisan meta-tags:install
 ```
 
-This command will install MetaTagsServiceProvider and will publish config `config/meta_tags.php`. In this config you can specify default title, keywords, description and other meta tags and its will be put into your HTML.
+This command will activate the `App\Providers\MetaTagsServiceProvider` and publish the configuration
+at `config/meta_tags.php`. Within this configuration file, you can set default titles, keywords, descriptions, and other
+meta tags which will be automatically inserted into your HTML.
 
-After running this command, verify that the `App\Providers\MetaTagsServiceProvider` was added to the providers array in your app `config/app.php` configuration file. If it wasn't, you should add it manually. Of course, if your application  does not use the App namespace, you should update the provider class name as needed.
+3. **Verification:** Ensure that `App\Providers\MetaTagsServiceProvider` has been added to the providers array in
+   your `config/app.php` configuration file. If it hasn't, you'll need to add it manually. Remember, if your application
+   isn't using the `App` namespace, update the provider class name accordingly.
 
-That's it!
+And that's all! Your Laravel project is now equipped to handle SEO meta tags with ease.
 
 ## Usage
 
 ### Controller
-You can use either Facade `\Butschster\Head\Facades\Meta` or `\Butschster\Head\Contracts\MetaTags\MetaInterface` in your controller
+
+You can use either Facade `\Butschster\Head\Facades\Meta` or `\Butschster\Head\Contracts\MetaTags\MetaInterface` in your
+controller
 
 ```php
 use Butschster\Head\MetaTags\MetaInterface;
 
-class HomeController extends Controller {
-
-    protected $meta;
- 
-    public function __contruct(MetaInterface $meta)
-    {
-        $this->meta = $meta;
+class HomeController extends Controller
+{
+    public function __contruct(
+        protected MetaInterface $meta
+    ) {
     }
     
     public function index()
@@ -84,7 +111,8 @@ class HomeController extends Controller {
 
 use Butschster\Head\Facades\Meta;
 
-class HomeController extends Controller {
+class HomeController extends Controller 
+{
     public function index()
     {
         $news = News::paginate();
@@ -98,35 +126,53 @@ class HomeController extends Controller {
 
 #### View
 
-Just put this code `{!! Meta::toHtml() !!}` into your HTML and that's all.
-> you can use either `{!! Meta::toHtml() !!}` or `@meta_tags`
+To integrate meta tags into your HTML, simply insert `{!! Meta::toHtml() !!}` wherever required.
+
+> **Note**
+> You have two options to insert meta tags: `{!! Meta::toHtml() !!}` or the Blade directive `@meta_tags`.
+
+Here's an example of how you can use it in your view:
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {!! Meta::toHtml() !!}
-    </head>
-    ...
+<head>
+    {!! Meta::toHtml() !!}
+</head>
+...
 </html>
 ```
 
 ### Placements
-If you want to use meta tags not only in header, you can specify placements in your templates. Use `Meta::footer()->toHtml()` or `Meta::placement('placement')->toHtml()` or `@meta_tags('placement')`
+
+The package provides flexibility to insert meta tags beyond the header. You can define specific placements in your
+templates.
+
+- To place meta tags in the footer, use: `Meta::footer()->toHtml()`
+- For custom placements, use: `Meta::placement('placement_name')->toHtml()`
+- Alternatively, the Blade directive can also be used: `@meta_tags('placement_name')`
 
 ```html
+
 <body>
-    ...
-    {!! Meta::placement('middle_of_the_page')->toHtml() !!}
-    ...
-    {!! Meta::footer()->toHtml() !!}
+...
+{!! Meta::placement('middle_of_the_page')->toHtml() !!}
+...
+{!! Meta::footer()->toHtml() !!}
 </body>
 ```
 
 ### Packages
-If you want to avoid code duplication you can group your tags, assets, e.t.c. to a package with specific name.
 
-You can register a new package in the Service provider `\App\Providers\MetaTagsServiceProvider`
+To avoid code repetition and improve code organization, you can group tags, assets, etc., into named packages. This
+allows for streamlined inclusion of sets of meta tags or assets where needed.
+
+**To create a new package:**
+
+- Navigate to the Service provider.
+- Add your package within `\App\Providers\MetaTagsServiceProvider`.
+
+To define packages, you can use the `PackageManager::create` method:
 
 ```php
 namespace App\Providers;
@@ -135,10 +181,9 @@ use Butschster\Head\Facades\PackageManager;
 use Butschster\Head\Packages\Package;
 use Illuminate\Support\ServiceProvider;
 
-class MetaTagsServiceProvider extends ServiceProvider {
-
+class MetaTagsServiceProvider extends ServiceProvider 
+{
     ...
-    
     protected function packages()
     {
        PackageManager::create('jquery', function(Package $package) {
@@ -170,7 +215,9 @@ class MetaTagsServiceProvider extends ServiceProvider {
 }
 ```
 
-And then if you need specific packages in one of controllers you can include them by package name:
+#### Using Packages in Controllers
+
+When specific packages are required within a controller, you can include them by referencing the package name:
 
 ```php
 use Butschster\Head\Facades\Meta;
@@ -185,7 +232,10 @@ class EventsController extends Controller {
 }
 ```
 
-Or you can set packages, that can be included on every pages in `config/meta_tags.php`
+#### Setting Global Packages
+
+For packages that should be included on every page, you can define them in the `config/meta_tags.php`:
+
 ```php
 ...
 'packages' => [
@@ -194,20 +244,23 @@ Or you can set packages, that can be included on every pages in `config/meta_tag
 ...
 ```
 
-That's all! It's very easy.
+And there you have it! With these steps, handling and organizing meta tags and assets becomes a breeze.
 
-> P.S. You can also use all methods, that are in Meta class.
+> **Note** 
+> All methods available in the `Meta` class can also be utilized alongside these package functions.
 
 # API
 
 ## Meta
 
 `\Butschster\Head\MetaTags\Meta`
+
 - This class implements `Illuminate\Contracts\Support\Htmlable` interface
 
 ### Methods
 
 **Set the main part of meta title**
+
 ```php
 Meta::setTitle('Laravel');
 // <title>Laravel</title>
@@ -218,6 +271,7 @@ Meta::setTitle('Laravel', 4);
 ```
 
 **Prepend title part to main title**
+
 ```php
 Meta::setTitle('Laravel')
     ->prependTitle('Home page');
@@ -226,6 +280,7 @@ Meta::setTitle('Laravel')
 
 **Set the title separator**
 > By default it gets from config
+
 ```php
 Meta::setTitleSeparator('->')
     ->setTitle('Laravel')
@@ -234,6 +289,7 @@ Meta::setTitleSeparator('->')
 ```
 
 **Set the description**
+
 ```php
 Meta::setDescription('Awesome page');
 // <meta name="description" content="Awesome page">
@@ -244,6 +300,7 @@ Meta::setDescription('Awesome page', 7);
 ```
 
 **Set the keywords**
+
 ```php
 Meta::setKeywords('Awesome keywords');
 // <meta name="keywords" content="Awesome keywords">
@@ -258,12 +315,14 @@ Meta::setKeywords(['keyword', 'keyword2'], 10);
 ```
 
 **Set the robots**
+
 ```php
 Meta::setRobots('nofollow,noindex');
 // <meta name="robots" content="nofollow,noindex">
 ```
 
 **Set the content type**
+
 ```php
 Meta::setContentType('text/html');
 // <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -273,12 +332,14 @@ Meta::setContentType('text/html', 'ISO-8859-1');
 ```
 
 **Set the viewport**
+
 ```php
 Meta::setViewport('width=device-width, initial-scale=1');
 // <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
 
 **Add webmaster tags** You can add multiple tags
+
 ```php
 use Butschster\Head\MetaTags\Entities\Webmaster;
 
@@ -300,24 +361,28 @@ Meta::addWebmaster(Webmaster::PINTEREST, 'f+e-Ww4=[Pp4wyEPLdVx4LxTsQ');
 ```
 
 **Set the prev href**
+
 ```php
 Meta::setPrevHref('http://site.com/prev');
 // <link rel="prev" href="http://site.com/prev" />
 ```
 
 **Set the next href**
+
 ```php
 Meta::setNextHref('http://site.com/next');
 // <link rel="next" href="http://site.com/next" />
 ```
 
 **Set the canonical link**
+
 ```php
 Meta::setCanonical('http://site.com');
 // <link rel="canonical" href="http://site.com" />
 ```
 
 **Set canonical link, prev and next from paginator object**
+
 ```php
 $news = \App\News::paginate();
 
@@ -329,6 +394,7 @@ Meta::setPaginationLinks($news);
 ```
 
 **Add a hreflang link**
+
 ```php
 Meta::setHrefLang('en', http://site.com/en');
 Meta::setHrefLang('ru', http://site.com/ru');
@@ -338,6 +404,7 @@ Meta::setHrefLang('ru', http://site.com/ru');
 ```
 
 **Set the character encoding for the HTML document**
+
 ```php
 Meta::setCharset();
 // <meta charset="utf-8">
@@ -347,6 +414,7 @@ Meta::setCharset('ISO-8859-1');
 ```
 
 **Set the favicon**
+
 ```php
 Meta::setFavicon('http://site.com/favicon.ico');
 // <link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
@@ -366,6 +434,7 @@ Meta::setFavicon('http://site.com/favicon.svg', ['sizes' => '16x16', 'type' => '
 ```
 
 **Add a custom link tag**
+
 ```php
 Meta::addLink('apple-touch-icon-precomposed', [
     'href' => 'http://site.com',
@@ -375,6 +444,7 @@ Meta::addLink('apple-touch-icon-precomposed', [
 ```
 
 **Add a link to a css file**
+
 ```php
 Meta::addStyle('style.css', 'http://site.com/style.css');
 // <link media="all" type="text/css" rel="stylesheet" href="http://site.com/style.css" />
@@ -389,6 +459,7 @@ Meta::addStyle('style.css', 'http://site.com/style.css', [
 ```
 
 **Add a link to a script file**
+
 ```php
 Meta::addScript('script.js', 'http://site.com/script.js');
 // <script src="http://site.com/script.js"></script>
@@ -403,7 +474,9 @@ Meta::addScript('script.js', 'http://site.com/script.js', [], 'custom_placement'
 ```
 
 **Register a custom tag**
-Our package has a lot of ways of extending. One of them is creating new tags. You are able to create a new class and share it with friends or with the laravel community. You can also create a new pull request if you think that your awesome tag is really useful.
+Our package has a lot of ways of extending. One of them is creating new tags. You are able to create a new class and
+share it with friends or with the laravel community. You can also create a new pull request if you think that your
+awesome tag is really useful.
 
 ```php
 class FacebookPixelTag implements \Butschster\Head\Contracts\MetaTags\Entities\TagInterface {
@@ -439,6 +512,7 @@ Meta::addTag('facebook.pixel', new FacebookPixelTag('42b3h23-34234'));
 ```
 
 **Register tags from TagsCollection**
+
 ```php
 $tags = new \Butschster\Head\MetaTags\TagsCollection([
     ...
@@ -450,16 +524,19 @@ Meta::registerTags($tags, 'footer');
 ```
 
 **Get a tag by name**
+
 ```php
 Meta::getTag('author');
 ```
 
 **Remove a tag by name**
+
 ```php
 Meta::removeTag('author');
 ```
 
 **Add a meta tag**
+
 ```php
 Meta::addMeta('author', [
     'content' => 'butschster',
@@ -468,17 +545,20 @@ Meta::addMeta('author', [
 ```
 
 **Add the CSRF-token tag**
+
 ```php
 Meta::addCsrfToken();
 // <meta name="csrf-token" content="....">
 ```
 
 **Remove all tags**
+
 ```php
 Meta::reset();
 ```
 
 **Include required packages**
+
 ```php
 Meta::includePackages('jquery', 'vuejs');
 Meta::includePackages(['jquery', 'vuejs']);
@@ -487,6 +567,7 @@ Will load registered packages with names jquery and vuejs and append tags from t
 ```
 
 **Register a new package and register all tags from this package**
+
 ```php
 Meta::setTitle('Current title');
 
@@ -499,6 +580,7 @@ Meta::registerPackage($package);
 
 **Replace package with the same name**
 When you replace package with a new one, old tags will be removed
+
 ```php
 $package = new \Butschster\Head\Packages\Package('custom_package');
 $package->setTitle('Custom title');
@@ -512,6 +594,7 @@ Meta::replacePackage($newPackage);
 ```
 
 **Remove package by name**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('custom_package');
 $package->setTitle('Custom title');
@@ -522,6 +605,7 @@ Meta::removePackage('custom_package');
 ```
 
 **Get package by name**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('custom_package');
 $package->setTitle('Custom title');
@@ -533,9 +617,11 @@ $package = Meta::getPackage('custom_package');
 ```
 
 #### Using meta interfaces
+
 A package has different interfaces which help you set meta tags from your objects
 
 **Seo tags**
+
 ```php
 namespace App;
 use Butschster\Head\Contracts\MetaTags\SeoMetaTagsInterface;
@@ -576,11 +662,12 @@ class PageController extends Controller {
 }
 ```
 
-
 #### Meta extending
-Meta object contains `Macroable` trait and you can extend it! 
+
+Meta object contains `Macroable` trait and you can extend it!
 
 **For example**
+
 ```php
 //Service Provider
 Meta::macro('registerSeoMetaTagsForPage', function (\App\Page $page) {
@@ -603,7 +690,8 @@ class PageController extends Controller {
 }
 ```
 
-> *A little bit infirmation about macroable trait https://unnikked.ga/understanding-the-laravel-macroable-trait-dab051f09172*
+> *A little bit infirmation about macroable
+trait https://unnikked.ga/understanding-the-laravel-macroable-trait-dab051f09172*
 
 ### Meta tags placements
 
@@ -635,10 +723,12 @@ Meta::footer()->...
 A package object has the same methods as Meta object. You can use it for extending and creating custom tags sets.
 
 `\Butschster\Head\Packages\Package`
+
 - This class extend `Butschster\Head\MetaTags\Meta` class
 - This class implements `Illuminate\Contracts\Support\Htmlable` interface
 
 **Create a new package and register it in PackageManager**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('jquery');
 PackageManager::register($package);
@@ -650,6 +740,7 @@ PackageManager::create('jquery', function($package) {
 ```
 
 **Get the name of the package**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('jquery');
 
@@ -657,6 +748,7 @@ $package->getName(); // jquery
 ```
 
 **Add a link to a css file**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('jquery');
 
@@ -673,6 +765,7 @@ $package->addStyle('style.css', 'http://site.com/style.css', [
 ```
 
 **Add a link to a script file**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('jquery');
 
@@ -690,11 +783,11 @@ $package->addScript('script.js', 'http://site.com/script.js', [], 'custom_placem
 Meta::includePackages('jquery')->placement('custom_placement')->toHtml();
 ```
 
-
 ### Available packages
 ---
 
 #### OpenGraphPackage
+
 `Butschster\Head\Packages\Entities\OpenGraphPackage`
 
 You can use this package for managing OpenGraph meta tags
@@ -718,42 +811,49 @@ Meta::registerPackage($og);
 ```
 
 **setType** Set the type of your object, e.g., "video.movie".
+
 ```php
 $og->setType('website');
 // <meta name="og:type" content="website">
 ```
 
 **setTitle** Set the title of your object as it should appear within the graph, e.g., "The Rock".
+
 ```php
 $og->setTitle('Post title');
 // <meta name="og:title" content="Post title">
 ```
 
 **setDescription** Set the description
+
 ```php
 $og->setDescription('View the album on Flickr.');
 // <meta name="og:description" content="View the album on Flickr.">
 ```
 
 **setSiteName** Set the site name
+
 ```php
 $og->setSiteName('My awesome site');
 // <meta name="og:site_name" content="My awesome site">
 ```
 
 **setUrl** Set the canonical URL of your object that will be used as its permanent ID in the graph.
+
 ```php
 $og->setUrl('https://site.com');
 // <meta name="og:url" content="https://site.com">
 ```
 
 **setLocale** Set the locale these tags are marked up in. Of the format language_TERRITORY
+
 ```php
 $og->setLocale('en_US');
 // <meta name="og:locale" content="en_US">
 ```
 
 **addAlternateLocale**
+
 ```php
 $og->addAlternateLocale('en_US', 'ru_RU');
 // <meta name="og:locale:alternate" content="en_US">
@@ -761,6 +861,7 @@ $og->addAlternateLocale('en_US', 'ru_RU');
 ```
 
 **addImage** Add an image URL which should represent your object within the graph.
+
 ```php
 $og->addImage('http://site.com');
 // <meta name="og:image" content="http://site.com">
@@ -777,6 +878,7 @@ $og->addImage('http://site.com', [
 ```
 
 **addVideo** Add an image URL which should represent your object within the graph.
+
 ```php
 $og->addVideo('http://site.com');
 // <meta name="og:video" content="http://site.com">
@@ -793,6 +895,7 @@ $og->addVideo('http://site.com', [
 ```
 
 #### TwitterCardPackage
+
 `Butschster\Head\Packages\Entities\TwitterCardPackage`
 
 You can use this package for managing Twitter card meta tags
@@ -815,43 +918,51 @@ $card->toHtml();
 Meta::registerPackage($card);
 ```
 
-**setType** Set the type of the card: [summary](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary), [summary_large_image](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image), [player](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/player-card), [app](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/app-card)
+**setType** Set the type of the
+card: [summary](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary), [summary_large_image](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image), [player](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/player-card), [app](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/app-card)
+
 ```php
 $card->setType('summary');
 // <meta name="twitter:card" content="summary">
 ```
 
 **setSite** Set the @username for the website used in the card footer.
+
 ```php
 $card->setSite('@username');
 // <meta name="twitter:site" content="@username">
 ```
 
 **setCreator** Set the @username for the content creator / author.
+
 ```php
 $card->setCreator('@username');
 // <meta name="twitter:creator" content="@username">
 ```
 
 **setTitle** Set the title
+
 ```php
 $card->setTitle('Post title');
 // <meta name="twitter:title" content="Post title">
 ```
 
 **setDescription** Set the description
+
 ```php
 $card->setDescription('View the album on Flickr.');
 // <meta name="twitter:title" content="View the album on Flickr.">
 ```
 
 **setImage** Set an image for cards that are of type `summary` or `summary_large_image`
+
 ```php
 $card->setImage('https://site.com');
 // <meta name="twitter:image" content="https://site.com">
 ```
 
 **setVideo** Set a video to cards that are of type `player`
+
 ```php
 $card->setVideo('https://site.com/video.mp4', ['width' => 1920, 'height' => 1280]);
 // <meta name="twitter:player" content="https://site.com/video.mp4">
@@ -860,17 +971,18 @@ $card->setVideo('https://site.com/video.mp4', ['width' => 1920, 'height' => 1280
 ```
 
 **addMeta** Set a custom meta tag
+
 ```php
 $card->addMeta('image:alt', 'Picture of Pavel Buchnev');
 // <meta name="twitter:image:alt" content="Picture of Pavel Buchnev">
 ```
-
 
 ## PackageManager API
 
 Package manager provide a store for your packages or presets. You can get them by name.
 
 **Create a new package**
+
 ```php
 PackageManager::create('jquery', function($package) {
     ...
@@ -878,6 +990,7 @@ PackageManager::create('jquery', function($package) {
 ```
 
 **Register a new package**
+
 ```php
 $package = new \Butschster\Head\Packages\Package('jquery');
 
@@ -885,11 +998,13 @@ PackageManager::register($package);
 ```
 
 **Get all registered packages**
+
 ```php
 PackageManager::getPackages(): array;
 ```
 
 **Get registered package by name**
+
 ```php
 PackageManager::create('jquery', function($package) {
     ...
@@ -901,7 +1016,8 @@ PackageManager::getPackage('jquery');
 
 ### Dependencies
 
-A package can have dependencies. 
+A package can have dependencies.
+
 ```php
 PackageManager::create('jquery', function($package) {
     $package->addScript('jquery.js', 'http://site.com/jquery.min.js');
@@ -923,7 +1039,6 @@ Meta::includePackages('bootstrap4');
 // <script src="http://site.com/bootstrap4.min.js"></script>
 ```
 
-
 ## Helper classes
 
 ### Tag
@@ -931,6 +1046,7 @@ Meta::includePackages('bootstrap4');
 `\Butschster\Head\MetaTags\Entities\Tag`
 
 **Create a new tag**
+
 ```php
 $tag = new \Butschster\Head\MetaTags\Entities\Tag('meta', [
     'name' => 'author',
@@ -972,18 +1088,21 @@ $tag->toHtml();
 ```
 
 **Set the placement**
+
 ```php
 $tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->setPlacement('footer');
 ```
 
 **Get the placement**
+
 ```php
 $tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->getPlacement() // Will return specified placement;
 ```
 
 **Set visibility condition**
+
 ```php
 $tag = new \Butschster\Head\MetaTags\Entities\Tag(...);
 $tag->visibleWhen(function () {
@@ -998,6 +1117,7 @@ $tag->visibleWhen(function () {
 This class is responsible for title generation
 
 **Set the default part of the title**
+
 ```php
 $title = new \Butschster\Head\MetaTags\Entities\Title();
 
@@ -1007,6 +1127,7 @@ $title->toHtml(); // <title>Laravel</title>
 ```
 
 **Prepend a new part of title**
+
 ```php
 $title = new \Butschster\Head\MetaTags\Entities\Title();
 
@@ -1017,6 +1138,7 @@ $title->toHtml(); // <title>Index page | Laravel</title>
 ```
 
 **Change default title parts separator**
+
 ```php
 $title = new \Butschster\Head\MetaTags\Entities\Title();
 
@@ -1028,6 +1150,7 @@ $title->toHtml(); // <title>Index page - Laravel</title>
 ```
 
 **Specify max length** *(default length is 255)*
+
 ```php
 $title = new \Butschster\Head\MetaTags\Entities\Title('Lorem Ipsum is simply dummy text of the printing and typesetting');
 
@@ -1035,7 +1158,6 @@ $title->setMaxLength(20);
 
 $title->toHtml(); // <title>Lorem Ipsum is simpl...</title>
 ```
-
 
 ### Description
 ---
@@ -1104,7 +1226,6 @@ Meta::addTag('favicon', $comment);
 <!-- /Favicon -->
 ```
 
-
 #### Conditional comment
 ---
 `\Butschster\Head\MetaTags\Entities\ConditionalComment`
@@ -1123,6 +1244,7 @@ Meta::addTag('favicon', $comment);
 <link rel="icon" type="image/x-icon" href="http://site.com/favicon.ico" />
 <![endif]-->
 ```
+
 #### Google Analytics
 ---
 > Has header placement!
@@ -1133,18 +1255,28 @@ $script = new GoogleAnalytics('UA-12345678-1');
 
 Meta::addTag('google.analytics', $script);
 ```
-Will return 
+
+Will return
 
 ```html
+
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-12345678-1', 'auto');
     ga('send', 'pageview');
 </script>
 ```
+
 #### Google TagManager
 ---
 > Has header placement!
@@ -1155,16 +1287,22 @@ $script = new GoogleTagManager('UA-12345678-1');
 
 Meta::addTag('google.tagmanager', $script);
 ```
-Will return 
+
+Will return
 
 ```html
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12345678-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-12345678-1');
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12345678-1');
 </script>
 ```
 
@@ -1178,20 +1316,30 @@ $script = new YandexMetrika('20925319');
 
 Meta::addTag('yandex.metrika', $script);
 ```
-Will return 
+
+Will return
 
 ```html
-<script type="text/javascript">
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(20925319, "init", {clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+<script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(20925319, "init", {clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true});
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/20925319" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/20925319" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 ```
 
 **Change clickmap setting**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1199,6 +1347,7 @@ $script->clickmap(bool);
 ```
 
 **Change webvisor setting**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1206,6 +1355,7 @@ $script->webvisor(bool);
 ```
 
 **Change trackLinks setting**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1213,6 +1363,7 @@ $script->trackLinks(bool);
 ```
 
 **Change accurateTrackBounce setting**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1220,6 +1371,7 @@ $script->accurateTrackBounce(bool);
 ```
 
 **Change trackHash setting**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1227,6 +1379,7 @@ $script->trackHash(bool);
 ```
 
 **Change eCommerce setting**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1234,6 +1387,7 @@ $script->eCommerce(string $containerName);
 ```
 
 **Use alternate CDN**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1241,6 +1395,7 @@ $script->useCDN();
 ```
 
 **Disable noscript tag**
+
 ```php
 $script = new YandexMetrika('20925319');
 
@@ -1266,14 +1421,16 @@ $variables->put('array', ['jquery', 'vuejs']);
 Meta::addTag('variables', $variables);
 ```
 
-Will return 
+Will return
+
 ```html
+
 <script>
-window.array = ["jquery","vuejs"];
-window.string = 'Hello world';
-window.number = 4815162342;
-window.bool = true;
-window.nullable = null;
+    window.array = ["jquery", "vuejs"];
+    window.string = 'Hello world';
+    window.number = 4815162342;
+    window.bool = true;
+    window.nullable = null;
 </script>
 ```
 
@@ -1289,11 +1446,13 @@ $variables = new JavascriptVariables([
 ```
 
 Will return
+
 ```html
+
 <script>
-window.custom = window.custom || {};
-custom.string = 'Hello world';
-custom.number = 4815162342;
+    window.custom = window.custom || {};
+    custom.string = 'Hello world';
+    custom.number = 4815162342;
 </script>
 ```
 
@@ -1301,9 +1460,10 @@ custom.number = 4815162342;
 
 ### Multiple favicons
 
-You can use your own package for that. 
+You can use your own package for that.
 
 At first create your package in the MetaTagsServiceProvider `App\Providers\MetaTagsServiceProvider`
+
 ```php
 namespace App\Providers;
 
@@ -1353,12 +1513,13 @@ And then append this package into `packages` section in `config/meta_tags.php`:
 And the every page you will see in the head seaction something like that:
 
 ```html
+
 <head>
     ...
     <title>...</title>
-    <link rel="icon" type="image/png" href="http://site.com/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="http://site.com/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="http://site.com/favicon-64x64.png" sizes="64x64" />
+    <link rel="icon" type="image/png" href="http://site.com/favicon-16x16.png" sizes="16x16"/>
+    <link rel="icon" type="image/png" href="http://site.com/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="http://site.com/favicon-64x64.png" sizes="64x64"/>
     <!--[if IE gt 6]>
     <link rel="icon" type="image/png" href="http://site.com/favicon-ie.png" />
     <![endif]-->
@@ -1368,7 +1529,8 @@ And the every page you will see in the head seaction something like that:
 
 # Extending
 
-If you want to extend Meta class you can do it in the `App\Providers\MetaTagsServiceProvider`. Just override `registerMeta` method.
+If you want to extend Meta class you can do it in the `App\Providers\MetaTagsServiceProvider`. Just
+override `registerMeta` method.
 
 ```php
 namespace App\Providers;
@@ -1411,6 +1573,7 @@ class MetaTagsServiceProvider {
 ```
 
 # Using with inertiajs or vue-meta
+
 You can easily convert Meta object to array ant the use values in your Js project
 
 ```php
