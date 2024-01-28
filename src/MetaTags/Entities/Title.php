@@ -33,7 +33,7 @@ class Title implements TitleInterface, HasVisibilityConditions, \Stringable
     public function setTitle(?string $title, ?int $maxLength = null): self
     {
         $this->title = $title;
-        $this->setMaxLength($maxLength);
+        $this->setMaxLength((int) $maxLength);
 
         return $this;
     }
@@ -65,7 +65,7 @@ class Title implements TitleInterface, HasVisibilityConditions, \Stringable
     protected function makeTitle(): string
     {
         $separator = sprintf(' %s ', $this->separator);
-        $title = '';
+        $title     = '';
 
         if (!empty($this->prepend)) {
             $parts = $this->rtl ? $this->prepend : array_reverse($this->prepend);
@@ -78,8 +78,7 @@ class Title implements TitleInterface, HasVisibilityConditions, \Stringable
             } else {
                 $title .= $separator . $this->title;
             }
-
-        } else if (!empty($this->title)) {
+        } elseif (!empty($this->title)) {
             $title = $this->title;
         }
 
@@ -99,13 +98,45 @@ class Title implements TitleInterface, HasVisibilityConditions, \Stringable
     public function toArray(): array
     {
         return [
-            'tag' => 'title',
+            'tag'     => 'title',
             'content' => $this->makeTitle()
         ];
     }
 
+    /**
+     * Get title
+     * @return string
+     */
     public function getTitle(): string
     {
+        return $this->title ?? '';
+    }
+
+    /**
+     * Get prepared title
+     * @return string
+     */
+    public function getPreparedTitle(): string
+    {
         return $this->makeTitle();
+    }
+
+    /**
+     * Get prepend string via index of prepend array
+     * @param int $index
+     * @return string|null
+     */
+    public function getPrepend(int $index): ?string
+    {
+        return $this->prepend[$index] ?? null;
+    }
+
+    /**
+     * Get all prepends
+     * @return array
+     */
+    public function getPrepends(): array
+    {
+        return $this->prepend;
     }
 }
