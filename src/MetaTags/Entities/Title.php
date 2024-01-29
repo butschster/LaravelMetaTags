@@ -33,7 +33,7 @@ class Title implements TitleInterface, HasVisibilityConditions, \Stringable
     public function setTitle(?string $title, ?int $maxLength = null): self
     {
         $this->title = $title;
-        $this->setMaxLength((int) $maxLength);
+        $this->setMaxLength($maxLength);
 
         return $this;
     }
@@ -103,40 +103,26 @@ class Title implements TitleInterface, HasVisibilityConditions, \Stringable
         ];
     }
 
-    /**
-     * Get title
-     * @return string
-     */
     public function getTitle(): string
-    {
-        return $this->title ?? '';
-    }
-
-    /**
-     * Get prepared title
-     * @return string
-     */
-    public function getPreparedTitle(): string
     {
         return $this->makeTitle();
     }
 
     /**
-     * Get prepend string via index of prepend array
-     * @param int $index
-     * @return string|null
-     */
-    public function getPrepend(int $index): ?string
-    {
-        return $this->prepend[$index] ?? null;
-    }
-
-    /**
-     * Get all prepends
+     * Get prepends title
      * @return array
      */
     public function getPrepends(): array
     {
         return $this->prepend;
+    }
+
+    /**
+     * Get prepend title
+     * @return string
+     */
+    public function getPrepend($index = 0): ?string
+    {
+        return $this->prepend[$index] ?? null;
     }
 }
