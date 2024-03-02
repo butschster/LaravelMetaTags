@@ -6,7 +6,7 @@ use Butschster\Tests\TestCase;
 
 class TitleMetaTagsTest extends TestCase
 {
-    function test_title_can_be_set()
+    public function test_title_can_be_set()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('test title');
@@ -17,7 +17,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_get_title()
+    public function test_get_title()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('test title');
@@ -28,7 +28,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_title_can_be_null()
+    public function test_title_can_be_null()
     {
         $meta = $this->makeMetaTags()
             ->setTitle(null);
@@ -39,7 +39,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_title_can_be_prepend()
+    public function test_title_can_be_prepend()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('test title')
@@ -51,7 +51,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_title_can_be_prepend_as_null_value()
+    public function test_title_can_be_prepend_as_null_value()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('test title')
@@ -63,7 +63,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_prepend_title_should_be_cleaned()
+    public function test_prepend_title_should_be_cleaned()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('test title')
@@ -75,7 +75,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_title_can_be_prepend_if_title_not_set()
+    public function test_title_can_be_prepend_if_title_not_set()
     {
         $meta = $this->makeMetaTags()
             ->prependTitle('prepend part');
@@ -86,7 +86,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_prepend_separator_can_be_changed()
+    public function test_prepend_separator_can_be_changed()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('test title')
@@ -99,14 +99,14 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_set_title_method_should_be_fluent()
+    public function test_set_title_method_should_be_fluent()
     {
         $meta = $this->makeMetaTags();
 
         $this->assertEquals($meta, $meta->setTitle('test title'));
     }
 
-    function test_title_string_should_be_cleaned()
+    public function test_title_string_should_be_cleaned()
     {
         $meta = $this->makeMetaTags()
             ->setTitle('<h5>test title</h5>');
@@ -117,7 +117,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_title_can_be_limited()
+    public function test_title_can_be_limited()
     {
         $this->assertHtmlableContains(
             '<title>test...</title>',
@@ -125,7 +125,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_gets_max_title_length_from_config_by_default()
+    public function test_gets_max_title_length_from_config_by_default()
     {
         $config = $this->makeConfig();
         $config->shouldReceive('get')->once()->with('meta_tags.title.max_length', null)->andReturn(4);
@@ -137,7 +137,7 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_gets_default_title_separator_from_config_by_default()
+    public function test_gets_default_title_separator_from_config_by_default()
     {
         $config = $this->makeConfig();
         $config->shouldReceive('get')->twice()->with('meta_tags.title.max_length', null)->andReturn(null);
@@ -155,14 +155,79 @@ class TitleMetaTagsTest extends TestCase
         );
     }
 
-    function test_converts_to_array()
+    public function test_converts_to_array()
     {
         $this->assertEquals(
             [
                 'content' => 'test title',
-                'tag' => 'title',
+                'tag'     => 'title',
             ],
             $this->makeMetaTags()->setTitle('test title')->getTitle()->toArray()
+        );
+    }
+
+    public function test_get_prepends()
+    {
+        $this->assertEquals(
+            [
+                'Pre1',
+                'Pre2',
+            ],
+            $this->makeMetaTags()
+                ->setTitle('test title')
+                ->prependTitle('Pre1')
+                ->prependTitle('Pre2')
+                ->getTitle()
+                ->getPrepends()
+        );
+    }
+
+    public function test_get_prepend()
+    {
+        $this->assertEquals(
+            'Pre1',
+            $this->makeMetaTags()
+                ->setTitle('test title')
+                ->prependTitle('Pre1')
+                ->prependTitle('Pre2')
+                ->getTitle()
+                ->getPrepend(0)
+        );
+
+        $this->assertEquals(
+            'Pre2',
+            $this->makeMetaTags()
+                ->setTitle('test title')
+                ->prependTitle('Pre1')
+                ->prependTitle('Pre2')
+                ->getTitle()
+                ->getPrepend(1)
+        );
+
+        $this->assertNull(
+            $this->makeMetaTags()
+                ->setTitle('test title')
+                ->prependTitle('Pre1')
+                ->prependTitle('Pre2')
+                ->getTitle()
+                ->getPrepend(2)
+        );
+
+        $this->assertEquals(
+            'Pre1',
+            $this->makeMetaTags()
+                ->setTitle('test title')
+                ->prependTitle('Pre1')
+                ->prependTitle('Pre2')
+                ->getTitle()
+                ->getPrepend()
+        );
+
+        $this->assertNull(
+            $this->makeMetaTags()
+                ->setTitle('test title')
+                ->getTitle()
+                ->getPrepend()
         );
     }
 }
