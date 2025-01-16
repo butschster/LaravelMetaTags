@@ -47,7 +47,7 @@ Pair it with our tool for a more robust development environment. For more inform
 
 ### Requirements
 
-- Laravel version: 9.x to 10.x
+- Laravel version: 9.x to 11.x
 - PHP version: 8.0 or higher
 
 ## Installation and Configuration
