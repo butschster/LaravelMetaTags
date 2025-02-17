@@ -57,8 +57,12 @@ trait ManageLinksTags
 
     public function setPaginationLinks(Paginator $paginator): self
     {
-        $this->setCanonical($paginator->currentPage() > 1 ? $paginator->url($paginator->currentPage()) : $paginator->url(1));
-
+        $canonical = $paginator->url($paginator->currentPage());
+        if ($paginator->currentPage() == 1) {
+            $canonical = preg_replace('/[?&]page=\d+/', '', $canonical);
+            $canonical = rtrim($canonical, '?');
+        }
+        $this->setCanonical($canonical);
         $this->setNextHref($paginator->nextPageUrl());
         $this->setPrevHref($paginator->previousPageUrl());
 

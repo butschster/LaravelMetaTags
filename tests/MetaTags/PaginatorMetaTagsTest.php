@@ -21,7 +21,7 @@ class PaginatorMetaTagsTest extends TestCase
         // Mock methods to simulate paginator behavior for the first page.
         $paginator->shouldReceive('nextPageUrl')->once()->andReturn('http://site.com?page=2');
         $paginator->shouldReceive('previousPageUrl')->once()->andReturn(null); // No previous page for the first page
-        $paginator->shouldReceive('currentPage')->once()->andReturn(1);
+        $paginator->shouldReceive('currentPage')->twice()->andReturn(1);
         $paginator->shouldReceive('url')->with(1)->andReturn('http://site.com'); // Canonical URL without ?page=1
         $paginator->shouldReceive('url')->with(2)->andReturn('http://site.com?page=2');
 
