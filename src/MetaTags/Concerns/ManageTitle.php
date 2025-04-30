@@ -7,7 +7,7 @@ use Butschster\Head\MetaTags\Entities\Title;
 
 trait ManageTitle
 {
-    public function setTitle(?string $title, int $maxLength = null): self
+    public function setTitle(?string $title, ?int $maxLength = null): self
     {
         $this->getTitle()->setTitle($this->cleanString($title), $maxLength);
 

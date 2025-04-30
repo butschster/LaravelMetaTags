@@ -23,7 +23,7 @@ class Manager implements ManagerInterface
         return $this;
     }
 
-    public function create(string $name, Closure $callback = null): self
+    public function create(string $name, ?Closure $callback = null): self
     {
         $this->register($package = new Package($name));
 
