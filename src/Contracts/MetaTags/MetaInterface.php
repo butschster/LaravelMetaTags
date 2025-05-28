@@ -29,7 +29,7 @@ interface MetaInterface extends Htmlable, PlacementsInterface, Arrayable
      *
      * @param positive-int|null $maxLength
      */
-    public function setTitle(string $title, int $maxLength = null): self;
+    public function setTitle(string $title, ?int $maxLength = null): self;
 
     /**
      * Prepend title part to default title
